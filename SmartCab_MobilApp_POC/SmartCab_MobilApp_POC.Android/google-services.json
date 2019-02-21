@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "168700252392",
+    "firebase_url": "https://smartcabpoc.firebaseio.com",
+    "project_id": "smartcabpoc",
+    "storage_bucket": "smartcabpoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168700252392:android:b0e0770394a252ca",
+        "android_client_info": {
+          "package_name": "com.smartcab.poc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168700252392-5539ovv512aord0tij0ushne88f95o6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1-1omsItyWwAsHYUn4ZtDSVjXyfoFNUk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

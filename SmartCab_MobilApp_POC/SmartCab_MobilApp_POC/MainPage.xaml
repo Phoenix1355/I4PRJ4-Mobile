@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SmartCab_MobilApp_POC"
+             x:Class="SmartCab_MobilApp_POC.MainPage">
+
+    <StackLayout>
+        <Button Text="Send POST request" Clicked="Button_OnClicked"></Button>
+        <Button Text="Send Notification" Clicked="NotificationButton_OnClicked"></Button>
+        
+        <Label x:Name="lblTitle" Text=""></Label>
+        <Label x:Name="lblBody" Text=""></Label>
+    </StackLayout>
+
+</ContentPage>
