@@ -2,17 +2,25 @@
 using System.Net.Http;
 using System.Net;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
-namespace i4prj.SmartCab.Models
+namespace i4prj.SmartCab.Responses
 {
-    public class BackendApiResponse
+    public abstract class BackendApiResponse
     {
+        protected BackendApiResponseBody _body;
+
         public HttpResponseMessage HttpResponseMessage { get; private set; }
 
         public BackendApiResponse(HttpResponseMessage responseMessage)
         {
             HttpResponseMessage = responseMessage;
+
+            MakeBody();
         }
+
+        protected abstract void MakeBody();
 
         public bool WasSuccessfull()
         {
@@ -29,22 +37,33 @@ namespace i4prj.SmartCab.Models
             return HttpResponseMessage.StatusCode == HttpStatusCode.Unauthorized;
         }
 
-        // TODO: Not hardcode this
         public bool HasErrors()
         {
-            return true;
+            return (_body != null && _body.errors.Count != 0);
         }
 
-        // TODO: Not hardcode this
         public string GetFirstError()
         {
-            return "";
+            var errors = GetErrors();
+            return errors.Count > 0 ? errors[0] : null;
         }
 
-        // TODO: Not hardcode this
-        public IEnumerable<string> GetErrors()
+        public IList<string> GetErrors()
         {
-            return new List<string>();
+            var errors = new List<string>();
+
+            if (_body != null)
+            {
+                foreach (KeyValuePair<string, IList<string>> kvp in _body.errors)
+                {
+                    foreach (string error in kvp.Value)
+                    {
+                        errors.Add(error);
+                    }
+                }
+            }
+
+            return errors;
         }
     }
 }

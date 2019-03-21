@@ -1,6 +1,8 @@
 ﻿using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
+using i4prj.SmartCab.Responses;
 using i4prj.SmartCab.Services;
+using i4prj.SmartCab.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -16,34 +18,15 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CreateCustomerViewModel : ViewModelBase
     {
-        private IPageDialogService _dialogService;
-
         public CreateCustomerViewModel(INavigationService navigationService, IPageDialogService dialogService)
-            : base(navigationService)
+            : base(navigationService, dialogService)
         {
-            _dialogService = dialogService;
-
-            Title = "Opret konto";
+            Title = "Opret bruger";
 
             Request = new CreateCustomerRequest();
-
-            IsBusy = false;
         }
 
         #region Properties
-
-        private bool _isBusy;
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
-        }
-
-        public bool IsReady
-        {
-            get { return !_isBusy; }
-            set { SetProperty(ref _isBusy, !value); }
-        }
 
         private CreateCustomerRequest _request;
         public CreateCustomerRequest Request
@@ -64,36 +47,32 @@ namespace i4prj.SmartCab.ViewModels
             BackendApiService service = new BackendApiService();
 
             IsBusy = true;
-            BackendApiResponse response = await service.SubmitCreateCustomerRequest(Request);
+            CreateCustomerResponse response = await service.SubmitCreateCustomerRequest(Request);
             IsBusy = false;
 
             if (response == null)
             {
-                await _dialogService.DisplayAlertAsync("Fejl", "Ingen forbindelse til internettet", "OK");
+                await DialogService.DisplayAlertAsync("Fejl", "Ingen forbindelse til internettet", "OK");
             }
             else
             {
                 if (response.WasSuccessfull())
                 {
-                    await _dialogService.DisplayAlertAsync("Hey", "All good", "OK");
-                    Debug.WriteLine(response.HttpResponseMessage.ToString());
+                    Session.Token = response.Body.token;
+
+                    await NavigationService.NavigateAsync("/" + nameof(Rides));
                 }
                 else if (response.WasUnsuccessfull())
                 {
-                    await _dialogService.DisplayAlertAsync("Hey", "Fejl i request", "OK");
-                    string responseBodyAsText = await response.HttpResponseMessage.Content.ReadAsStringAsync();
-                    Debug.WriteLine(responseBodyAsText);
-                }
-                else if (response.WasUnauthorized())
-                {
-                    await _dialogService.DisplayAlertAsync("Hey", "Du er ikke logget ind", "OK");
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Hey", "Et response du ikke har taget højde for: " + response.HttpResponseMessage.StatusCode.ToString(), "OK");
+                    string errorMessage = "Fejl i request.\n";
+
+                    string error = response.GetFirstError();
+                    if (error != null) errorMessage += error;
+
+                    await DialogService.DisplayAlertAsync("Fejl", errorMessage, "OK");
+
                 }
             }
-            Debug.WriteLine("End of OnSubmitRequestCommandExecutedAsync");
         }
 
         #endregion

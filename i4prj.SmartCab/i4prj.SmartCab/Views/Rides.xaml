@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Parent"
+             x:Class="i4prj.SmartCab.Views.Rides">
+    <MasterDetailPage.Master>
+        <!--<local:MasterPage x:Name="masterPage" />-->
+        <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="using:MasterDetailPageNavigation"
+             x:Class="i4prj.SmartCab.Views.Rides.MasterPage"
+             Padding="0,40,0,0"
+             Title="Master ContentPage">
+            <StackLayout>
+                <Label Text="MASTER"></Label>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+    <MasterDetailPage.Detail>
+        <NavigationPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="using:MasterDetailPageNavigation"
+             x:Class="i4prj.SmartCab.Views.Rides.DetailPage"
+             Title="Detail NavigationPage">
+            <x:Arguments>
+                <ContentPage>
+                    <Label Text="DETAIL"></Label>
+                    
+                    <Button Text="Log ud" Command="LogOutCommand"></Button>
+                </ContentPage>
+            </x:Arguments>
+            
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

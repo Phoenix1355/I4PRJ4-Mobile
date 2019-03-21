@@ -4,6 +4,8 @@ using i4prj.SmartCab.ViewModels;
 using i4prj.SmartCab.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Diagnostics;
+using i4prj.SmartCab.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -23,13 +25,35 @@ namespace i4prj.SmartCab
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(CreateCustomer));
+            if (Session.Token != null)
+            {
+                await NavigationService.NavigateAsync(nameof(Rides));
+            }
+            else 
+            {
+                await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(Login));
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<CreateCustomer, CreateCustomerViewModel>();
+            containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<Rides, RidesViewModel>();
+        }
+
+        protected override void OnStart()
+        {
+            Debug.WriteLine("OnStart");
+        }
+        protected override void OnSleep()
+        {
+            Debug.WriteLine("OnSleep");
+        }
+        protected override void OnResume()
+        {
+            Debug.WriteLine("OnResume");
         }
     }
 }
