@@ -40,9 +40,9 @@ namespace i4prj.SmartCab.ViewModels
         #region Commands
 
         private DelegateCommand _submitRequest;
-        public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(OnSubmitRequestCommandExecutedAsync));
+        public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(SubmitRequestCommandExecuteAsync));
 
-        private async void OnSubmitRequestCommandExecutedAsync()
+        private async void SubmitRequestCommandExecuteAsync()
         {
             BackendApiService service = new BackendApiService();
 
@@ -59,6 +59,8 @@ namespace i4prj.SmartCab.ViewModels
                 if (response.WasSuccessfull())
                 {
                     Session.Token = response.Body.token;
+                    Session.Customer = new Customer(response.Body.customer);
+                    Session.Save();
 
                     await NavigationService.NavigateAsync("/" + nameof(Rides));
                 }

@@ -16,8 +16,9 @@ namespace i4prj.SmartCab.Services
     public class BackendApiService
     {
         private const string _baseUrl = "https://smartcabbackend.azurewebsites.net/api/";
-        private const string _customerRegisterEndPoint = "Customer/Register";
-        private const string _customerLoginEndPoint = "Customer/Login";
+        private const string _customerRegisterEndPoint = _baseUrl + "Customer/Register";
+        private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
+        private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
 
         public BackendApiService()
         {
@@ -26,7 +27,7 @@ namespace i4prj.SmartCab.Services
 
         #region Actions
 
-       public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(CreateCustomerRequest request)
+        public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(CreateCustomerRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {
@@ -51,6 +52,13 @@ namespace i4prj.SmartCab.Services
             return new LoginResponse(result);
         }
 
+        public async Task<HttpResponseMessage> GetRides()
+        {
+            var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
+
+            return result;
+        }
+
         #endregion
 
 
@@ -58,12 +66,12 @@ namespace i4prj.SmartCab.Services
 
         private string GetEndPointUrl(CreateCustomerRequest request)
         {
-            return _baseUrl + _customerRegisterEndPoint;
+            return _customerRegisterEndPoint;
         }
 
         private string GetEndPointUrl(LoginRequest request)
         {
-            return _baseUrl + _customerLoginEndPoint;
+            return _customerLoginEndPoint;
         }
 
         #endregion
@@ -74,10 +82,8 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                using (var client = new HttpClient())
+                using (var client = GetClient())
                 {
-                    if (Session.Token != null) client.DefaultRequestHeaders.Add("authorization", Session.Token);
-
                     string json = JsonConvert.SerializeObject(data);
 
                     HttpResponseMessage response = await client.PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
@@ -93,6 +99,36 @@ namespace i4prj.SmartCab.Services
             }
 
             return null;
+        }
+
+        private async Task<HttpResponseMessage> GetAsync(string endPointUrl)
+        {
+            try
+            {
+                using (var client = GetClient())
+                {
+                    if (Session.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + Session.Token);
+
+                    HttpResponseMessage response = await client.GetAsync(endPointUrl);
+
+                    Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
+
+                    return response;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Debug.WriteLine($"Backend API get to {endPointUrl} exception with message: " + e.Message);
+            }
+
+            return null;
+        }
+
+        private HttpClient GetClient()
+        {
+            var client = new HttpClient();
+            if (Session.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + Session.Token);
+            return client;
         }
 
         #endregion

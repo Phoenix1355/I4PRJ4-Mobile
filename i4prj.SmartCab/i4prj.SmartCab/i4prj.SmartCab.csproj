@@ -21,5 +21,14 @@
     <Compile Update="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\CustomMasterDetailPage.xaml.cs">
+      <DependentUpon>MasterDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MasterDetailPage.xaml.cs">
+      <DependentUpon>CustomerMasterDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomerMasterDetailPage.xaml.cs">
+      <DependentUpon>CustomerMasterDetailPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

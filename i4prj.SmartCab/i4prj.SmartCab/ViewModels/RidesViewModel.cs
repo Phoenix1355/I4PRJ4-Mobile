@@ -9,6 +9,8 @@ using Prism.Services;
 using i4prj.SmartCab.Models;
 using Xamarin.Forms;
 using i4prj.SmartCab.Views;
+using i4prj.SmartCab.Services;
+using System.Diagnostics;
 
 namespace i4prj.SmartCab.ViewModels
 {
@@ -28,6 +30,20 @@ namespace i4prj.SmartCab.ViewModels
             Session.Clear();
 
             await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(Login));
+        }
+
+        private DelegateCommand _getRidesCommand;
+        public DelegateCommand GetRidesCommand => _getRidesCommand ?? (_getRidesCommand = new DelegateCommand(GetRidesCommandExecute));
+
+        private async void GetRidesCommandExecute()
+        {
+            BackendApiService service = new BackendApiService();
+
+            var response = await service.GetRides();
+
+            string responseBodyAsText = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine("GET RESPONSE");
+            Debug.WriteLine(responseBodyAsText);
         }
     }
 }

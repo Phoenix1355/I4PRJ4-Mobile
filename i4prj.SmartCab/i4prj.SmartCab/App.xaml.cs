@@ -25,9 +25,11 @@ namespace i4prj.SmartCab
         {
             InitializeComponent();
 
+            Debug.WriteLine($"App::OnInitialized Token: {Session.Token}");
+
             if (Session.Token != null)
             {
-                await NavigationService.NavigateAsync(nameof(Rides));
+                await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(Rides));
             }
             else 
             {
@@ -41,6 +43,8 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<CreateCustomer, CreateCustomerViewModel>();
             containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
             containerRegistry.RegisterForNavigation<Rides, RidesViewModel>();
+
+            containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
         }
 
         protected override void OnStart()

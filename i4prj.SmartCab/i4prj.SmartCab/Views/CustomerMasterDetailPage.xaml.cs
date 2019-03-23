@@ -1,13 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-
 using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Views
 {
-    public partial class Rides : ContentPage
+    public partial class CustomerMasterDetailPage : MasterDetailPage
     {
-        public Rides()
+        public CustomerMasterDetailPage()
         {
             InitializeComponent();
         }

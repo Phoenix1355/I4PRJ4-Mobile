@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="i4prj.SmartCab.Views.CustomerMasterDetailPage"
+                  xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
+    <MasterDetailPage.Master>
+        <ContentPage Title="TEST">
+            <StackLayout>
+                <Button Text="Log ud" Command="{Binding LogOutCommand}" />
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+</MasterDetailPage>
