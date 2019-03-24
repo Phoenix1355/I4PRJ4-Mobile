@@ -1,9 +1,10 @@
 ﻿using System;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Responses;
 
 namespace i4prj.SmartCab.Models
 {
-    public class Customer
+    public class Customer : ICustomer
     {
         public Customer(LoginResponseBody.Customer customer)
         {

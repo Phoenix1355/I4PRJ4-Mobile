@@ -27,8 +27,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void LogOutCommandExecute()
         {
-            Session.Clear();
-            Session.Save();
+            LocalSessionService.Instance.Clear();
 
             await NavigationService.NavigateAsync("/" + nameof(Login));
         }

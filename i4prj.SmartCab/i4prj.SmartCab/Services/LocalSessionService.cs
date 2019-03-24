@@ -1,17 +1,40 @@
 ﻿using System;
 using System.Diagnostics;
+using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 using Prism;
 using Xamarin.Forms;
 
-namespace i4prj.SmartCab.Models
+namespace i4prj.SmartCab.Services
 {
-    public static class Session
+    public class LocalSessionService : ISessionService
     {
-        private static string _tokenKeyName = "token";
-        private static string _customerKeyName = "customer";
+        #region Singleton
+        private static readonly LocalSessionService instance = new LocalSessionService();
 
-        public static string Token
+        static LocalSessionService()
+        {
+        }
+
+        private LocalSessionService()
+        {
+        }
+
+        public static LocalSessionService Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        #endregion Singleton
+
+        private string _tokenKeyName = "token";
+        private string _customerKeyName = "customer";
+
+        #region Properties
+
+        public string Token
         {
             get
             {
@@ -23,7 +46,7 @@ namespace i4prj.SmartCab.Models
                 return null;
             }
 
-            set
+            private set
             {
                 if (PrismApplicationBase.Current.Properties.ContainsKey(_tokenKeyName)) {
                     PrismApplicationBase.Current.Properties[_tokenKeyName] = value;
@@ -37,19 +60,19 @@ namespace i4prj.SmartCab.Models
             }
         }
 
-        public static Customer Customer
+        public ICustomer Customer
         {
             get
             {
                 if (PrismApplicationBase.Current.Properties.ContainsKey(_customerKeyName))
                 {
-                    Customer data = JsonConvert.DeserializeObject<Customer>(PrismApplicationBase.Current.Properties[_customerKeyName].ToString());
+                    ICustomer data = JsonConvert.DeserializeObject<ICustomer>(PrismApplicationBase.Current.Properties[_customerKeyName].ToString());
                     return data;
                 }
                 return null;
             }
 
-            set
+            private set
             {
                 if (PrismApplicationBase.Current.Properties.ContainsKey(_customerKeyName))
                 {
@@ -64,18 +87,27 @@ namespace i4prj.SmartCab.Models
             }
         }
 
-        public static void Clear()
+        #endregion 
+
+        public void Update(string token, ICustomer customer)
+        {
+            Token = token;
+            Customer = customer;
+
+            Save();
+        }
+
+        public void Clear()
         {
             PrismApplicationBase.Current.Properties.Remove(_tokenKeyName);
             PrismApplicationBase.Current.Properties.Remove(_customerKeyName);
+
+            Save();
         }
 
-        public static void Save()
+        private void Save()
         {
             PrismApplicationBase.Current.SavePropertiesAsync();
         }
     }
 }
-
-
-

@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Diagnostics;
 using i4prj.SmartCab.Models;
+using i4prj.SmartCab.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -25,9 +26,9 @@ namespace i4prj.SmartCab
         {
             InitializeComponent();
 
-            Debug.WriteLine($"App::OnInitialized Token: {Session.Token}");
+            Debug.WriteLine($"App::OnInitialized Token: {LocalSessionService.Instance.Token}");
 
-            if (Session.Token != null)
+            if (LocalSessionService.Instance.Token != null)
             {
                 await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(Rides));
             }

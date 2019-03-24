@@ -27,19 +27,20 @@ namespace i4prj.SmartCab.ViewModels
         private async void LogOutCommandExecuted()
         {
             await DialogService.DisplayAlertAsync("Log ud", "Du bliver nu logget ud", "OK");
-            Session.Clear();
+            LocalSessionService.Instance.Clear();
 
             await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(Login));
         }
 
+        // Bare lavet som test til Møller
         private DelegateCommand _getRidesCommand;
         public DelegateCommand GetRidesCommand => _getRidesCommand ?? (_getRidesCommand = new DelegateCommand(GetRidesCommandExecute));
 
         private async void GetRidesCommandExecute()
         {
-            BackendApiService service = new BackendApiService();
+            AzureApiService api = new AzureApiService();
 
-            var response = await service.GetRides();
+            var response = await api.GetRides();
 
             string responseBodyAsText = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("GET RESPONSE");

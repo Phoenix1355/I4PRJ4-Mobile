@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
@@ -11,16 +12,14 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Services
 {
-    // TIL JWT: httpClient.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
-
-    public class BackendApiService
+    public class AzureApiService : IBackendApiService
     {
         private const string _baseUrl = "https://smartcabbackend.azurewebsites.net/api/";
         private const string _customerRegisterEndPoint = _baseUrl + "Customer/Register";
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
 
-        public BackendApiService()
+        public AzureApiService()
         {
 
         }
@@ -107,8 +106,6 @@ namespace i4prj.SmartCab.Services
             {
                 using (var client = GetClient())
                 {
-                    if (Session.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + Session.Token);
-
                     HttpResponseMessage response = await client.GetAsync(endPointUrl);
 
                     Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
@@ -127,7 +124,7 @@ namespace i4prj.SmartCab.Services
         private HttpClient GetClient()
         {
             var client = new HttpClient();
-            if (Session.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + Session.Token);
+            if (LocalSessionService.Instance.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + LocalSessionService.Instance.Token);
             return client;
         }
 

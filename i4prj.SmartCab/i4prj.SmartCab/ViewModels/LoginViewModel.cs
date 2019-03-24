@@ -40,10 +40,10 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void SubmitRequestCommandExecuteAsync()
         {
-            BackendApiService service = new BackendApiService();
+            AzureApiService api = new AzureApiService();
 
             IsBusy = true;
-            LoginResponse response = await service.SubmitLoginRequestRequest(Request);
+            LoginResponse response = await api.SubmitLoginRequestRequest(Request);
             IsBusy = false;
 
             if (response == null)
@@ -54,9 +54,7 @@ namespace i4prj.SmartCab.ViewModels
             {
                 if (response.WasSuccessfull())
                 {
-                    Session.Token = response.Body.token;
-                    Session.Customer = new Customer(response.Body.customer);
-                    Session.Save();
+                    LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
 
                     await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(Rides));
                 }
