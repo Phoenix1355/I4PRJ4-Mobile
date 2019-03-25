@@ -13,50 +13,58 @@ namespace i4prj.SmartCab.UnitTests.Models
     [TestFixture]
     public class CustomerTests
     {
-        private ICustomer uut;
-        private LoginResponseBody.Customer loginObject;
-        private CreateCustomerResponseBody.Customer createCustomerObject;
+        private ICustomer _uut;
+        private LoginResponseBody.Customer _loginObject;
+        private CreateCustomerResponseBody.Customer _createCustomerObject;
 
         #region ctor
-    
+
+        [SetUp]
+        public void SetUp()
+        {
+            _loginObject = new LoginResponseBody.Customer()
+            {
+                email = "test@tester.com",
+                name = "Test Subject",
+                phoneNumber = "99887766",
+            };
+
+            _createCustomerObject = new CreateCustomerResponseBody.Customer()
+            {
+                email = "test@tester.com",
+                name = "Test Subject",
+                phoneNumber = "99887766",
+            };
+        }
+
         [Test]
         public void CreateCustomerResponseCtor_PassObjectThatIsNotNull_UutEqualsParameterObject()
         {
-            createCustomerObject=new CreateCustomerResponseBody.Customer();
-            createCustomerObject.email = "test@tester.com";
-            createCustomerObject.name = "Test Subject";
-            createCustomerObject.phoneNumber = "99887766";
-
-            uut=new Customer(createCustomerObject);
+            _uut=new Customer(_createCustomerObject);
 
             Assert.Multiple(new TestDelegate(CreateCustomerResponseCtorAssertions));
         }
 
         private void CreateCustomerResponseCtorAssertions()
         {
-            Assert.AreEqual(uut.Email,createCustomerObject.email);
-            Assert.AreEqual(uut.Name, createCustomerObject.name);
-            Assert.AreEqual(uut.PhoneNumber, createCustomerObject.phoneNumber);
+            Assert.AreEqual(_uut.Email,_createCustomerObject.email);
+            Assert.AreEqual(_uut.Name, _createCustomerObject.name);
+            Assert.AreEqual(_uut.PhoneNumber, _createCustomerObject.phoneNumber);
         }
 
         [Test]
         public void LoginResponseCtor_PassObjectThatIsNotNull_UutEqualsParameterObject()
         {
-            loginObject = new LoginResponseBody.Customer();
-            loginObject.email = "test@tester.com";
-            loginObject.name = "Test Subject";
-            loginObject.phoneNumber = "99887766";
-
-            uut = new Customer(loginObject);
+            _uut = new Customer(_loginObject);
 
             Assert.Multiple(new TestDelegate(LoginResponseCtorAssertions));
         }
 
         private void LoginResponseCtorAssertions()
         {
-            Assert.AreEqual(uut.Email, loginObject.email);
-            Assert.AreEqual(uut.Name, loginObject.name);
-            Assert.AreEqual(uut.PhoneNumber, loginObject.phoneNumber);
+            Assert.AreEqual(_uut.Email, _loginObject.email);
+            Assert.AreEqual(_uut.Name, _loginObject.name);
+            Assert.AreEqual(_uut.PhoneNumber, _loginObject.phoneNumber);
         }
 
         #endregion
