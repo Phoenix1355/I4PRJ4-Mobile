@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="i4prj.SmartCab.Views.CreateCustomer" 
+             Title="{Binding Title}">
+   <ScrollView Orientation="Vertical">
+        <StackLayout Margin="10">
+            
+            
+            <Label Text="Navn"/>
+            <Entry Text="{Binding Request.Name}" IsVisible="{Binding IsReady}"></Entry>
+            <Entry Text="{Binding Request.Name}" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            
+            <Label Text="Telefonnr."/>
+            <Entry Text="{Binding Request.Phone}" Keyboard="Telephone" IsVisible="{Binding IsReady}"></Entry>
+            <Entry Text="{Binding Request.Phone}" Keyboard="Telephone" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            
+            <Label Text="E-mail"/>
+            <Entry Text="{Binding Request.Email}" Keyboard="Email" IsVisible="{Binding IsReady}"></Entry>
+            <Entry Text="{Binding Request.Email}" Keyboard="Email" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            
+            <Label Text="Kodeord"/>
+            <Entry Text="{Binding Request.Password}" IsPassword="true" IsVisible="{Binding IsReady}"></Entry>
+            <Entry Text="{Binding Request.Password}" IsPassword="true" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            
+            <Label Text="Bekræft kodeord"/>
+            <Entry Text="{Binding Request.PasswordConfirmation}" IsPassword="true" IsVisible="{Binding IsReady}"></Entry>
+            <Entry Text="{Binding Request.PasswordConfirmation}" IsPassword="true" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            
+            <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
+            
+            <Button Text="Opret" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
