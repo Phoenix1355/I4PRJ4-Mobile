@@ -1,9 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab", "i4prj.SmartCab\i4prj.SmartCab\i4prj.SmartCab.csproj", "{013C19A2-95C8-433C-B97A-83B7785454ED}"
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "i4prj.SmartCab", "i4prj.SmartCab\i4prj.SmartCab\i4prj.SmartCab.csproj", "{013C19A2-95C8-433C-B97A-83B7785454ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab.Android", "i4prj.SmartCab\i4prj.SmartCab.Android\i4prj.SmartCab.Android.csproj", "{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab.UnitTests", "i4prj.SmartCab.UnitTests\i4prj.SmartCab.UnitTests.csproj", "{A67CFC85-C595-4052-B21F-7C41C0F14158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +22,15 @@ Global
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77D111BC-1DA4-4E69-A9D2-B6FD6B7417D3}
 	EndGlobalSection
 EndGlobal
