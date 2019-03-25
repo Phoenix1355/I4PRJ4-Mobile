@@ -37,7 +37,7 @@ namespace i4prj.SmartCab.Services
                 phoneNumber = request.Phone
             });
 
-            return new CreateCustomerResponse(result);
+            return result != null ? new CreateCustomerResponse(result) : null;
         }
 
         public async Task<LoginResponse> SubmitLoginRequestRequest(LoginRequest request)
@@ -48,7 +48,7 @@ namespace i4prj.SmartCab.Services
                 password = request.Password
             });
 
-            return new LoginResponse(result);
+            return result != null ? new LoginResponse(result) : null;
         }
 
         public async Task<HttpResponseMessage> GetRides()
