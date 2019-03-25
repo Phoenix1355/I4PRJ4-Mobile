@@ -19,7 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\CustomMasterDetailPage.xaml.cs">
       <DependentUpon>MasterDetailPage.xaml</DependentUpon>

@@ -60,7 +60,7 @@ namespace i4prj.SmartCab.ViewModels
                 {
                     LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
 
-                    await NavigationService.NavigateAsync("/" + nameof(Rides));
+                    await NavigationService.NavigateAsync("/" + nameof(RidesPage));
                 }
                 else if (response.WasUnsuccessfull())
                 {

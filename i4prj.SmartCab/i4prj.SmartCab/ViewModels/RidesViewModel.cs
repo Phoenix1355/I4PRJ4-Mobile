@@ -29,7 +29,7 @@ namespace i4prj.SmartCab.ViewModels
             await DialogService.DisplayAlertAsync("Log ud", "Du bliver nu logget ud", "OK");
             LocalSessionService.Instance.Clear();
 
-            await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(Login));
+            await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
         }
 
         // Bare lavet som test til Møller

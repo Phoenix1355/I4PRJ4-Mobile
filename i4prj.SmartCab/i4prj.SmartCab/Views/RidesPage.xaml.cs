@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Views
 {
-    public partial class Rides : ContentPage
+    public partial class RidesPage : ContentPage
     {
-        public Rides()
+        public RidesPage()
         {
             InitializeComponent();
         }

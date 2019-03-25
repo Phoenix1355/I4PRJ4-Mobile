@@ -29,7 +29,7 @@ namespace i4prj.SmartCab.ViewModels
         {
             LocalSessionService.Instance.Clear();
 
-            await NavigationService.NavigateAsync("/" + nameof(Login));
+            await NavigationService.NavigateAsync("/" + nameof(LoginPage));
         }
 
         #endregion
