@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using i4prj.SmartCab.Interfaces;
+using i4prj.SmartCab.Models;
 using Newtonsoft.Json;
 using Prism;
 using Xamarin.Forms;
@@ -66,7 +67,7 @@ namespace i4prj.SmartCab.Services
             {
                 if (PrismApplicationBase.Current.Properties.ContainsKey(_customerKeyName))
                 {
-                    ICustomer data = JsonConvert.DeserializeObject<ICustomer>(PrismApplicationBase.Current.Properties[_customerKeyName].ToString());
+                    ICustomer data = JsonConvert.DeserializeObject<Customer>(PrismApplicationBase.Current.Properties[_customerKeyName].ToString());
                     return data;
                 }
                 return null;

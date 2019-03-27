@@ -6,6 +6,11 @@ namespace i4prj.SmartCab.Models
 {
     public class Customer : ICustomer
     {
+        public Customer()
+        {
+
+        }
+
         public Customer(LoginResponseBody.Customer customer)
         {
             Name = customer.name;

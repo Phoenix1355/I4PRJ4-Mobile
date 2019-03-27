@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
@@ -17,8 +18,12 @@ namespace i4prj.SmartCab.ViewModels
         public CustomerMasterDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService, dialogService)
         {
-            Title = "Customer Master Detail Page";
+            Title = "Customer Master Detail Page"; 
+
+            Customer = LocalSessionService.Instance.Customer;
         }
+
+        public ICustomer Customer { get; private set; }
 
         #region Commands
 
@@ -29,7 +34,7 @@ namespace i4prj.SmartCab.ViewModels
         {
             LocalSessionService.Instance.Clear();
 
-            await NavigationService.NavigateAsync("/" + nameof(LoginPage));
+            await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
         }
 
         #endregion

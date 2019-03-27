@@ -6,8 +6,6 @@
    <ScrollView Orientation="Vertical">
         <StackLayout Margin="10">
             <Label>Vis ture her</Label>
-            
-            <Button Text="Hent ture" Command="{Binding GetRidesCommand}" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
