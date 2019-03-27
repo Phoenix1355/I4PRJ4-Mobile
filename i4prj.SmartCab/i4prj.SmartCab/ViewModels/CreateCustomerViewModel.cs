@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using i4prj.SmartCab.Interfaces;
 using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ViewModels
@@ -24,6 +25,7 @@ namespace i4prj.SmartCab.ViewModels
             Title = "Opret bruger";
 
             Request = new CreateCustomerRequest();
+            Api = new AzureApiService();
         }
 
         #region Properties
@@ -35,6 +37,14 @@ namespace i4prj.SmartCab.ViewModels
             set { SetProperty(ref _request, value); }
         }
 
+        private IBackendApiService _api;
+
+        public IBackendApiService Api
+        {
+            get { return _api; }
+            set { SetProperty(ref _api, value); }
+        }
+
         #endregion
 
         #region Commands
@@ -44,10 +54,9 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void SubmitRequestCommandExecuteAsync()
         {
-            AzureApiService api = new AzureApiService();
 
             IsBusy = true;
-            CreateCustomerResponse response = await api.SubmitCreateCustomerRequest(Request);
+            CreateCustomerResponse response = await Api.SubmitCreateCustomerRequest(Request);
             IsBusy = false;
 
             if (response == null)

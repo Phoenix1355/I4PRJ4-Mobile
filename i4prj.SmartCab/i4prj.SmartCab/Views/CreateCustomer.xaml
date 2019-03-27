@@ -29,7 +29,7 @@
             
             <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
             
-            <Button Text="Opret" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
+            <Button AutomationId="CreateCustomerButton" Text="Opret" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
 
         </StackLayout>
     </ScrollView>

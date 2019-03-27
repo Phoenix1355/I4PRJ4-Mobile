@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab.Android", "i
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab.UnitTests", "i4prj.SmartCab.UnitTests\i4prj.SmartCab.UnitTests.csproj", "{A67CFC85-C595-4052-B21F-7C41C0F14158}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i4prj.SmartCab.UiTest", "i4prj.SmartCab.UiTest\i4prj.SmartCab.UiTest.csproj", "{B19C892E-2628-4CA7-AD27-08D406A3B14B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,12 +22,17 @@ Global
 		{013C19A2-95C8-433C-B97A-83B7785454ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DE87187-D74D-4BEE-9D22-F1F21FF9EA8E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A67CFC85-C595-4052-B21F-7C41C0F14158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B19C892E-2628-4CA7-AD27-08D406A3B14B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19C892E-2628-4CA7-AD27-08D406A3B14B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19C892E-2628-4CA7-AD27-08D406A3B14B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19C892E-2628-4CA7-AD27-08D406A3B14B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

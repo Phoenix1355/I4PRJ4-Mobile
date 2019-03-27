@@ -10,7 +10,7 @@ namespace i4prj.SmartCab.Services
     public class LocalSessionService : ISessionService
     {
         #region Singleton
-        private static readonly LocalSessionService instance = new LocalSessionService();
+        private static LocalSessionService instance = new LocalSessionService();
 
         static LocalSessionService()
         {
@@ -22,10 +22,7 @@ namespace i4prj.SmartCab.Services
 
         public static LocalSessionService Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
         #endregion Singleton
 

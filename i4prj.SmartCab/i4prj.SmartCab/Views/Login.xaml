@@ -18,7 +18,7 @@
             <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
             
             <Button Text="Log ind" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
-            <Button Text="Opret bruger" Command="{prism:NavigateTo 'CreateCustomer'}" IsVisible="{Binding IsReady}" />
+            <Button AutomationId="GoToCreateCustomer" Text="Opret bruger" Command="{prism:NavigateTo 'CreateCustomer'}" IsVisible="{Binding IsReady}" />
            
         </StackLayout>
     </ScrollView>
