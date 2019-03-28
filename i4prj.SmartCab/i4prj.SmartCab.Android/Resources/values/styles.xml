@@ -24,4 +24,7 @@
     <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">#FF4081</item>
     </style>
+    
+    <!-- Selv tilføjet -->
+    <color name="red">#FF0000</color>
 </resources>

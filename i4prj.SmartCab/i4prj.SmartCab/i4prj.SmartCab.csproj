@@ -8,6 +8,7 @@
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.264807" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.1.0.431" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
     <Folder Include="Requests\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Responses\" />
+    <Folder Include="Validation\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Login.xaml.cs">
