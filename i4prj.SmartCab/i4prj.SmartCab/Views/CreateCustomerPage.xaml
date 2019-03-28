@@ -39,7 +39,7 @@
                     <validation:EntryValidationBehavior PropertyName="Password" />  
                 </Entry.Behaviors>
             </Entry>
-            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true"></Entry>
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true" IsEnabled="false"></Entry>
             
             <Label Text="Bekræft kodeord" />
             <Entry Text="{Binding PasswordConfirmation}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}" IsPassword="true">
@@ -47,7 +47,7 @@
                     <validation:EntryValidationBehavior PropertyName="PasswordConfirmation" />  
                 </Entry.Behaviors>
             </Entry>
-            <Entry Text="{Binding PasswordConfirmation}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true"></Entry>
+            <Entry Text="{Binding PasswordConfirmation}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true" IsEnabled="false"></Entry>
             
             <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
             
