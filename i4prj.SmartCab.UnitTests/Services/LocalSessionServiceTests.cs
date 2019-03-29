@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
+using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
 using i4prj.SmartCab.Services;
 using NUnit.Framework;
@@ -21,14 +22,23 @@ namespace i4prj.SmartCab.UnitTests.Services
         public void SetUp()
         {
             //todo
-            //Vil gerne en injecte instansen af singleton, men det lader sig ikke gøre.
+            _uut = LocalSessionService.Instance;
         }
 
         [Test]
-        public void Test()
+        public void Update()
         {
             //todo
-            //Kan ikke finde en god måde at teste Singleton klassen på.
+            //Nedenstående Kaster en null exception, ved ikke lige hvorfor.
+            //_uut.Update("Tester",new Customer(new LoginResponseBody.Customer()));
+
+            Assert.That(PrismApplicationBase.Current.Properties.Count==1);
+        }
+
+        [Test]
+        public void Clear()
+        {
+            //todo
         }
     }
 }

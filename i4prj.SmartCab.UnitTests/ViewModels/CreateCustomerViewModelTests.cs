@@ -73,7 +73,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         [Test]
         public void SubmitRequestCommand_ApiServiceReturnsSuccesfullResponse_TokenIsUpdated()
         {
-            
+            //todo
             _fakeApiService.SubmitCreateCustomerRequest(_uut.Request)
                 .Returns(new CreateCustomerResponse(new HttpResponseMessage(HttpStatusCode.OK)));
 
@@ -82,6 +82,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _uut.SubmitRequestCommand.Execute();
 
             //Her arbejdes med en singleton - ved ikke endnu hvordan vi håndterer dette.
+            //Jeg kan ikke rigtig få lov at injecte denne på den rigtige måde.
             _fakeSessionService.Received().Update(Arg.Any<string>(),Arg.Any<ICustomer>());
         }
 
