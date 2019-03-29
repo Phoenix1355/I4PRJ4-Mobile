@@ -8,5 +8,6 @@ namespace i4prj.SmartCab.UnitTests.Responses
 {
     class BackendApiResponseTests
     {
+        //abstract class, no tests.
     }
 }

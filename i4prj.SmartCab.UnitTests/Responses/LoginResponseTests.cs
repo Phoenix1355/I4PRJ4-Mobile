@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace i4prj.SmartCab.UnitTests.Responses
 {
-    class LoginResponseTests
+    public class LoginResponseTests
     {
+        //todo 
+        //Tests af makebody. Er generelt i tvivl om, hvordan denne funktion testes.
     }
 }

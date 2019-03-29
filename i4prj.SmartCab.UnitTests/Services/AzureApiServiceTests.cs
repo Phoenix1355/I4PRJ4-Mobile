@@ -28,8 +28,9 @@ namespace i4prj.SmartCab.UnitTests.Services
         [Test]
         public void SubmitCreateCustomerRequest_Request()
         {
+            //todo
             //Kalder rent faktisk op mod API'et hvilket jo ikke er hvad vi vil.
-            _createCustomerRequest = new CreateCustomerRequest();
+            //Samme også med login og "get all rides".
             //var result = _uut.SubmitCreateCustomerRequest(_createCustomerRequest);
         }
     }

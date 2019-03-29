@@ -49,7 +49,6 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _uut.Request.Password = "123456";
             _uut.Request.Password = "123456";
             _uut.Request.Phone = "12345678";
-            //_app = ConfigureApp.Android.ApkFile("/Users/Jesper Strøm/source/repos/I4PRJ4 - Mobile/i4prj.SmartCab/i4prj.SmartCab.Android/bin/Debug/com.i4prj.smartcab.apk").StartApp();
         }
 
         #region ctor
@@ -89,6 +88,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         [Test]
         public void SubmitRequestCommand_ApiServiceReturnsSuccesfullResponse_NavigationServiceNavigatesToCorrectPage()
         {
+            //todo
             _fakeApiService.SubmitCreateCustomerRequest(_uut.Request)
                 .Returns(new CreateCustomerResponse(new HttpResponseMessage(HttpStatusCode.OK)));
 
@@ -96,13 +96,15 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
 
             _uut.SubmitRequestCommand.Execute();
             //dette modtages af en eller anden grund ikke
+            //Flowet jeg forventer køres ikke i commanden.
             _fakeNavigationService.Received().NavigateAsync("/" + nameof(Rides));
         }
 
         [Test]
         public void SubmitRequestCommand_ApiServiceReturnsNonSuccesfullResponse_ErrorDialogIsShown()
         {
-            //The code below crashes the unittests...
+            //todo
+            //Koden herunder får unittesten til at crashe...
             //_fakeApiService.SubmitCreateCustomerRequest(_uut.Request)
                 //.Returns(new CreateCustomerResponse(new HttpResponseMessage(HttpStatusCode.BadRequest)));
 

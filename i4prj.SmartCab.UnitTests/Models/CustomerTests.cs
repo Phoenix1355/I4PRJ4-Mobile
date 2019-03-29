@@ -42,7 +42,7 @@ namespace i4prj.SmartCab.UnitTests.Models
         {
             _uut=new Customer(_createCustomerObject);
 
-            //Assert.Multiple(new TestDelegate(CreateCustomerResponseCtorAssertions));
+            Assert.Multiple(new TestDelegate(CreateCustomerResponseCtorAssertions));
         }
 
         private void CreateCustomerResponseCtorAssertions()
@@ -57,7 +57,7 @@ namespace i4prj.SmartCab.UnitTests.Models
         {
             _uut = new Customer(_loginObject);
 
-            //Assert.Multiple(new TestDelegate(LoginResponseCtorAssertions));
+            Assert.Multiple(new TestDelegate(LoginResponseCtorAssertions));
         }
 
         private void LoginResponseCtorAssertions()

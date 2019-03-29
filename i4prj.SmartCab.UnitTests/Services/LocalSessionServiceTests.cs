@@ -20,13 +20,15 @@ namespace i4prj.SmartCab.UnitTests.Services
         [SetUp]
         public void SetUp()
         {
-            _uut = LocalSessionService.Instance;
+            //todo
+            //Vil gerne en injecte instansen af singleton, men det lader sig ikke gøre.
         }
 
         [Test]
         public void Test()
         {
-            
+            //todo
+            //Kan ikke finde en god måde at teste Singleton klassen på.
         }
     }
 }

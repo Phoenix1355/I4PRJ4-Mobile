@@ -8,5 +8,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
 {
     class CreateCustomerRequestTests
     {
+        //Der er ikke rigtig noget kode at teste.
     }
 }
