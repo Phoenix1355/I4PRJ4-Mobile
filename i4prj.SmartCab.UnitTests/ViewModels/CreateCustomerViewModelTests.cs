@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using i4prj.SmartCab.Interfaces;
-using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
-using i4prj.SmartCab.Services;
 using i4prj.SmartCab.ViewModels;
 using i4prj.SmartCab.Views;
 using NUnit.Framework;
 using NSubstitute;
-using NSubstitute.ClearExtensions;
 using NSubstitute.ReturnsExtensions;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Xamarin.Forms;
 using Xamarin.UITest;
-using Xamarin.UITest.Android;
 
 namespace i4prj.SmartCab.UnitTests.ViewModels
 {
