@@ -67,6 +67,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Effects\BorderEffect.cs" />
+    <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -79,6 +80,12 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\border.xml" />
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\splashscreen.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
