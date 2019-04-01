@@ -10,6 +10,9 @@ using Prism.Ioc;
 
 namespace i4prj.SmartCab.Droid
 {
+    /// <summary>
+    /// Splash activity shows splash screen and proceeds to MainActivity.
+    /// </summary>
     [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

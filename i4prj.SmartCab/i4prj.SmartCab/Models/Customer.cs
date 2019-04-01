@@ -4,13 +4,23 @@ using i4prj.SmartCab.Responses;
 
 namespace i4prj.SmartCab.Models
 {
+    /// <summary>
+    /// Customer model.
+    /// </summary>
     public class Customer : ICustomer
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Customer"/> class.
+        /// </summary>
         public Customer()
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Customer"/> class.
+        /// </summary>
+        /// <param name="customer">Customer.</param>
         public Customer(LoginResponseBody.Customer customer)
         {
             Name = customer.name;
@@ -18,6 +28,10 @@ namespace i4prj.SmartCab.Models
             PhoneNumber = customer.phoneNumber;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Customer"/> class.
+        /// </summary>
+        /// <param name="customer">Customer.</param>
         public Customer(CreateCustomerResponseBody.Customer customer)
         {
             Name = customer.name;

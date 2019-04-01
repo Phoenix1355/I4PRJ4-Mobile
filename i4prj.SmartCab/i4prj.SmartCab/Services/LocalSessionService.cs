@@ -8,6 +8,9 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Services
 {
+    /// <summary>
+    /// Local session service singleton which persists Customer credentials on device.
+    /// </summary>
     public class LocalSessionService : ISessionService
     {
         #region Singleton
@@ -35,6 +38,10 @@ namespace i4prj.SmartCab.Services
 
         #region Properties
 
+        /// <summary>
+        /// Gets the token.
+        /// </summary>
+        /// <value>The token.</value>
         public string Token
         {
             get
@@ -61,6 +68,10 @@ namespace i4prj.SmartCab.Services
             }
         }
 
+        /// <summary>
+        /// Gets the customer.
+        /// </summary>
+        /// <value>The customer.</value>
         public ICustomer Customer
         {
             get
@@ -90,6 +101,11 @@ namespace i4prj.SmartCab.Services
 
         #endregion 
 
+        /// <summary>
+        /// Update the specified token and customer.
+        /// </summary>
+        /// <param name="token">Token.</param>
+        /// <param name="customer">Customer.</param>
         public void Update(string token, ICustomer customer)
         {
             Token = token;
@@ -98,6 +114,9 @@ namespace i4prj.SmartCab.Services
             Save();
         }
 
+        /// <summary>
+        /// Clears the current token and customer.
+        /// </summary>
         public void Clear()
         {
             PrismApplicationBase.Current.Properties.Remove(_tokenKeyName);

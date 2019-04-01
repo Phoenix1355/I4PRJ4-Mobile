@@ -7,6 +7,9 @@ using Prism.Ioc;
 
 namespace i4prj.SmartCab.Droid
 {
+    /// <summary>
+    /// Main activity for the application spawned after SplashActivity.
+    /// </summary>
     [Activity(Label = "SmartCab", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

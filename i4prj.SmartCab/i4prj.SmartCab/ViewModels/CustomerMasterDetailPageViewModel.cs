@@ -15,6 +15,12 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CustomerMasterDetailPageViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:i4prj.SmartCab.ViewModels.CustomerMasterDetailPageViewModel"/> class. Dependencies auto injected.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="dialogService">Dialog service.</param>
         public CustomerMasterDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService, dialogService)
         {
@@ -28,6 +34,9 @@ namespace i4prj.SmartCab.ViewModels
         #region Commands
 
         private DelegateCommand _logoutCommand;
+        /// <summary>
+        /// Logs out the current Customer.
+        /// </summary>
         public DelegateCommand LogOutCommand => _logoutCommand ?? (_logoutCommand = new DelegateCommand(LogOutCommandExecute));
 
         private async void LogOutCommandExecute()

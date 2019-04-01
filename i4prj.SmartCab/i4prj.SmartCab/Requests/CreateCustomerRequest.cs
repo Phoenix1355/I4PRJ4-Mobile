@@ -6,8 +6,14 @@ using Prism.Mvvm;
 
 namespace i4prj.SmartCab.Requests
 {
+    /// <summary>
+    /// Request to be filled out and submitted to IBackendApiService to create a new Customer.
+    /// </summary>
     public class CreateCustomerRequest : ValidationBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> class.
+        /// </summary>
         public CreateCustomerRequest()
         {
             Name = string.Empty;
@@ -82,6 +88,11 @@ namespace i4prj.SmartCab.Requests
             }
         }
 
+        /// <summary>
+        /// Validates the property.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        /// <param name="propertyName">Property name.</param>
         protected override void ValidateProperty(object value, [CallerMemberName] string propertyName = null)
         {
             base.ValidateProperty(value, propertyName);
@@ -90,6 +101,10 @@ namespace i4prj.SmartCab.Requests
             RaisePropertyChanged("IsInvalid");
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> is valid.
+        /// </summary>
+        /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
         public bool IsValid
         {
             get
@@ -98,6 +113,10 @@ namespace i4prj.SmartCab.Requests
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> is invalid.
+        /// </summary>
+        /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
         public bool IsInvalid
         {
             get

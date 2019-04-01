@@ -14,6 +14,11 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.LoginViewModel"/> class. Dependencies auto injected.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="dialogService">Dialog service.</param>
         public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService, dialogService)
         {
@@ -36,6 +41,9 @@ namespace i4prj.SmartCab.ViewModels
         #region Commands
 
         private DelegateCommand _submitRequest;
+        /// <summary>
+        /// Submits the LoginRequest.
+        /// </summary>
         public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(SubmitRequestCommandExecuteAsync));
 
         private async void SubmitRequestCommandExecuteAsync()

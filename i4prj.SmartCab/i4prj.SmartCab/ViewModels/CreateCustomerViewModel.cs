@@ -18,6 +18,11 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CreateCustomerViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.CreateCustomerViewModel"/> class. Dependencies auto injected.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="dialogService">Dialog service.</param>
         public CreateCustomerViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService, dialogService)
         {
@@ -39,7 +44,12 @@ namespace i4prj.SmartCab.ViewModels
 
         #region Commands
 
+
         private DelegateCommand _submitRequest;
+
+        /// <summary>
+        /// Submits the CreateCustomerRequest. (Lazy-creation)
+        /// </summary>
         public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(SubmitRequestCommandExecuteAsync));
 
         private async void SubmitRequestCommandExecuteAsync()

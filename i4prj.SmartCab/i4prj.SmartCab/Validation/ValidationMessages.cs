@@ -1,6 +1,9 @@
 ﻿using System;
 namespace i4prj.SmartCab.Validation
 {
+    /// <summary>
+    /// Validation messages.
+    /// </summary>
     public static class ValidationMessages
     {
         public const string NavnRequired = "Navn skal udfyldes.";

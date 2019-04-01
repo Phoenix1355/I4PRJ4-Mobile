@@ -1,6 +1,9 @@
 ﻿using System;
 namespace i4prj.SmartCab.Validation
 {
+    /// <summary>
+    /// Validation rules.
+    /// </summary>
     public static class ValidationRules
     {
         //Regex taken from: https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format

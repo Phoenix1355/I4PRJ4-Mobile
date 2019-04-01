@@ -12,6 +12,9 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Services
 {
+    /// <summary>
+    /// Backend API service on Azure to which all system requests are sent.
+    /// </summary>
     public class AzureApiService : IBackendApiService
     {
         private const string _baseUrl = "https://smartcabbackend.azurewebsites.net/api/";
@@ -26,6 +29,11 @@ namespace i4prj.SmartCab.Services
 
         #region Actions
 
+        /// <summary>
+        /// Submits the create customer request.
+        /// </summary>
+        /// <returns>The create customer request.</returns>
+        /// <param name="request">Request.</param>
         public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(CreateCustomerRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
@@ -40,6 +48,11 @@ namespace i4prj.SmartCab.Services
             return result != null ? new CreateCustomerResponse(result) : null;
         }
 
+        /// <summary>
+        /// Submits the login request.
+        /// </summary>
+        /// <returns>The login request.</returns>
+        /// <param name="request">Request.</param>
         public async Task<LoginResponse> SubmitLoginRequestRequest(LoginRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
@@ -51,6 +64,10 @@ namespace i4prj.SmartCab.Services
             return result != null ? new LoginResponse(result) : null;
         }
 
+        /// <summary>
+        /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
+        /// </summary>
+        /// <returns>The rides.</returns>
         public async Task<HttpResponseMessage> GetRides()
         {
             var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
