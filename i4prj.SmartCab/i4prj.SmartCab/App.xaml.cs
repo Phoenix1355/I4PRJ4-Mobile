@@ -7,6 +7,7 @@ using Xamarin.Forms.Xaml;
 using System.Diagnostics;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Services;
+using i4prj.SmartCab.Interfaces;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -46,6 +47,9 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<RidesPage, RidesViewModel>();
 
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
+
+            // Dependency injection setup
+            containerRegistry.Register<IBackendApiService, AzureApiService>();
         }
 
         protected override void OnStart()
