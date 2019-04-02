@@ -5,7 +5,9 @@
                   xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
     <MasterDetailPage.Master>
         <ContentPage Title="TEST">
-            <StackLayout>
+            <StackLayout Margin="10">
+                <Label Text="{Binding Customer.Name}" FontSize="Large"></Label>
+                <Label Text="{Binding Customer.Email}" Margin="0,0,0,10"></Label>
                 <Button Text="Log ud" Command="{Binding LogOutCommand}" />
             </StackLayout>
         </ContentPage>

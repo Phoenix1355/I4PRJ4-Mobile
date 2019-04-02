@@ -1,12 +1,16 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Prism;
 using Prism.Ioc;
 
 namespace i4prj.SmartCab.Droid
 {
-    [Activity(Label = "SmartCab", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    /// <summary>
+    /// Main activity for the application spawned after SplashActivity.
+    /// </summary>
+    [Activity(Label = "SmartCab", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)

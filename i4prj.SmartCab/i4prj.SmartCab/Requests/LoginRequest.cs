@@ -5,6 +5,9 @@ namespace i4prj.SmartCab.Requests
 {
     public class LoginRequest : BindableBase
     {
+        /// <summary>
+        /// Request to be filled out and submitted to IBackendApiService to login.
+        /// </summary>
         public LoginRequest()
         {
         }

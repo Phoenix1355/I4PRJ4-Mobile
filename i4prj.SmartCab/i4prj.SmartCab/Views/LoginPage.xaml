@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="i4prj.SmartCab.Views.Login"
+             x:Class="i4prj.SmartCab.Views.LoginPage"
              Title="{Binding Title}"
              xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
     
@@ -18,7 +18,7 @@
             <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
             
             <Button Text="Log ind" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
-            <Button Text="Opret bruger" Command="{prism:NavigateTo 'CreateCustomer'}" IsVisible="{Binding IsReady}" />
+            <Button Text="Opret bruger" Command="{prism:NavigateTo 'CreateCustomerPage'}" IsVisible="{Binding IsReady}" />
            
         </StackLayout>
     </ScrollView>

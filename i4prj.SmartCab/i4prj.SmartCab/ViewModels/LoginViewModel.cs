@@ -14,6 +14,11 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.LoginViewModel"/> class. Dependencies auto injected.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="dialogService">Dialog service.</param>
         public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService, dialogService)
         {
@@ -36,6 +41,9 @@ namespace i4prj.SmartCab.ViewModels
         #region Commands
 
         private DelegateCommand _submitRequest;
+        /// <summary>
+        /// Submits the LoginRequest.
+        /// </summary>
         public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(SubmitRequestCommandExecuteAsync));
 
         private async void SubmitRequestCommandExecuteAsync()
@@ -50,24 +58,15 @@ namespace i4prj.SmartCab.ViewModels
             {
                 await DialogService.DisplayAlertAsync("Fejl", "Ingen forbindelse til internettet", "OK");
             }
+            else if (response.WasUnsuccessfull())
+            {
+                await DialogService.DisplayAlertAsync("Ukendt fejl", "Du kunne ikke logges ind", "OK");
+            }
             else
             {
-                if (response.WasSuccessfull())
-                {
-                    LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
+                LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
 
-                    await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(Rides));
-                }
-                else if (response.WasUnsuccessfull())
-                {
-                    string errorMessage = "Fejl i request.\n";
-
-                    string error = response.GetFirstError();
-                    if (error != null) errorMessage += error;
-
-                    await DialogService.DisplayAlertAsync("Fejl", errorMessage, "OK");
-
-                }
+                await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
         }
 

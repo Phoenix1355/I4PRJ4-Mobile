@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using i4prj.SmartCab.Views;
 using i4prj.SmartCab.Services;
 using System.Diagnostics;
+using i4prj.SmartCab.Interfaces;
 
 namespace i4prj.SmartCab.ViewModels
 {
@@ -21,19 +22,7 @@ namespace i4prj.SmartCab.ViewModels
             Title = "Turoversigt";
         }
 
-        private DelegateCommand _logOutCommand;
-        public DelegateCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new DelegateCommand(LogOutCommandExecuted));
-
-        private async void LogOutCommandExecuted()
-        {
-            await DialogService.DisplayAlertAsync("Log ud", "Du bliver nu logget ud", "OK");
-            LocalSessionService.Instance.Clear();
-
-            await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(Login));
-        }
-
-        // Bare lavet som test til Møller
-        private DelegateCommand _getRidesCommand;
+        /*private DelegateCommand _getRidesCommand;
         public DelegateCommand GetRidesCommand => _getRidesCommand ?? (_getRidesCommand = new DelegateCommand(GetRidesCommandExecute));
 
         private async void GetRidesCommandExecute()
@@ -45,6 +34,6 @@ namespace i4prj.SmartCab.ViewModels
             string responseBodyAsText = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("GET RESPONSE");
             Debug.WriteLine(responseBodyAsText);
-        }
+        }*/
     }
 }

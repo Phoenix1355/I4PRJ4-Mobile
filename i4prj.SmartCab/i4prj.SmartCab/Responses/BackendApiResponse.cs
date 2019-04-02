@@ -7,12 +7,19 @@ using System.Diagnostics;
 
 namespace i4prj.SmartCab.Responses
 {
+    /// <summary>
+    /// Base class from which all http responses from IBackendApiService is derived. 
+    /// </summary>
     public abstract class BackendApiResponse
     {
         protected BackendApiResponseBody _body;
 
         public HttpResponseMessage HttpResponseMessage { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Responses.BackendApiResponse"/> class.
+        /// </summary>
+        /// <param name="responseMessage">Response message.</param>
         public BackendApiResponse(HttpResponseMessage responseMessage)
         {
             HttpResponseMessage = responseMessage;
@@ -20,34 +27,61 @@ namespace i4prj.SmartCab.Responses
             MakeBody();
         }
 
+        /// <summary>
+        /// Template method for derived classes to implement.
+        /// </summary>
         protected abstract void MakeBody();
 
+        /// <summary>
+        /// Indicates whether this response was successfull.
+        /// </summary>
+        /// <returns><c>true</c>, if successfull, <c>false</c> otherwise.</returns>
         public bool WasSuccessfull()
         {
             return HttpResponseMessage.IsSuccessStatusCode;
         }
 
+        /// <summary>
+        /// Indicates whether this response was unsuccessfull.
+        /// </summary>
+        /// <returns><c>true</c>, if unsuccessfull, <c>false</c> otherwise.</returns>
         public bool WasUnsuccessfull()
         {
             return HttpResponseMessage.StatusCode == HttpStatusCode.BadRequest;
         }
 
+        /// <summary>
+        /// Indicates whether this response was unauthorized.
+        /// </summary>
+        /// <returns><c>true</c>, if unauthorized, <c>false</c> otherwise.</returns>
         public bool WasUnauthorized()
         {
             return HttpResponseMessage.StatusCode == HttpStatusCode.Unauthorized;
         }
 
+        /// <summary>
+        /// Indicates whether this response has errors.
+        /// </summary>
+        /// <returns><c>true</c>, if errors are present, <c>false</c> otherwise.</returns>
         public bool HasErrors()
         {
             return (_body != null && _body.errors.Count != 0);
         }
 
+        /// <summary>
+        /// Gets the first error.
+        /// </summary>
+        /// <returns>The first error.</returns>
         public string GetFirstError()
         {
             var errors = GetErrors();
             return errors.Count > 0 ? errors[0] : null;
         }
 
+        /// <summary>
+        /// Gets the errors.
+        /// </summary>
+        /// <returns>The errors.</returns>
         public IList<string> GetErrors()
         {
             var errors = new List<string>();

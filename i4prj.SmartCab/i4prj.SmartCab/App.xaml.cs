@@ -30,20 +30,20 @@ namespace i4prj.SmartCab
 
             if (LocalSessionService.Instance.Token != null)
             {
-                await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(Rides));
+                await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
             else 
             {
-                await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(Login));
+                await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(LoginPage));
             }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<CreateCustomer, CreateCustomerViewModel>();
-            containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
-            containerRegistry.RegisterForNavigation<Rides, RidesViewModel>();
+            containerRegistry.RegisterForNavigation<CreateCustomerPage, CreateCustomerViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<RidesPage, RidesViewModel>();
 
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
         }

@@ -7,9 +7,9 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Views
 {
-    public partial class CreateCustomer : ContentPage
+    public partial class CreateCustomerPage : ContentPage
     {
-        public CreateCustomer()
+        public CreateCustomerPage()
         {
             InitializeComponent();
         }
