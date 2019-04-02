@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
+using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
@@ -50,7 +51,7 @@ namespace i4prj.SmartCab.Responses
 
         public Customer customer { get; set; }
 
-        public class Customer
+        public class Customer : IApiResponseCustomer
         {
             public string name { get; set; }
             public string email { get; set; }
