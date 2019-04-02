@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="i4prj.SmartCab.Views.CreateRidePage">
+    <ScrollView Margin="10,0,10,0">
+        <StackLayout Orientation="Vertical">
+            <Entry Placeholder="Fra"></Entry>
+            <Entry Placeholder="Til"></Entry>
+            <StackLayout Orientation="Horizontal">
+                <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
+                <DatePicker></DatePicker>
+                <TimePicker></TimePicker>
+            </StackLayout>
+            <Picker  Title="Antal passagerer">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:UInt16}">
+                        <x:UInt16>1</x:UInt16>
+                        <x:UInt16>2</x:UInt16>
+                        <x:UInt16>3</x:UInt16>
+                        <x:UInt16>4</x:UInt16>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <StackLayout Orientation =" Horizontal">
+                <Switch></Switch>
+                <Label Margin="0,15,0,0">Turen må deles (billigere kilometerpris)</Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label>Jeg vil have svar senest</Label>
+                <DatePicker></DatePicker>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label>Din pris:</Label>
+                <Label>Her skal prisen stå</Label>
+            </StackLayout>
+            <Button Text="Ok" Command="{Binding CreateRideCommand}"></Button>
+        </StackLayout>
+    </ScrollView>
+
+
+</ContentPage>

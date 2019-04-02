@@ -12,10 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Requests\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Responses\" />
     <Folder Include="Validation\" />
     <Folder Include="Effects\" />
@@ -33,5 +31,10 @@
     <Compile Update="Views\CustomerMasterDetailPage.xaml.cs">
       <DependentUpon>CustomerMasterDetailPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\CreateRidePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
