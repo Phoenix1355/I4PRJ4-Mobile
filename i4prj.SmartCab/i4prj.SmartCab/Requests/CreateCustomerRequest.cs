@@ -25,8 +25,8 @@ namespace i4prj.SmartCab.Requests
 
         private string _name;
 
-        [Required(ErrorMessage = ValidationMessages.NavnRequired)]
-        [StringLength(255, MinimumLength = 3, ErrorMessage = Validation.ValidationMessages.NavnLength)]
+        [Required(ErrorMessage = ValidationMessages.NameRequired)]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = Validation.ValidationMessages.NameLength)]
         public string Name
         {
             get { return _name; }
