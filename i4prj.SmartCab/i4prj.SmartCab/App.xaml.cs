@@ -28,9 +28,11 @@ namespace i4prj.SmartCab
         {
             InitializeComponent();
 
-            Debug.WriteLine($"App::OnInitialized Token: {LocalSessionService.Instance.Token}");
+            var sessionService = new LocalSessionService();
 
-            if (LocalSessionService.Instance.Token != null)
+            Debug.WriteLine($"App::OnInitialized Token: {sessionService.Token}");
+
+            if (sessionService.Token != null)
             {
                 await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
@@ -50,6 +52,7 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
 
             // Dependency injection setup
+            containerRegistry.Register<ISessionService, LocalSessionService>();
             containerRegistry.Register<IHttpHandler, HttpClientAdapter>();
             containerRegistry.Register<IBackendApiService, AzureApiService>();
         }

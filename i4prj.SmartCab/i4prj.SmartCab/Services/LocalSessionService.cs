@@ -9,30 +9,10 @@ using Xamarin.Forms;
 namespace i4prj.SmartCab.Services
 {
     /// <summary>
-    /// Local session service singleton which persists Customer credentials on device.
+    /// Local session service which persists Customer credentials on device.
     /// </summary>
     public class LocalSessionService : ISessionService
     {
-        #region Singleton
-        private static readonly LocalSessionService instance = new LocalSessionService();
-
-        static LocalSessionService()
-        {
-        }
-
-        private LocalSessionService()
-        {
-        }
-
-        public static LocalSessionService Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-        #endregion Singleton
-
         private string _tokenKeyName = "token";
         private string _customerKeyName = "customer";
 
@@ -99,7 +79,7 @@ namespace i4prj.SmartCab.Services
             }
         }
 
-        #endregion 
+        #endregion
 
         /// <summary>
         /// Update the specified token and customer.

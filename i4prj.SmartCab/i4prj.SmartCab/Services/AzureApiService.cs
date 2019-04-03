@@ -18,15 +18,17 @@ namespace i4prj.SmartCab.Services
     public class AzureApiService : IBackendApiService
     {
         private readonly IHttpHandler _httpHandler;
+        private readonly ISessionService _sessionService;
 
         private const string _baseUrl = "https://smartcabbackend.azurewebsites.net/api/";
         private const string _customerRegisterEndPoint = _baseUrl + "Customer/Register";
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
 
-        public AzureApiService(IHttpHandler httpHandler)
+        public AzureApiService(IHttpHandler httpHandler, ISessionService sessionService)
         {
             _httpHandler = httpHandler;
+            _sessionService = sessionService;
         }
 
         #region Actions
@@ -137,7 +139,7 @@ namespace i4prj.SmartCab.Services
 
         private IHttpHandler GetClient()
         {
-            if (LocalSessionService.Instance.Token != null) _httpHandler.DefaultRequestHeaders.Add("authorization", "Bearer " + LocalSessionService.Instance.Token);
+            if (_sessionService.Token != null) _httpHandler.DefaultRequestHeaders.Add("authorization", "Bearer " + _sessionService.Token);
             return _httpHandler;
         }
 
