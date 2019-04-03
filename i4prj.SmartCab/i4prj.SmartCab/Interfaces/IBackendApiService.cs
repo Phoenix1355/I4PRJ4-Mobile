@@ -16,14 +16,14 @@ namespace i4prj.SmartCab.Interfaces
         /// </summary>
         /// <returns>The create customer response.</returns>
         /// <param name="request">Request.</param>
-        Task<CreateCustomerResponse> SubmitCreateCustomerRequest(CreateCustomerRequest request);
+        Task<CreateCustomerResponse> SubmitCreateCustomerRequest(ICreateCustomerRequest request);
 
         /// <summary>
         /// Submits the login request.
         /// </summary>
         /// <returns>The login response.</returns>
         /// <param name="request">Request.</param>
-        Task<LoginResponse> SubmitLoginRequestRequest(LoginRequest request);
+        Task<LoginResponse> SubmitLoginRequestRequest(ILoginRequest request);
 
         /// <summary>
         /// Submits a request to fetch rides. NOT YET IMPLEMENTED CORRECTLY! TODO: Implement

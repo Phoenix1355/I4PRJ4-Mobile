@@ -36,7 +36,7 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <returns>The create customer request.</returns>
         /// <param name="request">Request.</param>
-        public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(CreateCustomerRequest request)
+        public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(ICreateCustomerRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {
@@ -55,7 +55,7 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <returns>The login request.</returns>
         /// <param name="request">Request.</param>
-        public async Task<LoginResponse> SubmitLoginRequestRequest(LoginRequest request)
+        public async Task<LoginResponse> SubmitLoginRequestRequest(ILoginRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {
@@ -82,12 +82,12 @@ namespace i4prj.SmartCab.Services
 
         #region EndPointUrlGetters
 
-        private string GetEndPointUrl(CreateCustomerRequest request)
+        private string GetEndPointUrl(ICreateCustomerRequest request)
         {
             return _customerRegisterEndPoint;
         }
 
-        private string GetEndPointUrl(LoginRequest request)
+        private string GetEndPointUrl(ILoginRequest request)
         {
             return _customerLoginEndPoint;
         }
