@@ -8,6 +8,7 @@ using System.Diagnostics;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Services;
 using i4prj.SmartCab.Interfaces;
+using i4prj.SmartCab.Adapters;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -49,6 +50,7 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
 
             // Dependency injection setup
+            containerRegistry.Register<IHttpHandler, HttpClientAdapter>();
             containerRegistry.Register<IBackendApiService, AzureApiService>();
         }
 

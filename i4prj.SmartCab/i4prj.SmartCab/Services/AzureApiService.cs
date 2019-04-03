@@ -17,14 +17,16 @@ namespace i4prj.SmartCab.Services
     /// </summary>
     public class AzureApiService : IBackendApiService
     {
+        private readonly IHttpHandler _httpHandler;
+
         private const string _baseUrl = "https://smartcabbackend.azurewebsites.net/api/";
         private const string _customerRegisterEndPoint = _baseUrl + "Customer/Register";
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
 
-        public AzureApiService()
+        public AzureApiService(IHttpHandler httpHandler)
         {
-
+            _httpHandler = httpHandler;
         }
 
         #region Actions
@@ -68,12 +70,12 @@ namespace i4prj.SmartCab.Services
         /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
         /// </summary>
         /// <returns>The rides.</returns>
-        public async Task<HttpResponseMessage> GetRides()
+        /*public async Task<HttpResponseMessage> GetRides()
         {
             var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
 
             return result;
-        }
+        }*/
 
         #endregion
 
@@ -98,16 +100,14 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                using (var client = GetClient())
-                {
-                    string json = JsonConvert.SerializeObject(data);
+                string json = JsonConvert.SerializeObject(data);
 
-                    HttpResponseMessage response = await client.PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = await GetClient().PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
-                    Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
+                Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
 
-                    return response;
-                }
+                return response;
+
             }
             catch (HttpRequestException e)
             {
@@ -121,14 +121,11 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                using (var client = GetClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(endPointUrl);
+                HttpResponseMessage response = await GetClient().GetAsync(endPointUrl);
 
-                    Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
+                Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
 
-                    return response;
-                }
+                return response;
             }
             catch (HttpRequestException e)
             {
@@ -138,11 +135,10 @@ namespace i4prj.SmartCab.Services
             return null;
         }
 
-        private HttpClient GetClient()
+        private IHttpHandler GetClient()
         {
-            var client = new HttpClient();
-            if (LocalSessionService.Instance.Token != null) client.DefaultRequestHeaders.Add("authorization", "Bearer " + LocalSessionService.Instance.Token);
-            return client;
+            if (LocalSessionService.Instance.Token != null) _httpHandler.DefaultRequestHeaders.Add("authorization", "Bearer " + LocalSessionService.Instance.Token);
+            return _httpHandler;
         }
 
         #endregion

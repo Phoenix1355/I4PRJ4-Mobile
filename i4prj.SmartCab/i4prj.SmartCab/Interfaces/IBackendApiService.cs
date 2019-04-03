@@ -29,6 +29,6 @@ namespace i4prj.SmartCab.Interfaces
         /// Submits a request to fetch rides. NOT YET IMPLEMENTED CORRECTLY! TODO: Implement
         /// </summary>
         /// <returns>A list of rides.</returns>
-        Task<HttpResponseMessage> GetRides();
+        //Task<HttpResponseMessage> GetRides();
     }
 }
