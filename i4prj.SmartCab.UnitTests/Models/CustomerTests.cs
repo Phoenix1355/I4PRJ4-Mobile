@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace i4prj.SmartCab.UnitTests.Models
 {
+    [TestFixture]
     public class CustomerTests
     {
         [Test]

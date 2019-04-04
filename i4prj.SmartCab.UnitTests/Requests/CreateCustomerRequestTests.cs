@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace i4prj.SmartCab.UnitTests.Requests
 {
+    [TestFixture]
     public class CreateCustomerRequestTests
     {
         #region Setup
