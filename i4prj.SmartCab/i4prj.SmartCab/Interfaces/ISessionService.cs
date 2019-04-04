@@ -6,11 +6,17 @@ namespace i4prj.SmartCab.Interfaces
     /// </summary>
     public interface ISessionService
     {
+        string Token { get; }
+
+        ICustomer Customer { get; }
+
         /// <summary>
         /// Update the specified token and customer.
         /// </summary>
         /// <param name="token">Token.</param>
         /// <param name="customer">Customer.</param>
         void Update(string token, ICustomer customer);
+
+        void Clear();
     }
 }

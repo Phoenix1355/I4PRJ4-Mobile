@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Validation;
 using Prism.Mvvm;
 
@@ -9,7 +10,7 @@ namespace i4prj.SmartCab.Requests
     /// <summary>
     /// Request to be filled out and submitted to IBackendApiService to create a new Customer.
     /// </summary>
-    public class CreateCustomerRequest : ValidationBase
+    public class CreateCustomerRequest : ValidationBase, ICreateCustomerRequest
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> class.
@@ -25,8 +26,8 @@ namespace i4prj.SmartCab.Requests
 
         private string _name;
 
-        [Required(ErrorMessage = ValidationMessages.NavnRequired)]
-        [StringLength(255, MinimumLength = 3, ErrorMessage = Validation.ValidationMessages.NavnLength)]
+        [Required(ErrorMessage = ValidationMessages.NameRequired)]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = Validation.ValidationMessages.NameLength)]
         public string Name
         {
             get { return _name; }

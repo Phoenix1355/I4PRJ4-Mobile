@@ -1,4 +1,5 @@
-﻿using i4prj.SmartCab.Models;
+﻿using i4prj.SmartCab.Interfaces;
+using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
 using i4prj.SmartCab.Services;
@@ -18,17 +19,24 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CreateCustomerViewModel : ViewModelBase
     {
+        private IBackendApiService _backendApiService;
+        private ISessionService _sessionService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.CreateCustomerViewModel"/> class. Dependencies auto injected.
         /// </summary>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="dialogService">Dialog service.</param>
-        public CreateCustomerViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        /// /// <param name="backendApiService">Backend Api Service.</param>
+        public CreateCustomerViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService)
             : base(navigationService, dialogService)
         {
             Title = "Opret bruger";
 
             Request = new CreateCustomerRequest();
+
+            _backendApiService = backendApiService;
+            _sessionService = sessionService;
         }
 
         #region Properties
@@ -54,10 +62,8 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void SubmitRequestCommandExecuteAsync()
         {
-            AzureApiService api = new AzureApiService();
-
             IsBusy = true;
-            CreateCustomerResponse response = await api.SubmitCreateCustomerRequest(Request);
+            CreateCustomerResponse response = await _backendApiService.SubmitCreateCustomerRequest(Request);
             IsBusy = false;
 
             if (response == null)
@@ -70,7 +76,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else
             {
-                LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
+                if (response.Body != null) _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
 
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
