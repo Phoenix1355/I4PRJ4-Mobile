@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
+using i4prj.SmartCab.Converters;
 using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 
@@ -43,7 +44,8 @@ namespace i4prj.SmartCab.Responses
         }
     }
 
-    #region ResponseFormatClasses
+    #region ResponseBodyJsonFormat
+
     /// <summary>
     /// Response body from IBackendApiService when submitting a request to create a Customer.
     /// </summary>
@@ -51,7 +53,8 @@ namespace i4prj.SmartCab.Responses
     {
         public string token { get; set; }
 
-        public Customer customer { get; set; }
+        [JsonConverter(typeof(ConcreteConverter<Customer>))]
+        public IApiResponseCustomer customer { get; set; }
 
         public class Customer : IApiResponseCustomer
         {
@@ -60,5 +63,6 @@ namespace i4prj.SmartCab.Responses
             public string phoneNumber { get; set; }
         }
     }
+
     #endregion
 }

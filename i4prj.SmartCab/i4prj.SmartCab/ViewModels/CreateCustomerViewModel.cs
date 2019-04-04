@@ -76,7 +76,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else
             {
-                _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
+                if (response.Body != null) _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
 
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
