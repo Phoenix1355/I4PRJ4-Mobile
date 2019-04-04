@@ -40,17 +40,17 @@ namespace i4prj.SmartCab.UnitTests.Services
             var fakeHttpResponse = new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(new
+                /*
                 {
-                    token = "Some Valid Token",
-                    customer = new
-                    {
-                        name = "Some name",
-                        email = "email@somehost.com",
-                        phone = "12345678"
-
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJmcmFuay5hbmRlcnNlbkBnbWFpbC5jb20iLCJVc2VySWQiOiJiNzI1ZDc3Yy1hNmI3LTRiMmItYjA5Ni1iNzEwMDcwY2NmNzgiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDdXN0b21lciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjA0LzA0LzIwMTkgMTQ6NDk6MDkiLCJleHAiOjE1NTQzODkzNDl9.eWRgwE2orLoLV88-9xtM_sbQfdh8Sy3HtAH1ersBhkE",
+                    "customer": {
+                        "name": "Frank Andersen",
+                        "email": "frank.andersen@gmail.com",
+                        "phoneNumber": "31133165"
                     }
-                }), Encoding.UTF8, "application/json")
+                }               
+                */
+                Content = new StringContent("{\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJmcmFuay5hbmRlcnNlbkBnbWFpbC5jb20iLCJVc2VySWQiOiJiNzI1ZDc3Yy1hNmI3LTRiMmItYjA5Ni1iNzEwMDcwY2NmNzgiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDdXN0b21lciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjA0LzA0LzIwMTkgMTQ6NDk6MDkiLCJleHAiOjE1NTQzODkzNDl9.eWRgwE2orLoLV88-9xtM_sbQfdh8Sy3HtAH1ersBhkE\",\n\t\"customer\": {\n\t\t\"name\": \"Frank Andersen\",\n\t\t\"email\": \"frank.andersen@gmail.com\",\n\t\t\"phoneNumber\": \"31133165\"\n\t}\n}", Encoding.UTF8, "application/json")
             };
 
 
@@ -89,12 +89,10 @@ namespace i4prj.SmartCab.UnitTests.Services
                     token = (string)null,
                     customer = (object)null,
                     errors = new Dictionary<string, IList<string>>() {
-                        { "name", new List<string>() { "Too short" } },
-                        { "email", new List<string>() { "Invalid format", "unknown tld" } }
+                        { "error", new List<string>() { "User name is already taken" } }
                     }
                 }), Encoding.UTF8, "application/json")
             };
-
 
             // Fake HttpHandler
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
@@ -115,7 +113,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response.Body, Is.Not.Null);
                 Assert.That(response.Body, Is.TypeOf<CreateCustomerResponseBody>());
 
-                Assert.That(response.GetErrors().Count, Is.EqualTo(3));
+                Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
     }
