@@ -28,15 +28,17 @@ namespace i4prj.SmartCab.Responses
         protected override async void MakeBody()
         {
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("Http response body: " + responseBodyAsText);
             try
             {
                 Body = JsonConvert.DeserializeObject<CreateCustomerResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
 
             }
-            catch (Newtonsoft.Json.JsonSerializationException e)
+            catch (JsonSerializationException e)
             {
-                Debug.WriteLine("Http-result kunne parses som json. Fejl: " + e.Message);
+                Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
         }
     }

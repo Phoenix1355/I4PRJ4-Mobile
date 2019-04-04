@@ -28,6 +28,7 @@ namespace i4prj.SmartCab.Responses
         protected override async void MakeBody()
         {
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
+            Debug.WriteLine("Http response body: " + responseBodyAsText);
             try
             {
                 Body = JsonConvert.DeserializeObject<LoginResponseBody>(responseBodyAsText);
@@ -36,7 +37,7 @@ namespace i4prj.SmartCab.Responses
             }
             catch (Newtonsoft.Json.JsonSerializationException e)
             {
-                Debug.WriteLine("Http-result kunne parses som json. Fejl: " + e.Message);
+                Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
         }
     }
