@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Requests\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\i4prj.SmartCab\i4prj.SmartCab\i4prj.SmartCab.csproj" />

@@ -19,7 +19,6 @@
     <Folder Include="Responses\" />
     <Folder Include="Validation\" />
     <Folder Include="Effects\" />
-    <Folder Include="Adapters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Login.xaml.cs">
