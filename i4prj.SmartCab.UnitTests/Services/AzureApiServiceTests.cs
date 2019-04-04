@@ -86,8 +86,8 @@ namespace i4prj.SmartCab.UnitTests.Services
                 StatusCode = HttpStatusCode.BadRequest,
                 Content = new StringContent(JsonConvert.SerializeObject(new
                 {
-                    token = (string) null,
-                    customer = (object) null,
+                    token = (string)null,
+                    customer = (object)null,
                     errors = new Dictionary<string, IList<string>>() {
                         { "name", new List<string>() { "Too short" } },
                         { "email", new List<string>() { "Invalid format", "unknown tld" } }
@@ -120,3 +120,4 @@ namespace i4prj.SmartCab.UnitTests.Services
         }
     }
 }
+
