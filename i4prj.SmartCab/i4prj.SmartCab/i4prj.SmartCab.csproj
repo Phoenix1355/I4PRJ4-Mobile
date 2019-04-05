@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Requests\" />
-    <Folder Include="Responses\" />
     <Folder Include="Validation\" />
     <Folder Include="Effects\" />
   </ItemGroup>

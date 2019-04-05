@@ -30,5 +30,9 @@ namespace i4prj.SmartCab.Interfaces
         /// </summary>
         /// <returns>A list of rides.</returns>
         Task<HttpResponseMessage> GetRides();
+
+        Task<CreateRideResponse> SubmitCreateRideRequest(CreateRideRequest request);
+
+        Task<PriceResponse> SubmitCalculatePriceRequest(CalculatePriceRequest request);
     }
 }

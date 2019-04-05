@@ -4,14 +4,14 @@
              x:Class="i4prj.SmartCab.Views.CreateRidePage">
     <ScrollView Margin="10,0,10,0">
         <StackLayout Orientation="Vertical">
-            <Entry Placeholder="Fra"></Entry>
-            <Entry Placeholder="Til"></Entry>
+            <Entry ReturnCommand="{Binding ReturnFromUserCommand}" Text="{Binding Origin}" BindingContext="{Binding Request}" Placeholder="Fra"></Entry>
+            <Entry ReturnCommand="{Binding ReturnFromUserCommand}" Text="{Binding Destination}" BindingContext="{Binding Request}" Placeholder="Til"></Entry>
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
-                <DatePicker></DatePicker>
-                <TimePicker></TimePicker>
+                <DatePicker Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
-            <Picker  Title="Antal passagerer">
+            <Picker SelectedItem="{Binding AmountOfPassengers}" BindingContext="{Binding Request}" Title="Antal passagerer">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:UInt16}">
                         <x:UInt16>1</x:UInt16>
@@ -23,20 +23,33 @@
             </Picker>
 
             <StackLayout Orientation =" Horizontal">
-                <Switch></Switch>
+                <Switch IsToggled="{Binding IsShared}" BindingContext="{Binding Request}"></Switch>
                 <Label Margin="0,15,0,0">Turen må deles (billigere kilometerpris)</Label>
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
                 <Label>Jeg vil have svar senest</Label>
-                <DatePicker></DatePicker>
+                <DatePicker Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
                 <Label>Din pris:</Label>
-                <Label>Her skal prisen stå</Label>
+                <Label Text="{Binding Price}"></Label>
             </StackLayout>
-            <Button Text="Ok" Command="{Binding CreateRideCommand}"></Button>
+
+            <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
+
+            <Button Text="Ok" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
     </ScrollView>
 

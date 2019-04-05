@@ -56,6 +56,7 @@ namespace i4prj.SmartCab.ViewModels
         {
             AzureApiService api = new AzureApiService();
 
+            
             IsBusy = true;
             CreateCustomerResponse response = await api.SubmitCreateCustomerRequest(Request);
             IsBusy = false;

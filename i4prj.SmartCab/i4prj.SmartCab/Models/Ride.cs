@@ -10,7 +10,7 @@ namespace i4prj.SmartCab.Models
         public IAddress Origin { get; set; }
         public IAddress Destination { get; set; }
         public DateTime DepartureTime { get; set; }
-        public DateTime ResponseDeadline { get; set; }
+        public DateTime ConfirmationDeadline { get; set; }
         public int AmountOfPassengers { get; set; }
         public bool Shared { get; set; }
         public double Price { get; set; }

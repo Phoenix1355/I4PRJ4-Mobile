@@ -9,7 +9,7 @@ namespace i4prj.SmartCab.Interfaces
         IAddress Origin { get; set; }
         IAddress Destination { get; set; }
         DateTime DepartureTime { get; set; }
-        DateTime ResponseDeadline { get; set; }
+        DateTime ConfirmationDeadline { get; set; }
         int AmountOfPassengers { get; set; }
         bool Shared { get; set; }
         double Price { get; set; }

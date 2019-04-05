@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using i4prj.SmartCab.Interfaces;
@@ -21,6 +23,8 @@ namespace i4prj.SmartCab.Services
         private const string _customerRegisterEndPoint = _baseUrl + "Customer/Register";
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
+        private const string _createRideEndPoint = _baseUrl + "Rides/Create";
+        private const string _calculatePriceEndPoint = _baseUrl + "Price";
 
         public AzureApiService()
         {
@@ -46,6 +50,33 @@ namespace i4prj.SmartCab.Services
             });
 
             return result != null ? new CreateCustomerResponse(result) : null;
+        }
+
+        public async Task<CreateRideResponse> SubmitCreateRideRequest(CreateRideRequest request)
+        {
+          
+            var result = await PostAsync(GetEndPointUrl(request), new
+            {
+                isShared=request.IsShared,
+                departureTime = request.DepartureDate+request.DepartureTime,
+                confirmationDeadline = request.ConfirmationDeadlineDate+request.ConfirmationDeadlineTime,
+                passengerCount = request.AmountOfPassengers,
+                startDestination = request.OriginAddress,
+                endDestination=request.DestinationAddress
+            });
+
+            return result != null ? new CreateRideResponse(result) : null;
+        }
+
+        public async Task<PriceResponse> SubmitCalculatePriceRequest(CalculatePriceRequest request)
+        {
+            var result = await PostAsync(GetEndPointUrl(request), new
+            {
+                startAddress=request.Origin,
+                endAddress=request.Destination,
+            });
+
+            return result != null ? new PriceResponse(result) : null;
         }
 
         /// <summary>
@@ -75,6 +106,8 @@ namespace i4prj.SmartCab.Services
             return result;
         }
 
+        
+
         #endregion
 
 
@@ -90,6 +123,16 @@ namespace i4prj.SmartCab.Services
             return _customerLoginEndPoint;
         }
 
+        private string GetEndPointUrl(CreateRideRequest request)
+        {
+            return _createRideEndPoint;
+        }
+
+        private string GetEndPointUrl(CalculatePriceRequest request)
+        {
+            return _calculatePriceEndPoint;
+        }
+
         #endregion
 
         #region Helpers
@@ -101,7 +144,7 @@ namespace i4prj.SmartCab.Services
                 using (var client = GetClient())
                 {
                     string json = JsonConvert.SerializeObject(data);
-
+                    Debug.WriteLine(json);
                     HttpResponseMessage response = await client.PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
                     Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
