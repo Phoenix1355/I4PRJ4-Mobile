@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DryIoc;
 using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Views
@@ -14,6 +15,5 @@ namespace i4prj.SmartCab.Views
 		{
 			InitializeComponent ();
 		}
-
     }
 }

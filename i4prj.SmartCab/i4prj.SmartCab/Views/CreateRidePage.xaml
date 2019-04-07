@@ -1,11 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validation="clr-namespace:i4prj.SmartCab.Validation;assembly=i4prj.SmartCab"
              x:Class="i4prj.SmartCab.Views.CreateRidePage">
     <ScrollView Margin="10,0,10,0">
         <StackLayout Orientation="Vertical">
-            <Entry ReturnCommand="{Binding ReturnFromUserCommand}" Text="{Binding Origin}" BindingContext="{Binding Request}" Placeholder="Fra"></Entry>
-            <Entry ReturnCommand="{Binding ReturnFromUserCommand}" Text="{Binding Destination}" BindingContext="{Binding Request}" Placeholder="Til"></Entry>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" ></ColumnDefinition>
+                    <ColumnDefinition Width="50" ></ColumnDefinition>
+                    <ColumnDefinition Width="90" ></ColumnDefinition>
+                    <ColumnDefinition Width="40" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label FontSize="20" Grid.Row="0" Grid.Column="0">Fra</Label>
+                <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginAddress.cityName}" BindingContext="{Binding Request}" Placeholder="Bynavn"></Entry>
+                <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginAddress.postalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." ></Entry>
+                <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginAddress.streetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" ></Entry>
+                <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginAddress.streetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr."></Entry>
+
+                <Label Grid.Column="0" FontSize="20" Grid.Row="2">Til</Label>
+                <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationAddress.cityName}" BindingContext="{Binding Request}" Placeholder="Bynavn"></Entry>
+                <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationAddress.postalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." ></Entry>
+                <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationAddress.streetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" ></Entry>
+                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationAddress.streetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr."></Entry>
+            </Grid>
+
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
                 <DatePicker Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
@@ -33,14 +58,20 @@
                 <TimePicker Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal">
-                <Label>Din pris:</Label>
-                <Label Text="{Binding Price}"></Label>
-            </StackLayout>
-
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
+            
+            <Button Text="{Binding Price}" Command="{Binding CalculatePriceCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
 
-            <Button Text="Ok" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
+            <Button Text="Opret tur" Command="{Binding CreateRideCommand}" IsEnabled="false" IsVisible="{Binding IsReady}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
                         <Setter Property="IsEnabled" Value="True" />

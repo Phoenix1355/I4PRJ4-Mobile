@@ -20,5 +20,10 @@ namespace i4prj.SmartCab.Validation
 
         public const string PasswordConfirmationComparison = "Kodeord matcher ikke.";
 
+        public const string PostalCodeRequired = "Du skal angive et postnummer";
+        public const string PostalCodeInvalid = "Postnummeret er ikke gyldigt";
+
+        public const string NumberOfPassengersRequired = "Du skal angive, hvor mange passagerer, der skal køre med";
+
     }
 }

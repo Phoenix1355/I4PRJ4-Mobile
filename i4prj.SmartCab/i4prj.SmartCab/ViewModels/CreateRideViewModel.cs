@@ -6,6 +6,7 @@ using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
 using i4prj.SmartCab.Services;
+using i4prj.SmartCab.Views;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -14,12 +15,18 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CreateRideViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="pageDialogService">Page dialog service.</param>
         public CreateRideViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
             : base(navigationService, pageDialogService)
         {
             Title = "Opret tur";
             Request = new CreateRideRequest();
             ApiService=new AzureApiService();
+            Price = "Beregn min pris";
         }
 
         #region Properties
@@ -40,38 +47,33 @@ namespace i4prj.SmartCab.ViewModels
             set { SetProperty(ref _apiService, value); }
         }
 
-        private double _price;
+        private string _price;
 
-        public double Price
+        public string Price
         {
             get { return _price; }
             set { SetProperty(ref _price, value); }
         }
         #endregion
 
-
         #region Commands
+        
+        private DelegateCommand _calculatePriceCommand;
 
-        private DelegateCommand _returnFromUserCommand;
-
-        public DelegateCommand ReturnFromUserCommand => _returnFromUserCommand ??
-                                                        (_returnFromUserCommand =
-                                                            new DelegateCommand(ReturnFromUserCommandExecuteAsync));
-        private async void ReturnFromUserCommandExecuteAsync()
+        /// <summary>
+        /// Submits the CalculatePriceRequest
+        /// </summary>
+        public DelegateCommand CalculatePriceCommand => _calculatePriceCommand ??
+                                                        (_calculatePriceCommand =
+                                                            new DelegateCommand(CalculatePriceCommandExecuteAsync));
+        private async void CalculatePriceCommandExecuteAsync()
         {
-
-            Debug.WriteLine("Det lykkedes");
-
-            Request.OriginAddress.CreateAddress(Request.Origin);
-            Request.DestinationAddress.CreateAddress(Request.Destination);
-
             CalculatePriceRequest request = new CalculatePriceRequest(Request.OriginAddress,Request.DestinationAddress);
 
             IsBusy = true;
             PriceResponse response = await ApiService.SubmitCalculatePriceRequest(request);
             IsBusy = false;
 
-            
 
             if (response == null)
             {
@@ -84,18 +86,19 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if(response.WasSuccessfull())
             {
-                //For testing
-                Price = 15;
+                Price = "Din pris: " + response.Body + " kr." + "\n (Tryk for at beregne igen)";
             }
         }
+        
 
         private DelegateCommand _createRideCommand;
+        /// <summary>
+        /// Submits the CreateRideRequest
+        /// </summary>
         public DelegateCommand CreateRideCommand => _createRideCommand ?? (_createRideCommand = new DelegateCommand(CreateRideCommandExecuteAsync));
 
         private async void CreateRideCommandExecuteAsync()
         {
-            Request.OriginAddress.CreateAddress(Request.Origin);
-            Request.DestinationAddress.CreateAddress(Request.Destination);
 
             IsBusy = true;
             CreateRideResponse response = await ApiService.SubmitCreateRideRequest(Request);
@@ -113,8 +116,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasSuccessfull())
             {
-                //måske skal der ske noget mere her?
-                await DialogService.DisplayAlertAsync("Succes", "Turen er blevet oprettet!", "OK");
+                await DialogService.DisplayAlertAsync("Succes", "Turen er blevet oprettet \nAt betale: "+response.Body.price+" kr.", "OK");
                 await NavigationService.GoBackAsync();
             }
         }

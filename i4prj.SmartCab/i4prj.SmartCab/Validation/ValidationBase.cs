@@ -93,7 +93,6 @@ namespace i4prj.SmartCab.Validation
 
             var validationResults = new List<ValidationResult>();
             Validator.TryValidateProperty(value, validationContext, validationResults);
-
             RemoveErrorsByPropertyName(propertyName);
 
             HandleValidationResults(validationResults);

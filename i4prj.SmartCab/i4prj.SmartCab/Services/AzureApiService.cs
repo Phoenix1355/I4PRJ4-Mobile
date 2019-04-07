@@ -52,6 +52,11 @@ namespace i4prj.SmartCab.Services
             return result != null ? new CreateCustomerResponse(result) : null;
         }
 
+        /// <summary>
+        /// Submits the create ride request.
+        /// </summary>
+        /// <param name="request">A CreateRideRequest submitted by the user</param>
+        /// <returns>The CreateRideResponse</returns>
         public async Task<CreateRideResponse> SubmitCreateRideRequest(CreateRideRequest request)
         {
           
@@ -68,6 +73,11 @@ namespace i4prj.SmartCab.Services
             return result != null ? new CreateRideResponse(result) : null;
         }
 
+        /// <summary>
+        /// Submits the calculate price request.
+        /// </summary>
+        /// <param name="request">A CalculatePriceRequest constisting of two addresses.</param>
+        /// <returns>The price calculated for the specific ride</returns>
         public async Task<PriceResponse> SubmitCalculatePriceRequest(CalculatePriceRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
