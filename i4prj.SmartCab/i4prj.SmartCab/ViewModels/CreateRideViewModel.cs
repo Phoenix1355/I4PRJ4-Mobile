@@ -16,17 +16,19 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CreateRideViewModel : ViewModelBase
     {
+        private IBackendApiService _backendApiService;
+        private ISessionService _sessionService;
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
         /// </summary>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="pageDialogService">Page dialog service.</param>
-        public CreateRideViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
+        public CreateRideViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IBackendApiService backEndApiService)
             : base(navigationService, pageDialogService)
         {
             Title = "Opret tur";
             Request = new CreateRideRequest();
-            ApiService=new AzureApiService();
+            _backendApiService = backEndApiService;
             Price = "Beregn min pris";
             
             //TEST
@@ -48,14 +50,6 @@ namespace i4prj.SmartCab.ViewModels
         {
             get { return _request; }
             set { SetProperty(ref _request, value); }
-        }
-
-        private IBackendApiService _apiService;
-
-        public IBackendApiService ApiService
-        {
-            get { return _apiService; }
-            set { SetProperty(ref _apiService, value); }
         }
 
         private string _price;
@@ -82,7 +76,7 @@ namespace i4prj.SmartCab.ViewModels
             CalculatePriceRequest request = new CalculatePriceRequest(Request);
 
             IsBusy = true;
-            PriceResponse response = await ApiService.SubmitCalculatePriceRequest(request);
+            PriceResponse response = await _backendApiService.SubmitCalculatePriceRequest(request);
             IsBusy = false;
 
 
@@ -112,7 +106,7 @@ namespace i4prj.SmartCab.ViewModels
         {
 
             IsBusy = true;
-            CreateRideResponse response = await ApiService.SubmitCreateRideRequest(Request);
+            CreateRideResponse response = await _backendApiService.SubmitCreateRideRequest(Request);
             IsBusy = false;
 
             Debug.WriteLine(response.HttpResponseMessage.StatusCode);
