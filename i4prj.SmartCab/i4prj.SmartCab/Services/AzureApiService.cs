@@ -69,7 +69,7 @@ namespace i4prj.SmartCab.Services
                 isShared=request.IsShared,
                 departureTime = request.DepartureDate+request.DepartureTime,
                 confirmationDeadline = request.ConfirmationDeadlineDate+request.ConfirmationDeadlineTime,
-                passengerCount = request.AmountOfPassengers,
+                passengerCount = (int)request.AmountOfPassengers,
                 startDestination = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
                 endDestination = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
             });

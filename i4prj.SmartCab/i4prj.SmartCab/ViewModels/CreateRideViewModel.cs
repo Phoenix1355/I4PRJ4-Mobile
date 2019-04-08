@@ -17,7 +17,6 @@ namespace i4prj.SmartCab.ViewModels
     public class CreateRideViewModel : ViewModelBase
     {
         private IBackendApiService _backendApiService;
-        private ISessionService _sessionService;
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
         /// </summary>

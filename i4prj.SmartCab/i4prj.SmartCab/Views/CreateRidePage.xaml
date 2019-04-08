@@ -69,19 +69,15 @@
                 <DatePicker Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
-            <Picker FontSize="15" SelectedItem="{Binding AmountOfPassengers}" BindingContext="{Binding Request}" Title="Antal passagerer">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:UInt16}">
-                        <x:UInt16>1</x:UInt16>
-                        <x:UInt16>2</x:UInt16>
-                        <x:UInt16>3</x:UInt16>
-                        <x:UInt16>4</x:UInt16>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+            <StackLayout Orientation="Horizontal">
+                <Label Margin="0,10,0,0">Antal passagerer</Label>
+                <Label Margin="0,14,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
+                <Stepper x:Name="PassengerStepper" Minimum="1" Maximum="4" Increment="1" Value="{Binding AmountOfPassengers}"></Stepper>
+            </StackLayout>
+            
 
             <StackLayout Orientation =" Horizontal">
-                <Switch IsToggled="{Binding IsShared}" BindingContext="{Binding Request}"></Switch>
+                <Switch Margin="0,10,0,0" IsToggled="{Binding IsShared}" BindingContext="{Binding Request}"></Switch>
                 <Label Margin="0,15,0,0">Turen må deles (billigere kilometerpris)</Label>
             </StackLayout>
 

@@ -18,6 +18,7 @@ namespace i4prj.SmartCab.Requests
         {
             DepartureDate = DateTime.Now;
             DepartureTime = DateTime.Now.TimeOfDay;
+            AmountOfPassengers = 1;
             ConfirmationDeadlineDate = DateTime.Now;
             ConfirmationDeadlineTime = DateTime.Now.TimeOfDay;
             ConfirmationDeadlineTime = ConfirmationDeadlineTime.Add(new TimeSpan(0, 0, 5, 0));
@@ -82,9 +83,9 @@ namespace i4prj.SmartCab.Requests
             }
         }
 
-        private UInt16 _amountOfPassengers;
+        private double _amountOfPassengers;
         [Required]
-        public UInt16 AmountOfPassengers
+        public double AmountOfPassengers
         {
             get { return _amountOfPassengers; }
             set
