@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
@@ -14,17 +15,24 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        private IBackendApiService _backendApiService;
+        private ISessionService _sessionService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.LoginViewModel"/> class. Dependencies auto injected.
         /// </summary>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="dialogService">Dialog service.</param>
-        public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        /// <param name="backendApiService">Backend Api service.</param>
+        public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService)
             : base(navigationService, dialogService)
         {
             Title = "Log ind";
 
             Request = new LoginRequest();
+
+            _backendApiService = backendApiService;
+            _sessionService = sessionService;
         }
 
         #region Properties
@@ -48,10 +56,8 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void SubmitRequestCommandExecuteAsync()
         {
-            AzureApiService api = new AzureApiService();
-
             IsBusy = true;
-            LoginResponse response = await api.SubmitLoginRequestRequest(Request);
+            LoginResponse response = await _backendApiService.SubmitLoginRequestRequest(Request);
             IsBusy = false;
 
             if (response == null)
@@ -64,7 +70,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else
             {
-                LocalSessionService.Instance.Update(response.Body.token, new Customer(response.Body.customer));
+                _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
 
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }

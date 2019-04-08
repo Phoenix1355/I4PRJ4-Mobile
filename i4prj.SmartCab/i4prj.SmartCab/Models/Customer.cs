@@ -21,18 +21,7 @@ namespace i4prj.SmartCab.Models
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Customer"/> class.
         /// </summary>
         /// <param name="customer">Customer.</param>
-        public Customer(LoginResponseBody.Customer customer)
-        {
-            Name = customer.name;
-            Email = customer.email;
-            PhoneNumber = customer.phoneNumber;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Customer"/> class.
-        /// </summary>
-        /// <param name="customer">Customer.</param>
-        public Customer(CreateCustomerResponseBody.Customer customer)
+        public Customer(IApiResponseCustomer customer)
         {
             Name = customer.name;
             Email = customer.email;

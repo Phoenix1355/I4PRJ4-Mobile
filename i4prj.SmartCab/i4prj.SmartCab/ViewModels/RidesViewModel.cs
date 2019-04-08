@@ -17,9 +17,13 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class RidesViewModel : ViewModelBase
     {
-        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService, dialogService)
+        private IBackendApiService _backendApiService;
+
+        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService) : base(navigationService, dialogService)
         {
             Title = "Turoversigt";
+
+            _backendApiService = backendApiService;
         }
 
         /*private DelegateCommand _getRidesCommand;

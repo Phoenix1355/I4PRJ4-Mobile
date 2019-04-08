@@ -6,8 +6,8 @@ namespace i4prj.SmartCab.Validation
     /// </summary>
     public static class ValidationMessages
     {
-        public const string NavnRequired = "Navn skal udfyldes.";
-        public const string NavnLength = "Navn skal være mellem 3 og 255 karakterer langt.";
+        public const string NameRequired = "Navn skal udfyldes.";
+        public const string NameLength = "Navn skal være mellem 3 og 255 karakterer langt.";
 
         public const string EmailRequired = "E-mail skal udfyldes.";
         public const string EmailRegex = "E-mail format er ugyldigt.";

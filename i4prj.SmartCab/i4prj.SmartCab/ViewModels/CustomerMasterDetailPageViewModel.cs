@@ -15,18 +15,21 @@ namespace i4prj.SmartCab.ViewModels
 {
     public class CustomerMasterDetailPageViewModel : ViewModelBase
     {
+        private ISessionService _sessionService;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:i4prj.SmartCab.ViewModels.CustomerMasterDetailPageViewModel"/> class. Dependencies auto injected.
         /// </summary>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="dialogService">Dialog service.</param>
-        public CustomerMasterDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public CustomerMasterDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService)
             : base(navigationService, dialogService)
         {
             Title = "Customer Master Detail Page"; 
+            Customer = sessionService.Customer;
 
-            Customer = LocalSessionService.Instance.Customer;
+            _sessionService = sessionService;
         }
 
         public ICustomer Customer { get; private set; }
@@ -41,7 +44,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void LogOutCommandExecute()
         {
-            LocalSessionService.Instance.Clear();
+            _sessionService.Clear();
 
             await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
         }

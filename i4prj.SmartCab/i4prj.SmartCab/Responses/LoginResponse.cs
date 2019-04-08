@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
+using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
@@ -27,6 +28,7 @@ namespace i4prj.SmartCab.Responses
         protected override async void MakeBody()
         {
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
+            Debug.WriteLine("Http response body: " + responseBodyAsText);
             try
             {
                 Body = JsonConvert.DeserializeObject<LoginResponseBody>(responseBodyAsText);
@@ -35,7 +37,7 @@ namespace i4prj.SmartCab.Responses
             }
             catch (Newtonsoft.Json.JsonSerializationException e)
             {
-                Debug.WriteLine("Http-result kunne parses som json. Fejl: " + e.Message);
+                Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
         }
     }
@@ -50,7 +52,7 @@ namespace i4prj.SmartCab.Responses
 
         public Customer customer { get; set; }
 
-        public class Customer
+        public class Customer : IApiResponseCustomer
         {
             public string name { get; set; }
             public string email { get; set; }

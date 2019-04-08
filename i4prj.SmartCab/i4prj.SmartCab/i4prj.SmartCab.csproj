@@ -15,6 +15,7 @@
     <Folder Include="Services\" />
     <Folder Include="Validation\" />
     <Folder Include="Effects\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Login.xaml.cs">

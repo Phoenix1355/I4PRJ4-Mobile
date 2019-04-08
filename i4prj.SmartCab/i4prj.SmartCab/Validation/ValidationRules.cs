@@ -14,6 +14,9 @@ namespace i4prj.SmartCab.Validation
         public const string StreetNameRegex = @"^[a-åA-Å]{2,25}$";
         public const string StreetNumberRegex = @"^[0-9a-Å\s]{1,6}$";
         // Oh wait, no reference. HAD TO DO IT MY SELF, MICHAEL!
-        public const string PasswordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w]).{8}$";
+        public const string PasswordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,}$";
+
+        // v1
+        //public const string PasswordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w]).{8,}$";
     }
 }
