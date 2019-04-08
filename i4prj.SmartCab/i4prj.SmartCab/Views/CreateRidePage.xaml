@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:validation="clr-namespace:i4prj.SmartCab.Validation;assembly=i4prj.SmartCab"
-             x:Class="i4prj.SmartCab.Views.CreateRidePage">
+             x:Class="i4prj.SmartCab.Views.CreateRidePage"
+             Title="Opret tur">
     <ScrollView Margin="10,0,10,0">
         <StackLayout Orientation="Vertical">
             <Grid>
@@ -14,29 +15,61 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90" ></ColumnDefinition>
-                    <ColumnDefinition Width="50" ></ColumnDefinition>
-                    <ColumnDefinition Width="90" ></ColumnDefinition>
                     <ColumnDefinition Width="40" ></ColumnDefinition>
+                    <ColumnDefinition Width="110" ></ColumnDefinition>
+                    <ColumnDefinition Width="30" ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label FontSize="20" Grid.Row="0" Grid.Column="0">Fra</Label>
-                <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginAddress.cityName}" BindingContext="{Binding Request}" Placeholder="Bynavn"></Entry>
-                <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginAddress.postalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." ></Entry>
-                <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginAddress.streetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" ></Entry>
-                <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginAddress.streetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr."></Entry>
+                <Label FontSize="18" Grid.Row="0" Grid.Column="0">Fra</Label>
+                <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginCityName" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginStreetName" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginStreetNumber" />
+                    </Entry.Behaviors>
+                </Entry>
 
-                <Label Grid.Column="0" FontSize="20" Grid.Row="2">Til</Label>
-                <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationAddress.cityName}" BindingContext="{Binding Request}" Placeholder="Bynavn"></Entry>
-                <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationAddress.postalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." ></Entry>
-                <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationAddress.streetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" ></Entry>
-                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationAddress.streetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr."></Entry>
+                <Label Grid.Column="0" FontSize="18" Grid.Row="2">Til</Label>
+                <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationPostalCode" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationStreetName" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationStreetNumber" />
+                    </Entry.Behaviors>
+                </Entry>
             </Grid>
 
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
-                <DatePicker Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
+                <DatePicker Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
-            <Picker SelectedItem="{Binding AmountOfPassengers}" BindingContext="{Binding Request}" Title="Antal passagerer">
+            <Picker FontSize="15" SelectedItem="{Binding AmountOfPassengers}" BindingContext="{Binding Request}" Title="Antal passagerer">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:UInt16}">
                         <x:UInt16>1</x:UInt16>
@@ -53,9 +86,9 @@
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
-                <Label>Jeg vil have svar senest</Label>
-                <DatePicker Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
+                <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
+                <DatePicker FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker FontSize="15" Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
 
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
@@ -71,7 +104,7 @@
                 </Button.Triggers>
             </Button>
 
-            <Button Text="Opret tur" Command="{Binding CreateRideCommand}" IsEnabled="false" IsVisible="{Binding IsReady}">
+            <Button Text="Opret tur" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
                         <Setter Property="IsEnabled" Value="True" />

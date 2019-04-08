@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using DryIoc;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Validation;
 
@@ -15,12 +16,11 @@ namespace i4prj.SmartCab.Requests
     {
         public CreateRideRequest()
         {
-            OriginAddress=new Address();
-            DestinationAddress=new Address();
             DepartureDate = DateTime.Now;
-            DepartureTime = TimeSpan.Zero;
-            ConfirmationDeadlineDate = DateTime.Today;
-            ConfirmationDeadlineTime = TimeSpan.Zero;
+            DepartureTime = DateTime.Now.TimeOfDay;
+            ConfirmationDeadlineDate = DateTime.Now;
+            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay;
+            ConfirmationDeadlineTime = ConfirmationDeadlineTime.Add(new TimeSpan(0, 0, 5, 0));
         }
 
         private bool _isShared;
@@ -34,9 +34,8 @@ namespace i4prj.SmartCab.Requests
             }
         }
 
-        [Required]
-        //[RegularExpression]
         private DateTime _departureDate;
+        [Required]
         public DateTime DepartureDate
         {
             get { return _departureDate; }
@@ -48,7 +47,7 @@ namespace i4prj.SmartCab.Requests
         }
 
         private TimeSpan _departureTime;
-
+        [Required]
         public TimeSpan DepartureTime
         {
             get { return _departureTime; }
@@ -60,6 +59,7 @@ namespace i4prj.SmartCab.Requests
         }
 
         private DateTime _confirmationDeadlineDate;
+        [Required]
         public DateTime ConfirmationDeadlineDate
         {
             get { return _confirmationDeadlineDate; }
@@ -71,6 +71,7 @@ namespace i4prj.SmartCab.Requests
         }
 
         private TimeSpan _confirmationDeadlineTime;
+        [Required]
         public TimeSpan ConfirmationDeadlineTime
         {
             get { return _confirmationDeadlineTime; }
@@ -82,7 +83,6 @@ namespace i4prj.SmartCab.Requests
         }
 
         private UInt16 _amountOfPassengers;
-
         [Required]
         public UInt16 AmountOfPassengers
         {
@@ -94,36 +94,106 @@ namespace i4prj.SmartCab.Requests
             }
         }
 
-        private Address _originAddress;
-        public Address OriginAddress
+        private string _originCityName;
+        [Required]
+        [RegularExpression(ValidationRules.CityNameRegex)]
+        public string OriginCityName
         {
-            get { return _originAddress;}
+            get { return _originCityName; }
             set
             {
                 ValidateProperty(value);
-                SetProperty(ref _originAddress, value);
+                SetProperty(ref _originCityName, value);
             }
         }
-        private Address _destinationAddress;
-        public Address DestinationAddress
+
+        private string _destinationCityName;
+        [Required]
+        [RegularExpression(ValidationRules.CityNameRegex)]
+        public string DestinationCityName
         {
-            get { return _destinationAddress; }
+            get { return _destinationCityName; }
             set
             {
                 ValidateProperty(value);
-                SetProperty(ref _destinationAddress, value);
+                SetProperty(ref _destinationCityName, value);
             }
         }
 
-
-        public class Address
+        private string _originPostalCode;
+        [Required(ErrorMessage = ValidationMessages.PostalCodeRequired)]
+        [RegularExpression(ValidationRules.PostalCodeRegex)]
+        public string OriginPostalCode
         {
-            public string cityName { get; set; }
-            public string postalCode { get; set; }
+            get { return _originPostalCode; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _originPostalCode, value);
+            }
+        }
 
-            public string streetName { get; set; }
+        private string _destinationPostalCode;
+        [Required(ErrorMessage = ValidationMessages.PostalCodeRequired)]
+        [RegularExpression(ValidationRules.PostalCodeRegex)]
+        public string DestinationPostalCode
+        {
+            get { return _destinationPostalCode; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _destinationPostalCode, value);
+            }
+        }
 
-            public string streetNumber { get; set; }
+        private string _originStreetName;
+        [Required]
+        [RegularExpression(ValidationRules.StreetNameRegex)]
+        public string OriginStreetName
+        {
+            get { return _originStreetName; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _originStreetName, value);
+            }
+        }
+
+        private string _destinationStreetName;
+        [Required]
+        [RegularExpression(ValidationRules.StreetNameRegex)]
+        public string DestinationStreetName
+        {
+            get { return _destinationStreetName; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _destinationStreetName, value);
+            }
+        }
+
+        private string _originStreetNumber;
+        [RegularExpression(ValidationRules.StreetNumberRegex)]
+        public string OriginStreetNumber
+        {
+            get { return _originStreetNumber; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _originStreetNumber, value);
+            }
+        }
+
+        private string _destinationStreetNumber;
+        [RegularExpression(ValidationRules.StreetNumberRegex)]
+        public string DestinationStreetNumber
+        {
+            get { return _destinationStreetNumber; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _destinationStreetNumber, value);
+            }
         }
 
         protected override void ValidateProperty(object value, [CallerMemberName] string propertyName = null)

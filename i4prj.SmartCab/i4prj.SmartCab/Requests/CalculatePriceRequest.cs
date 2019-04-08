@@ -7,25 +7,109 @@ namespace i4prj.SmartCab.Requests
 {
     public class CalculatePriceRequest : ValidationBase
     {
-        public CalculatePriceRequest(CreateRideRequest.Address origin, CreateRideRequest.Address destination)
+        public CalculatePriceRequest(CreateRideRequest request)
         {
-            Origin = origin;
-            Destination = destination;
+            OriginCityName = request.OriginCityName;
+            OriginPostalCode = request.OriginPostalCode;
+            OriginStreetName = request.OriginStreetName;
+            OriginStreetNumber = request.OriginStreetNumber;
+
+            DestinationCityName = request.DestinationCityName;
+            DestinationPostalCode = request.DestinationPostalCode;
+            DestinationStreetName = request.DestinationStreetName;
+            DestinationStreetNumber = request.DestinationStreetNumber;
         }
 
-        private CreateRideRequest.Address _origin;
-        public CreateRideRequest.Address Origin
+        private string _originCityName;
+
+        public string OriginCityName
         {
-            get { return _origin; }
-            set { SetProperty(ref _origin, value); }
+            get { return _originCityName; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _originCityName, value);
+            }
         }
 
-        private CreateRideRequest.Address _destination;
+        private string _destinationCityName;
 
-        public CreateRideRequest.Address Destination
+        public string DestinationCityName
         {
-            get { return _destination; }
-            set { SetProperty(ref _destination, value);}
+            get { return _destinationCityName; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _destinationCityName, value);
+            }
+        }
+
+        private string _originPostalCode;
+
+        public string OriginPostalCode
+        {
+            get { return _originPostalCode; }
+            set
+            {
+                SetProperty(ref _originPostalCode, value);
+            }
+        }
+
+        private string _destinationPostalCode;
+
+        public string DestinationPostalCode
+        {
+            get { return _destinationPostalCode; }
+            set
+            {
+                SetProperty(ref _destinationPostalCode, value);
+            }
+        }
+
+        private string _originStreetName;
+
+        public string OriginStreetName
+        {
+            get { return _originStreetName; }
+            set
+            {
+                SetProperty(ref _originStreetName, value);
+            }
+        }
+
+        private string _destinationStreetName;
+
+        public string DestinationStreetName
+        {
+            get { return _destinationStreetName; }
+            set
+            {
+                SetProperty(ref _destinationStreetName, value);
+            }
+        }
+
+        private string _originStreetNumber;
+
+        public string OriginStreetNumber
+        {
+            get { return _originStreetNumber; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _originStreetNumber, value);
+            }
+        }
+
+        private string _destinationStreetNumber;
+
+        public string DestinationStreetNumber
+        {
+            get { return _destinationStreetNumber; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _destinationStreetNumber, value);
+            }
         }
 
     }

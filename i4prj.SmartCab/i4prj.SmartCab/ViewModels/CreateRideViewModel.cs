@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Requests;
@@ -27,6 +28,16 @@ namespace i4prj.SmartCab.ViewModels
             Request = new CreateRideRequest();
             ApiService=new AzureApiService();
             Price = "Beregn min pris";
+            
+            //TEST
+            Request.OriginCityName = "Aarhus V";
+            Request.OriginPostalCode = "8210";
+            Request.OriginStreetName = "Bispehavevej";
+            Request.OriginStreetNumber = "3";
+            Request.DestinationCityName = "Aarhus C";
+            Request.DestinationPostalCode = "8200";
+            Request.DestinationStreetName = "Banegårdspladsen";
+            Request.DestinationStreetNumber = "1";
         }
 
         #region Properties
@@ -68,7 +79,7 @@ namespace i4prj.SmartCab.ViewModels
                                                             new DelegateCommand(CalculatePriceCommandExecuteAsync));
         private async void CalculatePriceCommandExecuteAsync()
         {
-            CalculatePriceRequest request = new CalculatePriceRequest(Request.OriginAddress,Request.DestinationAddress);
+            CalculatePriceRequest request = new CalculatePriceRequest(Request);
 
             IsBusy = true;
             PriceResponse response = await ApiService.SubmitCalculatePriceRequest(request);
@@ -112,7 +123,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasUnsuccessfull())
             {
-                await DialogService.DisplayAlertAsync("Ukendt fejl", "Turen kunne ikke oprettes", "OK");
+                await DialogService.DisplayAlertAsync("Fejl", response.Body.errors.First().Value[0], "OK");
             }
             else if (response.WasSuccessfull())
             {

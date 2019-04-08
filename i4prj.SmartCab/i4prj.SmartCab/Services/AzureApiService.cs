@@ -66,8 +66,8 @@ namespace i4prj.SmartCab.Services
                 departureTime = request.DepartureDate+request.DepartureTime,
                 confirmationDeadline = request.ConfirmationDeadlineDate+request.ConfirmationDeadlineTime,
                 passengerCount = request.AmountOfPassengers,
-                startDestination = request.OriginAddress,
-                endDestination=request.DestinationAddress
+                startDestination = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
+                endDestination = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
             });
 
             return result != null ? new CreateRideResponse(result) : null;
@@ -82,8 +82,8 @@ namespace i4prj.SmartCab.Services
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {
-                startAddress=request.Origin,
-                endAddress=request.Destination,
+                startAddress = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
+                endAddress = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
             });
 
             return result != null ? new PriceResponse(result) : null;
