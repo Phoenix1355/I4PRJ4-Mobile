@@ -58,6 +58,7 @@ namespace i4prj.SmartCab.ViewModels
             get { return _price; }
             set { SetProperty(ref _price, value); }
         }
+
         #endregion
 
         #region Commands

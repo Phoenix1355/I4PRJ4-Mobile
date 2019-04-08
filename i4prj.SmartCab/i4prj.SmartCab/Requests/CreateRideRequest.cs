@@ -19,10 +19,13 @@ namespace i4prj.SmartCab.Requests
             DepartureDate = DateTime.Now;
             DepartureTime = DateTime.Now.TimeOfDay;
             AmountOfPassengers = 1;
+            CurrentTime = DateTime.Now;
             ConfirmationDeadlineDate = DateTime.Now;
             ConfirmationDeadlineTime = DateTime.Now.TimeOfDay;
             ConfirmationDeadlineTime = ConfirmationDeadlineTime.Add(new TimeSpan(0, 0, 5, 0));
         }
+
+        public DateTime CurrentTime { get; private set; }
 
         private bool _isShared;
         public bool IsShared

@@ -66,8 +66,8 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
-                <DatePicker Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
+                <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentTime}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Antal passagerer</Label>
@@ -83,7 +83,7 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
-                <DatePicker FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
+                <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker FontSize="15" Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
 
