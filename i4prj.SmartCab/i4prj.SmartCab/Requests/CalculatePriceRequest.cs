@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Validation;
 
 namespace i4prj.SmartCab.Requests
 {
-    public class CalculatePriceRequest : ValidationBase
+    public class CalculatePriceRequest : ValidationBase, ICalculatePriceRequest
     {
         public CalculatePriceRequest(CreateRideRequest request)
         {

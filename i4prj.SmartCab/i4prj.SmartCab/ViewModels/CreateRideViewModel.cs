@@ -32,14 +32,16 @@ namespace i4prj.SmartCab.ViewModels
             Price = "Beregn min pris";
 
             //TEST
+            /*
             Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
             Request.OriginStreetName = "Bispehavevej";
             Request.OriginStreetNumber = "3";
             Request.DestinationCityName = "Aarhus C";
-            Request.DestinationPostalCode = "8200";
+            Request.DestinationPostalCode = "8000";
             Request.DestinationStreetName = "Banegårdspladsen";
             Request.DestinationStreetNumber = "1";
+            */
         }
 
         #region Properties
@@ -111,7 +113,7 @@ namespace i4prj.SmartCab.ViewModels
                                                             new DelegateCommand(CalculatePriceCommandExecuteAsync));
         private async void CalculatePriceCommandExecuteAsync()
         {
-            CalculatePriceRequest request = new CalculatePriceRequest(Request);
+            ICalculatePriceRequest request = new CalculatePriceRequest(Request);
 
             IsBusy = true;
             PriceResponse response = await _backendApiService.SubmitCalculatePriceRequest(request);

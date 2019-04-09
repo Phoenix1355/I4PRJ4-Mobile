@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
-    public class PriceResponse : BackendApiResponse
+    public class PriceResponse : BackendApiResponse, ICalculatePriceResponse
     {
 
         public string Body { get; set; }

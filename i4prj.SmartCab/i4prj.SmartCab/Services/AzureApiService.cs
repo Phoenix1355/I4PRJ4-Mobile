@@ -82,7 +82,7 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <param name="request">A CalculatePriceRequest constisting of two addresses.</param>
         /// <returns>The price calculated for the specific ride</returns>
-        public async Task<PriceResponse> SubmitCalculatePriceRequest(CalculatePriceRequest request)
+        public async Task<PriceResponse> SubmitCalculatePriceRequest(ICalculatePriceRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {
@@ -142,7 +142,7 @@ namespace i4prj.SmartCab.Services
             return _createRideEndPoint;
         }
 
-        private string GetEndPointUrl(CalculatePriceRequest request)
+        private string GetEndPointUrl(ICalculatePriceRequest request)
         {
             return _calculatePriceEndPoint;
         }
