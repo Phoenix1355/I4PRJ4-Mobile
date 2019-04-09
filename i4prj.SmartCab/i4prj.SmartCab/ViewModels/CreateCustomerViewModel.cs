@@ -21,7 +21,7 @@ namespace i4prj.SmartCab.ViewModels
     {
         private IBackendApiService _backendApiService;
         private ISessionService _sessionService;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.CreateCustomerViewModel"/> class. Dependencies auto injected.
         /// </summary>
@@ -32,7 +32,6 @@ namespace i4prj.SmartCab.ViewModels
             : base(navigationService, dialogService)
         {
             Title = "Opret bruger";
-
             Request = new CreateCustomerRequest();
 
             _backendApiService = backendApiService;
@@ -51,7 +50,6 @@ namespace i4prj.SmartCab.ViewModels
         #endregion
 
         #region Commands
-
 
         private DelegateCommand _submitRequest;
 

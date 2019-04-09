@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:validation="clr-namespace:i4prj.SmartCab.Validation;assembly=i4prj.SmartCab"
              x:Class="i4prj.SmartCab.Views.CreateRidePage"
-             Title="Opret tur">
+             Title="Opret tur"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ScrollView Margin="10,0,10,0">
         <StackLayout Orientation="Vertical">
             <Grid>
@@ -15,29 +16,33 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90" ></ColumnDefinition>
-                    <ColumnDefinition Width="40" ></ColumnDefinition>
+                    <ColumnDefinition Width="50" ></ColumnDefinition>
                     <ColumnDefinition Width="110" ></ColumnDefinition>
-                    <ColumnDefinition Width="30" ></ColumnDefinition>
+                    <ColumnDefinition Width="60" ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label FontSize="18" Grid.Row="0" Grid.Column="0">Fra</Label>
                 <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginCityName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetNumber" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -45,21 +50,25 @@
                 <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationPostalCode" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}"  BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetNumber" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
             </Grid>
@@ -71,8 +80,8 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Antal passagerer</Label>
-                <Label Margin="0,14,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
-                <Stepper x:Name="PassengerStepper" Minimum="1" Maximum="4" Increment="1" Value="{Binding AmountOfPassengers}"></Stepper>
+                <Label Margin="10,10,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
+                <Stepper x:Name="PassengerStepper" Minimum="1" Maximum="4" Increment="1" Value="{Binding AmountOfPassengers}" BindingContext="{Binding Request}"></Stepper>
             </StackLayout>
             
 
@@ -84,7 +93,7 @@
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
                 <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker FontSize="15" Time="{Binding ConfirmationDeadlineTime}" BindingContext="{Binding Request}"></TimePicker>
+                <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}"></TimePicker>
             </StackLayout>
 
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />

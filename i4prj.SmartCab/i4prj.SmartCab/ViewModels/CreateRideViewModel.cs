@@ -17,6 +17,7 @@ namespace i4prj.SmartCab.ViewModels
     public class CreateRideViewModel : ViewModelBase
     {
         private IBackendApiService _backendApiService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
         /// </summary>
@@ -29,7 +30,7 @@ namespace i4prj.SmartCab.ViewModels
             Request = new CreateRideRequest();
             _backendApiService = backEndApiService;
             Price = "Beregn min pris";
-            
+
             //TEST
             Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
@@ -44,11 +45,13 @@ namespace i4prj.SmartCab.ViewModels
         #region Properties
 
         private CreateRideRequest _request;
-
         public CreateRideRequest Request
         {
             get { return _request; }
-            set { SetProperty(ref _request, value); }
+            set
+            {
+                SetProperty(ref _request, value);
+            }
         }
 
         private string _price;
@@ -62,9 +65,44 @@ namespace i4prj.SmartCab.ViewModels
         #endregion
 
         #region Commands
-        
-        private DelegateCommand _calculatePriceCommand;
 
+        private DelegateCommand _entryReturnFromUserCommand;
+
+        public DelegateCommand EntryReturnFromUserCommand => _entryReturnFromUserCommand ??
+                                                             (_entryReturnFromUserCommand =
+                                                                 new DelegateCommand(ReturnFromUserCommandExecuteAsync)
+                                                             );
+
+        private async void ReturnFromUserCommandExecuteAsync()
+        {
+            if (Request.IsValid)
+            {
+                Debug.WriteLine("Tjekker pris");
+                CalculatePriceRequest request = new CalculatePriceRequest(Request);
+
+                IsBusy = true;
+                PriceResponse response = await _backendApiService.SubmitCalculatePriceRequest(request);
+                IsBusy = false;
+
+
+                if (response == null)
+                {
+                    await DialogService.DisplayAlertAsync("Forbindelse",
+                        "Pris kunne ikke beregnes - ingen internetforbindelse", "OK");
+                }
+                else if (response.WasUnsuccessfull())
+                {
+                    await DialogService.DisplayAlertAsync("Ukendt fejl", "Prisen for turen kunne ikke beregnes", "OK");
+                }
+                else if (response.WasSuccessfull())
+                {
+                    Price = "Din pris: " + response.Body + " kr." + "\n (Tryk for at beregne igen)";
+                }
+            }
+            Debug.WriteLine("Tjekker ikke pris - request ikke godkendt");
+        }
+
+        private DelegateCommand _calculatePriceCommand;
         /// <summary>
         /// Submits the CalculatePriceRequest
         /// </summary>

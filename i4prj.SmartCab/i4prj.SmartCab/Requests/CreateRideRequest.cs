@@ -9,6 +9,9 @@ using System.Text;
 using DryIoc;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Validation;
+using Prism.Common;
+using Prism.Services;
+using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Requests
 {
@@ -16,18 +19,50 @@ namespace i4prj.SmartCab.Requests
     {
         public CreateRideRequest()
         {
-            DepartureDate = DateTime.Now;
-            DepartureTime = DateTime.Now.TimeOfDay;
             AmountOfPassengers = 1;
-            CurrentTime = DateTime.Now;
+            SetDefaultAddressValues();
+            SetDefaultTimeValues();
+        }
+
+        private void SetDefaultAddressValues()
+        {   
+            OriginCityName = string.Empty;
+            OriginPostalCode = string.Empty;
+            OriginStreetName = string.Empty;
+            OriginStreetNumber = string.Empty;
+            DestinationCityName = string.Empty;
+            DestinationPostalCode = string.Empty;
+            DestinationStreetName = string.Empty;
+            DestinationStreetNumber = string.Empty;
+        }
+
+        private void SetDefaultTimeValues()
+        {
             ConfirmationDeadlineDate = DateTime.Now;
-            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay;
-            ConfirmationDeadlineTime = ConfirmationDeadlineTime.Add(new TimeSpan(0, 0, 5, 0));
+            DepartureDate = DateTime.Now;
+            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 0, 5, 0));
+            DepartureTime = DateTime.Now.TimeOfDay;
+            CurrentTime = DateTime.Now;
+        }
+
+        //SUPER HACK - er nok ikke lige den bedste måde at gøre det på.
+        private void CheckTime()
+        {
+            if (DepartureDate.Date == ConfirmationDeadlineDate.Date)
+            {
+                if (ConfirmationDeadlineTime < DepartureTime)
+                {
+                    ConfirmationDeadlineTime = DepartureTime;
+                    IPageDialogService p = new PageDialogService(new ApplicationProvider());
+                    p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være tidligere end afgangstiden", "Ok");
+                }
+            }
         }
 
         public DateTime CurrentTime { get; private set; }
 
         private bool _isShared;
+        [Required]
         public bool IsShared
         {
             get { return _isShared;}
@@ -47,6 +82,7 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _departureDate,value);
+                CheckTime();
             }
         }
 
@@ -59,6 +95,7 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _departureTime, value);
+                CheckTime();
             }
         }
 
@@ -71,6 +108,7 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _confirmationDeadlineDate, value);
+                CheckTime();
             }
         }
 
@@ -83,6 +121,7 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _confirmationDeadlineTime, value);
+                CheckTime();
             }
         }
 
@@ -177,6 +216,7 @@ namespace i4prj.SmartCab.Requests
         }
 
         private string _originStreetNumber;
+        [Required]
         [RegularExpression(ValidationRules.StreetNumberRegex)]
         public string OriginStreetNumber
         {
@@ -189,6 +229,7 @@ namespace i4prj.SmartCab.Requests
         }
 
         private string _destinationStreetNumber;
+        [Required]
         [RegularExpression(ValidationRules.StreetNumberRegex)]
         public string DestinationStreetNumber
         {
