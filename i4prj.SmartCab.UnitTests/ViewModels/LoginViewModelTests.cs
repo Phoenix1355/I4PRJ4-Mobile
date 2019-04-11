@@ -18,114 +18,124 @@ using Xamarin.Forms;
 namespace i4prj.SmartCab.UnitTests.ViewModels
 {
     [TestFixture]
-    public class CreateCustomerViewModelTests
+    public class LoginViewModelTests
     {
 
         private INavigationService _fakeNavigationService;
         private IPageDialogService _fakePageDialogService;
         private IBackendApiService _fakeApiService;
         private ISessionService _fakeSessionService;
-        private CreateCustomerViewModel _uut;
-
-        private CreateCustomerResponse _fakeHttpCreateCustomerSuccessResponse;
-        private CreateCustomerResponse _fakeHttpCreateCustomerBadRequestResponse;
+        private LoginViewModel _uut;
 
         [SetUp]
         public void SetUp()
         {
-            // INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService
+            // Fake uut (ViewModel) dependencies
             _fakeNavigationService = Substitute.For<INavigationService>();
             _fakePageDialogService = Substitute.For<IPageDialogService>();
             _fakeApiService = Substitute.For<IBackendApiService>();
             _fakeSessionService = Substitute.For<ISessionService>();
 
-            _uut = new CreateCustomerViewModel(_fakeNavigationService, _fakePageDialogService, _fakeApiService, _fakeSessionService);
-
-            _fakeHttpCreateCustomerSuccessResponse = new CreateCustomerResponse(new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    token = "Some Valid Token",
-                    customer = new
-                    {
-                        name = "Some name",
-                        email = "email@somehost.com",
-                        phone = "12345678"
-
-                    }
-                }), Encoding.UTF8, "application/json")
-            });
-
-            _fakeHttpCreateCustomerBadRequestResponse = new CreateCustomerResponse(new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    errors = new Dictionary<string, IList<string>>() {
-                        { "error", new List<string>() { "User name is already taken" } }
-                    },
-
-                }), Encoding.UTF8, "application/json")
-            });
-
-            _uut.Request.Email = "test@tester.com";
-            _uut.Request.Name = "test tester";
-            _uut.Request.Password = "123456";
-            _uut.Request.Password = "123456";
-            _uut.Request.Phone = "12345678";
+            // UUT
+            _uut = new LoginViewModel(_fakeNavigationService, _fakePageDialogService, _fakeApiService, _fakeSessionService);
         }
 
+        /// <summary>
+        /// Test to see whether a call
+        /// </summary>
         [Test]
-        public void SubmitRequestCommand_ApiServiceReturnsNull_ErrorDialogIsCalled()
+        public void LoginCommand_BackendApiIsCalledWithRequest()
+        {
+            // Arrange and act
+            _uut.LoginCommand.Execute();
+
+            // Assert
+            _fakeApiService.Received().SubmitLoginRequest(Arg.Any<ILoginRequest>());
+        }
+
+        /// <summary>
+        /// Test to see whether an error dialog is displayed when no internet connection is available
+        /// </summary>
+        [Test]
+        public void LoginCommand_NoInternetConnection_ErrorDialogIsCalled()
         {
             // Arrange
-            _fakeApiService.SubmitCreateCustomerRequest(_uut.Request).ReturnsNull();
+            _fakeApiService.SubmitLoginRequest(_uut.Request).ReturnsNull();
 
             // Act
-            _uut.SubmitRequestCommand.Execute();
+            _uut.LoginCommand.Execute();
 
             // Assert
             _fakePageDialogService.Received().DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
+        /// <summary>
+        /// Test to see whether an error dialog is displayed when login credentials are incorrect
+        /// </summary>
         [Test]
-        public void SubmitRequestCommand_ApiServiceReturnsSuccesfullResponse_TokenIsUpdated()
+        public void LoginCommand_InvalidCredentials_ErrorDialogIsCalled()
         {
-            // Arrange
-            _fakeApiService.SubmitCreateCustomerRequest(Arg.Any<ICreateCustomerRequest>()).Returns(_fakeHttpCreateCustomerSuccessResponse);
+            // Arrange request response
+            var fakeRequestReponse = new LoginResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent("{\n\t\"token\": null,\n\t\"customer\": null,\n\t\"errors\": {\n\t\t\"error\": [\"Bad credentials\"]\n\t}\n}", Encoding.UTF8, "application/json")
+            });
+
+            _fakeApiService.SubmitLoginRequest(Arg.Any<ILoginRequest>()).Returns(fakeRequestReponse);
 
             // Act
-            _uut.SubmitRequestCommand.Execute();
+            _uut.LoginCommand.Execute();
 
             // Assert
-            _fakeSessionService.Received().Update(Arg.Any<string>(), Arg.Any<ICustomer>());
+            _fakePageDialogService.Received().DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
+        /// <summary>
+        /// Test to see that a successfull login triggers a navigation change
+        /// </summary>
         [Test]
-        public void SubmitRequestCommand_ApiServiceReturnsSuccesfullResponse_NavigationServiceNavigatesToCorrectPage()
+        public void LoginCommand_ValidCredentials_NavigatesToCorrectPage()
         {
-            // Arrange
-            _fakeApiService.SubmitCreateCustomerRequest(Arg.Any<ICreateCustomerRequest>()).Returns(_fakeHttpCreateCustomerSuccessResponse);
+            // Arrange request response
+            var fakeRequestReponse = new LoginResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\n  \"token\": \"my token\",\n  \"customer\": {\n    \"name\": \"customer name\",\n    \"email\": \"some@email.com\",\n    \"phoneNumber\": \"12345678\"\n  }\n}", Encoding.UTF8, "application/json")
+            });
+
+            _fakeApiService.SubmitLoginRequest(Arg.Any<ILoginRequest>()).Returns(fakeRequestReponse);
 
             // Act
-            _uut.SubmitRequestCommand.Execute();
+            _uut.LoginCommand.Execute();
 
             // Assert
             _fakeNavigationService.Received().NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
         }
 
+        /// <summary>
+        /// Test to see that a successfull login updates the session
+        /// </summary>
         [Test]
-        public void SubmitRequestCommand_ApiServiceReturnsNonSuccesfullResponse_ErrorDialogIsShown()
+        [TestCase("bkjdgFdhDTjFDh43hrhrH5%")]
+        [TestCase("ShSdhSHjhsdRJ454y5EYR4")]
+        [TestCase("sdgSDhWEhJKnBM535/h")]
+        public void LoginCommand_ValidCredentials_UpdatesSession(string token)
         {
-            // Arrange
-            _fakeApiService.SubmitCreateCustomerRequest(Arg.Any<ICreateCustomerRequest>()).Returns(_fakeHttpCreateCustomerBadRequestResponse);
+            // Arrange request response
+            var fakeRequestReponse = new LoginResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\n  \"token\": \"" + token + "\",\n  \"customer\": {\n    \"name\": \"customer name\",\n    \"email\": \"some@email.com\",\n    \"phoneNumber\": \"12345678\"\n  }\n}", Encoding.UTF8, "application/json")
+            });
+
+            _fakeApiService.SubmitLoginRequest(Arg.Any<ILoginRequest>()).Returns(fakeRequestReponse);
 
             // Act
-            _uut.SubmitRequestCommand.Execute();
+            _uut.LoginCommand.Execute();
 
             // Assert
-            _fakePageDialogService.Received().DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _fakeSessionService.Received().Update(Arg.Is(token), Arg.Any<ICustomer>());
         }
     }
 }
