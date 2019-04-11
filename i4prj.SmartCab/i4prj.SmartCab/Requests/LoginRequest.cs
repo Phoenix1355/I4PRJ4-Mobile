@@ -18,8 +18,10 @@ namespace i4prj.SmartCab.Requests
         /// </summary>
         public LoginRequest()
         {
+
         }
 
+        #region Email
         private string _email;
 
         [Required(ErrorMessage = ValidationMessages.EmailRequired)]
@@ -29,37 +31,22 @@ namespace i4prj.SmartCab.Requests
             get { return _email; }
             set {
                 ValidateProperty(value);
+                SetProperty(ref _email, value);
+
                 RaisePropertyChanged(nameof(EmailErrors));
                 RaisePropertyChanged(nameof(EmailIsDirty));
                 RaisePropertyChanged(nameof(EmailHasErrors));
-                SetProperty(ref _email, value); 
             }
         }
 
-        public string EmailErrors
-        {
-            get
-            {
-                return string.Join("\n", GetErrors(nameof(Email)).Cast<string>());
-            }
-        }
+        public string EmailErrors => string.Join("\n", GetErrors(nameof(Email)).Cast<string>());
 
-        public bool EmailIsDirty
-        {
-            get
-            {
-                return IsDirty(nameof(Email));
-            }
-        }
+        public bool EmailIsDirty => IsDirty(nameof(Email));
 
-        public bool EmailHasErrors
-        {
-            get
-            {
-                return ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
-            }
-        }
+        public bool EmailHasErrors => ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
+        #endregion
 
+        #region Password
         private string _password;
 
         // No validation on Password as it would seem as if we were validating the correctness of the entered password
@@ -67,23 +54,15 @@ namespace i4prj.SmartCab.Requests
         {
             get { return _password; }
             set {
+                // Even though there is no validation rules on this property
+                // ValidateProperty is still needed to RaisePropertyChanged
                 ValidateProperty(value);
-                RaisePropertyChanged(nameof(PasswordErrors));
                 SetProperty(ref _password, value);
             }
         }
+        #endregion
 
-        private ObservableCollection<string> _passwordErrors;
-        public ObservableCollection<string> PasswordErrors
-        {
-            get { return _passwordErrors; }
-            set
-            {
-                ValidateProperty(value);
-                SetProperty(ref _passwordErrors, value);
-            }
-        }
-
+        #region ValidationBaseOverrides
         /// <summary>
         /// Validates the property.
         /// </summary>
@@ -101,24 +80,13 @@ namespace i4prj.SmartCab.Requests
         /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.LoginRequest"/> is valid.
         /// </summary>
         /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
-        public bool IsValid
-        {
-            get
-            {
-                return !HasErrors && IsDirty(nameof(Email)) && IsDirty(nameof(Password));
-            }
-        }
+        public override bool IsValid => !HasErrors && IsDirty(nameof(Email)) && IsDirty(nameof(Password));
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.LoginRequest"/> is invalid.
         /// </summary>
         /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
-        public bool IsInvalid
-        {
-            get
-            {
-                return !IsValid;
-            }
-        }
+        public override bool IsInvalid => !IsValid;
+        #endregion
     }
 }
