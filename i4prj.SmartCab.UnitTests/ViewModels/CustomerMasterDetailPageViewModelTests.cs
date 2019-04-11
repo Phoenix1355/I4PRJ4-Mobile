@@ -39,7 +39,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         }
 
         /// <summary>
-        /// Test to see whether a call
+        /// Test to see that logging out calls for the session to be cleared
         /// </summary>
         [Test]
         public void LogoutCommand_SessionIsCleared()
@@ -52,7 +52,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         }
 
         /// <summary>
-        /// Test to see that a successfull login triggers a navigation change
+        /// Test to see that logging out triggers navigation change
         /// </summary>
         [Test]
         public void LogoutCommand_NavigatesToCorrectPage()

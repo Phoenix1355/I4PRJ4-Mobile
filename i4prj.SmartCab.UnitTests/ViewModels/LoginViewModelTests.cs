@@ -41,7 +41,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         }
 
         /// <summary>
-        /// Test to see whether a call
+        /// Test to see whether the request is handed of to BackendApiService
         /// </summary>
         [Test]
         public void LoginCommand_BackendApiIsCalledWithRequest()
