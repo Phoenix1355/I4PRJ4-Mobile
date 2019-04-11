@@ -36,7 +36,7 @@ namespace i4prj.SmartCab.Requests
         private string _email;
 
         [Required(ErrorMessage = ValidationMessages.EmailRequired)]
-        [RegularExpression(ValidationRules.EmailRegex, ErrorMessage = ValidationMessages.EmailRequired)]
+        [RegularExpression(ValidationRules.EmailRegex, ErrorMessage = ValidationMessages.EmailRegex)]
         public string Email
         {
             get { return _email; }
