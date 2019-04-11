@@ -18,7 +18,7 @@
             </Entry>
             <Entry Text="{Binding Email}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
             
-            <Editor Text="{Binding Request.EmailErrors}" IsVisible="{Binding Request.EmailHasErrors}" IsReadOnly="true" AutoSize="TextChanges" FontSize="Small" Margin="0" Style="{StaticResource validationErrorsStyle}">
+            <Editor Text="{Binding Request.EmailErrors}" IsVisible="{Binding Request.EmailHasErrors}" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
                 <Editor.Effects>
                     <effects:BorderlessEffect></effects:BorderlessEffect>
                 </Editor.Effects>
@@ -30,7 +30,7 @@
                     <validation:EntryValidationBehavior PropertyName="Password" />  
                 </Entry.Behaviors>
             </Entry>
-            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsPassword="true" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
 
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
             

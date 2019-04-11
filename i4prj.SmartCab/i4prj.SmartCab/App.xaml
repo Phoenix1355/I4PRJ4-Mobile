@@ -5,6 +5,7 @@
             <!-- Style for editor-fields containing validation errors -->
             <Style x:Key="validationErrorsStyle" TargetType="Editor">
                 <Setter Property="TextColor" Value="#B00020" />
+                <Setter Property="FontSize" Value="Small" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
