@@ -17,11 +17,7 @@ namespace i4prj.SmartCab.Requests
         /// </summary>
         public CreateCustomerRequest()
         {
-            Name = string.Empty;
-            Email = string.Empty;
-            Phone = string.Empty;
-            Password = string.Empty;
-            PasswordConfirmation = string.Empty;
+
         }
 
         private string _name;
@@ -88,7 +84,7 @@ namespace i4prj.SmartCab.Requests
                 SetProperty(ref _passwordConfirmation, value); 
             }
         }
-
+        #region ValidationBaseOverrides
         /// <summary>
         /// Validates the property.
         /// </summary>
@@ -101,29 +97,6 @@ namespace i4prj.SmartCab.Requests
             RaisePropertyChanged("IsValid");
             RaisePropertyChanged("IsInvalid");
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> is valid.
-        /// </summary>
-        /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
-        public bool IsValid
-        {
-            get
-            {
-                return !HasErrors;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.CreateCustomerRequest"/> is invalid.
-        /// </summary>
-        /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
-        public bool IsInvalid
-        {
-            get
-            {
-                return HasErrors;
-            }
-        }
+        #endregion
     }
 }

@@ -180,5 +180,17 @@ namespace i4prj.SmartCab.Validation
             // Let Prism do it's thing
             return base.SetProperty(ref storage, value, propertyName);
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this entity is valid.
+        /// </summary>
+        /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
+        public virtual bool IsValid => !HasErrors;
+
+        /// <summary>
+        /// Gets a value indicating whether this entity is invalid.
+        /// </summary>
+        /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
+        public virtual bool IsInvalid => !IsValid;
     }
 }
