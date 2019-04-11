@@ -51,17 +51,21 @@ namespace i4prj.SmartCab.Validation
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
+                Debug.WriteLine("GetErrors " + propertyName + ": NotNullOrEmpty");
                 if (_errors.ContainsKey(propertyName) && (_errors[propertyName].Any()))
                 {
-                    return _errors[propertyName].ToList();
+                    Debug.WriteLine("GetErrors " + propertyName + ": Has errors");
+                    return _errors[propertyName];
                 }
                 else
                 {
+                    Debug.WriteLine("GetErrors " + propertyName + ": Returns empty list");
                     return new List<string>();
                 }
             }
             else
             {
+                Debug.WriteLine("GetErrors " + propertyName + ": Not sure");
                 return _errors.SelectMany(err => err.Value.ToList()).ToList();
             }
         }

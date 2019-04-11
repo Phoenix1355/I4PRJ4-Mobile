@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Validation;
@@ -19,13 +23,40 @@ namespace i4prj.SmartCab.Requests
         private string _email;
 
         [Required(ErrorMessage = ValidationMessages.EmailRequired)]
-        [RegularExpression(ValidationRules.EmailRegex, ErrorMessage = ValidationMessages.EmailRequired)]
+        [RegularExpression(ValidationRules.EmailRegex, ErrorMessage = ValidationMessages.EmailRegex)]
         public string Email
         {
             get { return _email; }
             set {
                 ValidateProperty(value);
+                RaisePropertyChanged(nameof(EmailErrors));
+                RaisePropertyChanged(nameof(EmailIsDirty));
+                RaisePropertyChanged(nameof(EmailHasErrors));
                 SetProperty(ref _email, value); 
+            }
+        }
+
+        public string EmailErrors
+        {
+            get
+            {
+                return string.Join("\n", GetErrors(nameof(Email)).Cast<string>());
+            }
+        }
+
+        public bool EmailIsDirty
+        {
+            get
+            {
+                return IsDirty(nameof(Email));
+            }
+        }
+
+        public bool EmailHasErrors
+        {
+            get
+            {
+                return ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
             }
         }
 
@@ -37,7 +68,19 @@ namespace i4prj.SmartCab.Requests
             get { return _password; }
             set {
                 ValidateProperty(value);
-                SetProperty(ref _password, value); 
+                RaisePropertyChanged(nameof(PasswordErrors));
+                SetProperty(ref _password, value);
+            }
+        }
+
+        private ObservableCollection<string> _passwordErrors;
+        public ObservableCollection<string> PasswordErrors
+        {
+            get { return _passwordErrors; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _passwordErrors, value);
             }
         }
 
