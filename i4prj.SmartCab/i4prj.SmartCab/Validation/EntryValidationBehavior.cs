@@ -29,25 +29,9 @@ namespace i4prj.SmartCab.Validation
 
             // Setup events
             _associatedObject.TextChanged += _associatedObject_TextChanged;
-            _associatedObject.Focused += _associatedObject_Focused;
 
             // Save default color
             _defaultColor = _associatedObject.TextColor;
-        }
-
-        /// <summary>
-        /// Sets a property as dirty on the basis of being focused.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        void _associatedObject_Focused(object sender, FocusEventArgs e)
-        {
-            var source = _associatedObject.BindingContext as ValidationBase;
-
-            if (source != null && !string.IsNullOrEmpty(PropertyName))
-            {
-                source.SetDirty(PropertyName);
-            }
         }
 
         /// <summary>
@@ -102,7 +86,6 @@ namespace i4prj.SmartCab.Validation
             // Perform clean up
 
             _associatedObject.TextChanged -= _associatedObject_TextChanged;
-            _associatedObject.Focused -= _associatedObject_Focused;
 
             _associatedObject = null;
         }

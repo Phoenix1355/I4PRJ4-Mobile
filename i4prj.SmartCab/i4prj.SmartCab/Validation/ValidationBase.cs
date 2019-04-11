@@ -51,21 +51,17 @@ namespace i4prj.SmartCab.Validation
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
-                Debug.WriteLine("GetErrors " + propertyName + ": NotNullOrEmpty");
                 if (_errors.ContainsKey(propertyName) && (_errors[propertyName].Any()))
                 {
-                    Debug.WriteLine("GetErrors " + propertyName + ": Has errors");
                     return _errors[propertyName];
                 }
                 else
                 {
-                    Debug.WriteLine("GetErrors " + propertyName + ": Returns empty list");
                     return new List<string>();
                 }
             }
             else
             {
-                Debug.WriteLine("GetErrors " + propertyName + ": Not sure");
                 return _errors.SelectMany(err => err.Value.ToList()).ToList();
             }
         }
@@ -161,7 +157,7 @@ namespace i4prj.SmartCab.Validation
         /// Sets a property as dirty.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
-        public void SetDirty(string propertyName)
+        private void SetDirty([CallerMemberName] string propertyName = null)
         {
             _dirtyList.Add(propertyName);
         }
@@ -174,6 +170,15 @@ namespace i4prj.SmartCab.Validation
         public bool IsDirty(string propertyName)
         {
             return _dirtyList.Contains(propertyName);
+        }
+
+        protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            // Set dirty
+            SetDirty(propertyName);
+
+            // Let Prism do it's thing
+            return base.SetProperty(ref storage, value, propertyName);
         }
     }
 }
