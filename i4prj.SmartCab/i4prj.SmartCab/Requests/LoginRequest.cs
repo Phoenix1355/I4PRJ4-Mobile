@@ -34,15 +34,11 @@ namespace i4prj.SmartCab.Requests
                 SetProperty(ref _email, value);
 
                 RaisePropertyChanged(nameof(EmailErrors));
-                RaisePropertyChanged(nameof(EmailIsDirty));
                 RaisePropertyChanged(nameof(EmailHasErrors));
             }
         }
 
         public string EmailErrors => string.Join("\n", GetErrors(nameof(Email)).Cast<string>());
-
-        public bool EmailIsDirty => IsDirty(nameof(Email));
-
         public bool EmailHasErrors => ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
         #endregion
 
@@ -81,12 +77,6 @@ namespace i4prj.SmartCab.Requests
         /// </summary>
         /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
         public override bool IsValid => !HasErrors && IsDirty(nameof(Email)) && IsDirty(nameof(Password));
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:i4prj.SmartCab.Requests.LoginRequest"/> is invalid.
-        /// </summary>
-        /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
-        public override bool IsInvalid => !IsValid;
         #endregion
     }
 }

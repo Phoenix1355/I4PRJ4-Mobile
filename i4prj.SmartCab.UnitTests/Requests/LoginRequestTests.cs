@@ -177,26 +177,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
-        #region EmailIsDirty
-        [Test]
-        public void EmailIsDirty_EmailHasBeenSet_ReturnsTrue()
-        {
-            // Arange and act
-            var uut = _validRequest;
-
-            // Assert
-            Assert.IsTrue(uut.EmailIsDirty);
-        }
-
-        [Test]
-        public void EmailIsDirty_EmailHasNotBeenSet_ReturnsFalse()
-        {
-            // Assert
-            Assert.IsFalse(_uut.EmailIsDirty);
-        }
-
-        #endregion
-
         #region EmailHasErrors
         [Test]
         public void EmailHasErrors_RequestHasInvalidEmail_ReturnsTrue()
