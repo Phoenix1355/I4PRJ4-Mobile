@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "622009478210",
+    "firebase_url": "https://smartcab-57cee.firebaseio.com",
+    "project_id": "smartcab-57cee",
+    "storage_bucket": "smartcab-57cee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622009478210:android:b230c33988dc8f07",
+        "android_client_info": {
+          "package_name": "com.i4prj.smartcab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622009478210-iceagj1roiqmff6ia4pqio0l43tfrsmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACDc8IErhoiMF3eskvWSrlYr84HzsCAGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622009478210-iceagj1roiqmff6ia4pqio0l43tfrsmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
