@@ -156,7 +156,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #region EmailErrors
         [Test]
-        public void IsErrorsProperty_RequestHasInvalidEmail_IsNotEmpty()
+        public void EmailErrorsProperty_RequestHasInvalidEmail_IsNotEmpty()
         {
             // Arange and act
             var uut = _invalidEmailRequest;
@@ -166,7 +166,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
         }
 
         [Test]
-        public void IsErrorsProperty_RequestHasValidEmail_IsEmpty()
+        public void EmailErrorsProperty_RequestHasValidEmail_IsEmpty()
         {
             // Arange and act
             var uut = _validRequest;
@@ -177,29 +177,9 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
-        #region EmailIsDirty
-        [Test]
-        public void EmailIsDirty_EmailHasBeenSet_ReturnsTrue()
-        {
-            // Arange and act
-            var uut = _validRequest;
-
-            // Assert
-            Assert.IsTrue(uut.EmailIsDirty);
-        }
-
-        [Test]
-        public void EmailIsDirty_EmailHasNotBeenSet_ReturnsFalse()
-        {
-            // Assert
-            Assert.IsFalse(_uut.EmailIsDirty);
-        }
-
-        #endregion
-
         #region EmailHasErrors
         [Test]
-        public void EmailHasErrors_RequestHasInvalidEmail_ReturnsTrue()
+        public void EmailHasErrorsProperty_RequestHasInvalidEmail_ReturnsTrue()
         {
             // Arange and act
             var uut = _invalidEmailRequest;
@@ -209,7 +189,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
         }
 
         [Test]
-        public void EmailHasErrors_RequestHasValidEmail_ReturnsFalse()
+        public void EmailHasErrorsProperty_RequestHasValidEmail_ReturnsFalse()
         {
             // Arange and act
             var uut = _validRequest;
