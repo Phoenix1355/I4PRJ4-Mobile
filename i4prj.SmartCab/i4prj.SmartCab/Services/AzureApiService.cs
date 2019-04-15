@@ -7,6 +7,7 @@ using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.Responses;
+using Microsoft.AppCenter;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
@@ -104,7 +105,7 @@ namespace i4prj.SmartCab.Services
             {
                 string json = JsonConvert.SerializeObject(data);
 
-                HttpResponseMessage response = await GetClient().PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = await (await GetClient()).PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
                 Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
 
@@ -123,7 +124,7 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                HttpResponseMessage response = await GetClient().GetAsync(endPointUrl);
+                HttpResponseMessage response = await (await GetClient()).GetAsync(endPointUrl);
 
                 Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
 
@@ -137,10 +138,20 @@ namespace i4prj.SmartCab.Services
             return null;
         }
 
-        private HttpClient GetClient()
+        private async Task<HttpClient> GetClient()
         {
             _httpClient.DefaultRequestHeaders.Clear();
+
+            // Add backend authorization
             if (_sessionService.Token != null) _httpClient.DefaultRequestHeaders.Add("authorization", "Bearer " + _sessionService.Token);
+
+            // Add custom install ID header (used for Push notifications)
+            // Just keept here until permanent solution is found
+            // as to keep the ID updated at the backend
+            System.Guid? installId = await AppCenter.GetInstallIdAsync();
+            if (installId != null) _httpClient.DefaultRequestHeaders.Add("X-Install-ID", installId.ToString());
+
+
             return _httpClient;
         }
 
