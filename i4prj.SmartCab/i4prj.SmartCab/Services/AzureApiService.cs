@@ -57,7 +57,7 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <returns>The login request.</returns>
         /// <param name="request">Request.</param>
-        public async Task<LoginResponse> SubmitLoginRequestRequest(ILoginRequest request)
+        public async Task<LoginResponse> SubmitLoginRequest(ILoginRequest request)
         {
             var result = await PostAsync(GetEndPointUrl(request), new
             {

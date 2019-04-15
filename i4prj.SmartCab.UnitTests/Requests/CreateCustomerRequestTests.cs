@@ -78,28 +78,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
-        #region Ctor
-
-        [Test]
-        public void Ctor_Default_EmptyStringProperties()
-        {
-            // Arrange and act
-            var uut = new CreateCustomerRequest();
-
-            // Assert.
-            // Multiple continues even if the first assert inside fails
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(uut.Name, string.Empty);
-                Assert.AreEqual(uut.Email, string.Empty);
-                Assert.AreEqual(uut.Phone, string.Empty);
-                Assert.AreEqual(uut.Password, string.Empty);
-                Assert.AreEqual(uut.PasswordConfirmation, string.Empty);
-            });
-        }
-
-        #endregion
-
         #region Name
 
         [Test]

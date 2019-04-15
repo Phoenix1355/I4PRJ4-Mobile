@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Prism.Mvvm;
@@ -52,7 +53,7 @@ namespace i4prj.SmartCab.Validation
             {
                 if (_errors.ContainsKey(propertyName) && (_errors[propertyName].Any()))
                 {
-                    return _errors[propertyName].ToList();
+                    return _errors[propertyName];
                 }
                 else
                 {
@@ -156,7 +157,7 @@ namespace i4prj.SmartCab.Validation
         /// Sets a property as dirty.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
-        public void SetDirty(string propertyName)
+        private void SetDirty([CallerMemberName] string propertyName = null)
         {
             _dirtyList.Add(propertyName);
         }
@@ -170,5 +171,26 @@ namespace i4prj.SmartCab.Validation
         {
             return _dirtyList.Contains(propertyName);
         }
+
+        protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            // Set dirty
+            SetDirty(propertyName);
+
+            // Let Prism do it's thing
+            return base.SetProperty(ref storage, value, propertyName);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this entity is valid.
+        /// </summary>
+        /// <value><c>true</c> if is valid; otherwise, <c>false</c>.</value>
+        public virtual bool IsValid => !HasErrors;
+
+        /// <summary>
+        /// Gets a value indicating whether this entity is invalid.
+        /// </summary>
+        /// <value><c>true</c> if is invalid; otherwise, <c>false</c>.</value>
+        public virtual bool IsInvalid => !IsValid;
     }
 }

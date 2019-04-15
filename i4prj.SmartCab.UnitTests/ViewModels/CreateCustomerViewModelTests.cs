@@ -33,7 +33,6 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         [SetUp]
         public void SetUp()
         {
-            // INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService
             _fakeNavigationService = Substitute.For<INavigationService>();
             _fakePageDialogService = Substitute.For<IPageDialogService>();
             _fakeApiService = Substitute.For<IBackendApiService>();
@@ -44,29 +43,13 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakeHttpCreateCustomerSuccessResponse = new CreateCustomerResponse(new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    token = "Some Valid Token",
-                    customer = new
-                    {
-                        name = "Some name",
-                        email = "email@somehost.com",
-                        phone = "12345678"
-
-                    }
-                }), Encoding.UTF8, "application/json")
+                Content = new StringContent("{\n  \"token\": \"valid token\",\n  \"customer\": {\n    \"name\": \"customer name\",\n    \"email\": \"some@email.com\",\n    \"phoneNumber\": \"12345678\"\n  }\n}", Encoding.UTF8, "application/json")
             });
 
             _fakeHttpCreateCustomerBadRequestResponse = new CreateCustomerResponse(new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    errors = new Dictionary<string, IList<string>>() {
-                        { "error", new List<string>() { "User name is already taken" } }
-                    },
-
-                }), Encoding.UTF8, "application/json")
+                Content = new StringContent("{\n\t\"token\": null,\n\t\"customer\": null,\n\t\"errors\": {\n\t\t\"error\": [\"Username already taken\"]\n\t}\n}", Encoding.UTF8, "application/json")
             });
 
             _uut.Request.Email = "test@tester.com";
