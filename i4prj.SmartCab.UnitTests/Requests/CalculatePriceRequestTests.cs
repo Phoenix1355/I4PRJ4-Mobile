@@ -4,7 +4,9 @@ using System.Text;
 
 namespace i4prj.SmartCab.UnitTests.Requests
 {
-    class CalculatePriceRequestTests
+    public class CalculatePriceRequestTests
     {
+        #region Ctor
+        #endregion
     }
 }

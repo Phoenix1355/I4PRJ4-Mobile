@@ -211,13 +211,32 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #region OriginStreetName
         [Test]
+        [TestCase("Ålebakken")] //Contains Å
+        [TestCase("Eg")] //2 letters
+        [TestCase("Testvejmeddetretlangenavn")] //25 letters
+        public void OriginStreetName_SetValidValues_IsValid(string setValue)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(_uut, null)
+            {
+                MemberName = "OriginStreetName"
+            };
+
+            _uut.OriginStreetName = setValue;
+
+            Validator.TryValidateProperty(_uut.OriginStreetName, validationContext, validationResults);
+
+            Assert.IsTrue(validationResults.Count == 0);
+        }
+
+        [Test]
         [TestCase(null)] //cant be null
         [TestCase("")] //cant be empty
-        [TestCase("123")] //too short 
-        [TestCase("12345")] //too long
+        [TestCase("A")] //too short 
+        [TestCase("Testvejemeddetretlangenavn")] //too long
         [TestCase("123+")] //contains special character
         [TestCase("123 4")] //contains spaces
-        public void OriginStreetName_SetValidValues_IsValid(string setValue)
+        public void OriginStreetName_SetInvalidValues_IsInvalid(string setValue)
         {
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(_uut, null)
@@ -231,13 +250,54 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
             Assert.IsTrue(validationResults.Count > 0);
         }
+
+
         #endregion
 
         #region DestinationStreetName
         //same as origin
         #endregion
 
-        #region OriginStreetNumer
+        #region OriginStreetNumber
+
+        [Test]
+        [TestCase("1")]//1 character
+        [TestCase("123 st. th.")] //Spaces and letters
+        [TestCase("1234567 st. th.")]//15 characters
+        [TestCase("12 ved åen")] //contains å
+        public void OriginStreetNumber_SetValidValues_IsValid(string setValue)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(_uut, null)
+            {
+                MemberName = "OriginStreetNumber"
+            };
+
+            _uut.OriginStreetNumber = setValue;
+
+            Validator.TryValidateProperty(_uut.OriginStreetNumber, validationContext, validationResults);
+
+            Assert.IsTrue(validationResults.Count == 0);
+        }
+
+        [Test]
+        [TestCase(null)] //cant be null
+        [TestCase("")] //cant be empty
+        [TestCase("1234567 st. th. nr. 3")] //too long
+        public void OriginStreetNumber_SetInvalidValues_IsInvalid(string setValue)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(_uut, null)
+            {
+                MemberName = "OriginStreetNumber"
+            };
+
+            _uut.OriginStreetNumber = setValue;
+
+            Validator.TryValidateProperty(_uut.OriginStreetNumber, validationContext, validationResults);
+
+            Assert.IsTrue(validationResults.Count > 0);
+        }
         #endregion
 
         #region DestinationStreetNumber
@@ -245,9 +305,74 @@ namespace i4prj.SmartCab.UnitTests.Requests
         #endregion
 
         #region IsValid
+
+        [Test]
+        public void IsValid_RequestIsValid_ReturnsTrue()
+        {
+            _uut.AmountOfPassengers = 1;
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "3";
+            _uut.DestinationCityName = "Aarhus C";
+            _uut.DestinationPostalCode = "8000";
+            _uut.DestinationStreetName = "Banegårdspladsen";
+            _uut.DestinationStreetNumber = "1";
+
+            Assert.That(_uut.IsValid);
+        }
+
+        [Test]
+        public void IsValid_RequestIsInvalid_ReturnsFalse()
+        {
+            _uut.AmountOfPassengers = 5;
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "3";
+            _uut.DestinationCityName = "Aarhus C";
+            _uut.DestinationPostalCode = "8000";
+            _uut.DestinationStreetName = "Banegårdspladsen";
+            _uut.DestinationStreetNumber = "1";
+
+            Assert.That(!_uut.IsValid);
+        }
+
         #endregion
 
         #region IsInvalid
+
+        [Test]
+        public void IsInValid_RequestIsValid_ReturnsFalse()
+        {
+            _uut.AmountOfPassengers = 4;
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "3";
+            _uut.DestinationCityName = "Aarhus C";
+            _uut.DestinationPostalCode = "8000";
+            _uut.DestinationStreetName = "Banegårdspladsen";
+            _uut.DestinationStreetNumber = "1";
+
+            Assert.That(!_uut.IsInvalid);
+        }
+
+        [Test]
+        public void IsInValid_RequestIsInvalid_ReturnsTrue()
+        {
+            _uut.AmountOfPassengers = 5;
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "3";
+            _uut.DestinationCityName = "Aarhus C";
+            _uut.DestinationPostalCode = "8000";
+            _uut.DestinationStreetName = "Banegårdspladsen";
+            _uut.DestinationStreetNumber = "1";
+
+            Assert.That(_uut.IsInvalid);
+        }
         #endregion
     }
 }
