@@ -18,6 +18,10 @@ namespace i4prj.SmartCab.Requests
 {
     public class CreateRideRequest : ValidationBase, ICreateRideRequest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateRideRequest"/> class.
+        /// Sets default values for the request.
+        /// </summary>
         public CreateRideRequest()
         {
             AmountOfPassengers = 1;
@@ -251,6 +255,12 @@ namespace i4prj.SmartCab.Requests
             RaisePropertyChanged("IsInvalid");
         }
 
+        /// <summary>
+        /// Returns true if this <see cref="CreateRideRequest"/> is valid. Otherwise false
+         /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        /// </value>
         public bool IsValid
         {
             get
@@ -260,6 +270,12 @@ namespace i4prj.SmartCab.Requests
 
         }
 
+        /// <summary>
+        /// Returns true if this <see cref="CreateRideRequest"/> is invalid. Otherwise false
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is invalid; otherwise, <c>false</c>.
+        /// </value>
         public bool IsInvalid
         {
             get

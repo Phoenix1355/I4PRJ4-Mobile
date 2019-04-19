@@ -4,6 +4,9 @@ using System.Text;
 
 namespace i4prj.SmartCab.Interfaces
 {
+    /// <summary>
+    /// Interface for ICalculatePriceRequest
+    /// </summary>
     public interface ICalculatePriceRequest
     {
         string OriginCityName { get; set; }

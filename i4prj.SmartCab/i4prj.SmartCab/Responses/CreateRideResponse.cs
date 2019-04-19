@@ -11,12 +11,20 @@ namespace i4prj.SmartCab.Responses
     {
         public CreateRideResponseBody Body { get => (CreateRideResponseBody)_body; private set => _body = value; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateRideResponse"/> class.
+        /// </summary>
+        /// <param name="responseMessage">Response message.</param>
         public CreateRideResponse(HttpResponseMessage responseMessage)
             :base(responseMessage)
         {
 
         }
 
+
+        /// <summary>
+        ///  Implementation of base class template method. Makes the body for this type of response.
+        /// </summary>
         protected override async void MakeBody()
         {
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
@@ -32,8 +40,11 @@ namespace i4prj.SmartCab.Responses
             }
         }
 
-        #region ResponseFormatClasses
-
+        #region ResponseFormatClasses        
+        /// <summary>
+        /// Body for the CreateRideResponse
+        /// </summary>
+        /// <seealso cref="i4prj.SmartCab.Responses.BackendApiResponseBody" />
         public class CreateRideResponseBody : BackendApiResponseBody
         {
             public CreateRideResponseBody()

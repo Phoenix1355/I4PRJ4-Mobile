@@ -17,12 +17,19 @@ namespace i4prj.SmartCab.Responses
             private set => _body = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PriceResponse"/> class.
+        /// </summary>
+        /// <param name="response">The response.</param>
         public PriceResponse(HttpResponseMessage response)
             :base(response)
         {
 
         }
 
+        /// <summary>
+        ///  Implementation of base class template method. Makes the body for this type of response.
+        /// </summary>
         protected override async void MakeBody()
         {
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
@@ -38,7 +45,10 @@ namespace i4prj.SmartCab.Responses
             }
         }
 
-
+        /// <summary>
+        /// Responsebody for PriceResponse
+        /// </summary>
+        /// <seealso cref="i4prj.SmartCab.Responses.BackendApiResponseBody" />
         public class PriceResponseBody : BackendApiResponseBody
         {
             public string Price { get; set; }

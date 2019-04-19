@@ -4,6 +4,9 @@ using System.Text;
 
 namespace i4prj.SmartCab.Interfaces
 {
+    /// <summary>
+    /// Interface for the ICreateRideRequest
+    /// </summary>
     public interface ICreateRideRequest
     {
         string OriginCityName { get; set; }

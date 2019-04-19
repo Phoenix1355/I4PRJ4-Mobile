@@ -4,6 +4,9 @@ using System.Text;
 
 namespace i4prj.SmartCab.Interfaces
 {
+    /// <summary>
+    /// Interface for IAddress
+    /// </summary>
     public interface IAddress
     {
         string CityName { get;set; }

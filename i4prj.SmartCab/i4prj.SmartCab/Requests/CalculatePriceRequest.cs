@@ -8,6 +8,11 @@ namespace i4prj.SmartCab.Requests
 {
     public class CalculatePriceRequest : ValidationBase, ICalculatePriceRequest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalculatePriceRequest"/> class
+        /// Sets values for the request
+        /// </summary>
+        /// <param name="request">The <see cref="CreateRideRequest"/> used to instantiate the CalculatePriceRequest</param>
         public CalculatePriceRequest(ICreateRideRequest request)
         {
             OriginCityName = request.OriginCityName;
