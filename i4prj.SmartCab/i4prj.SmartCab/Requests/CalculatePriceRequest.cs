@@ -8,7 +8,7 @@ namespace i4prj.SmartCab.Requests
 {
     public class CalculatePriceRequest : ValidationBase, ICalculatePriceRequest
     {
-        public CalculatePriceRequest(CreateRideRequest request)
+        public CalculatePriceRequest(ICreateRideRequest request)
         {
             OriginCityName = request.OriginCityName;
             OriginPostalCode = request.OriginPostalCode;

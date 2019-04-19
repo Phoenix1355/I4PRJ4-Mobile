@@ -8,10 +8,14 @@ using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
-    public class PriceResponse : BackendApiResponse, ICalculatePriceResponse
+    public class PriceResponse : BackendApiResponse
     {
 
-        public string Body { get; set; }
+        public PriceResponseBody Body
+        {
+            get => (PriceResponseBody) _body;
+            private set => _body = value;
+        }
 
         public PriceResponse(HttpResponseMessage response)
             :base(response)
@@ -24,7 +28,7 @@ namespace i4prj.SmartCab.Responses
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
             try
             {
-                Body = JsonConvert.DeserializeObject<string>(responseBodyAsText);
+                Body = JsonConvert.DeserializeObject<PriceResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
                 Debug.Write(responseBodyAsText);
             }
@@ -35,5 +39,9 @@ namespace i4prj.SmartCab.Responses
         }
 
 
+        public class PriceResponseBody : BackendApiResponseBody
+        {
+            public string Price { get; set; }
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Dynamic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using DryIoc;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Validation;
 using Prism.Common;
@@ -15,7 +16,7 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.Requests
 {
-    public class CreateRideRequest : ValidationBase
+    public class CreateRideRequest : ValidationBase, ICreateRideRequest
     {
         public CreateRideRequest()
         {
@@ -38,10 +39,10 @@ namespace i4prj.SmartCab.Requests
 
         private void SetDefaultTimeValues()
         {
-            ConfirmationDeadlineDate = DateTime.Now;
             DepartureDate = DateTime.Now;
-            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 0, 5, 0));
-            DepartureTime = DateTime.Now.TimeOfDay;
+            ConfirmationDeadlineDate = DateTime.Now;
+            DepartureTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(1,0 , 0));
+            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 30, 0));
             CurrentTime = DateTime.Now;
         }
 
@@ -50,11 +51,11 @@ namespace i4prj.SmartCab.Requests
         {
             if (DepartureDate.Date == ConfirmationDeadlineDate.Date)
             {
-                if (ConfirmationDeadlineTime < DepartureTime)
+                if (ConfirmationDeadlineTime > DepartureTime)
                 {
                     ConfirmationDeadlineTime = DepartureTime;
                     IPageDialogService p = new PageDialogService(new ApplicationProvider());
-                    p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være tidligere end afgangstiden", "Ok");
+                    p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
                 }
             }
         }
@@ -127,6 +128,7 @@ namespace i4prj.SmartCab.Requests
 
         private double _amountOfPassengers;
         [Required]
+        [Range(1,4)]
         public double AmountOfPassengers
         {
             get { return _amountOfPassengers; }

@@ -61,7 +61,7 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <param name="request">A CreateRideRequest submitted by the user</param>
         /// <returns>The CreateRideResponse</returns>
-        public async Task<CreateRideResponse> SubmitCreateRideRequest(CreateRideRequest request)
+        public async Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request)
         {
           
             var result = await PostAsync(GetEndPointUrl(request), new
@@ -137,7 +137,7 @@ namespace i4prj.SmartCab.Services
             return _customerLoginEndPoint;
         }
 
-        private string GetEndPointUrl(CreateRideRequest request)
+        private string GetEndPointUrl(ICreateRideRequest request)
         {
             return _createRideEndPoint;
         }

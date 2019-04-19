@@ -26,7 +26,10 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         private INavigationService _fakeNavigationService;
         private IPageDialogService _fakePageDialogService;
 
-        private PriceResponse _priceResponseOK;
+        private PriceResponse _priceResponseOk;
+        private PriceResponse _priceResponseBadRequest;
+        private CreateRideResponse _rideResponseOk;
+        private CreateRideResponse _rideResponseBadRequest;
 
         [SetUp]
         public void SetUp()
@@ -35,6 +38,58 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakeNavigationService = Substitute.For<INavigationService>();
             _fakePageDialogService = Substitute.For<IPageDialogService>();
             _uut=new CreateRideViewModel(_fakeNavigationService,_fakePageDialogService,_fakeBackendApiService);
+
+            
+            _priceResponseOk = new PriceResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    price=100.00,
+                }),Encoding.UTF8,"application/json"),
+            });
+
+            _priceResponseBadRequest = new PriceResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    errors=new Dictionary<string, IList<string>>()
+                    {
+                        {"error",new List<string>{"The address is not valid"} }
+                    },
+                }), Encoding.UTF8, "application/json"),
+            });
+
+            _rideResponseOk=new CreateRideResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    id=1,
+                    startDestination = new {cityName="Test",postalCode=1234,streetName="Tester",streetNumber=1},
+                    endDestination = new { cityName = "Tester", postalCode = 4321, streetName = "Test", streetNumber = 2 },
+                    departureTime=DateTime.Now.Add(new TimeSpan(0,0,30)),
+                    confirmationDeadline=DateTime.Now.Subtract(new TimeSpan(0,2,0)),
+                    passengerCount=1,
+                    createdOn=DateTime.Now,
+                    price=100,
+                    status=0,
+
+                }),Encoding.UTF8,"application/json"),
+            });
+
+            _rideResponseBadRequest = new CreateRideResponse(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    errors = new Dictionary<string, IList<string>>()
+                    {
+                        {"error",new List<string>{"Not enough money"} }
+                    },
+                }), Encoding.UTF8, "application/json"),
+            });
         }
 
         #region Commands
@@ -44,52 +99,64 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         {
             _fakeBackendApiService.SubmitCalculatePriceRequest(new CalculatePriceRequest(_uut.Request)).ReturnsNull();
             _uut.CalculatePriceCommand.Execute();
-            _fakePageDialogService.Received().DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _fakePageDialogService.Received().DisplayAlertAsync("Forbindelse", Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Test]
         public void CalculatePriceCommand_ApiReturnsBadRequest_DialogServiceShowsMessage()
         {
-            _priceResponseOK = new PriceResponse(new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    errors = new Dictionary<string, IList<string>>() {
-                        { "EndAddress.CityName", new List<string>() { "The CityName field is required." }},
-                        { "EndAddress.StreetName",new List<string>(){ "The StreetName field is required."}}
-                    },
-                }), Encoding.UTF8, "application/json")
-            });
 
             _fakeBackendApiService.SubmitCalculatePriceRequest(Arg.Any<ICalculatePriceRequest>())
-                .Returns(_priceResponseOK);
+                .Returns(_priceResponseBadRequest);
 
             _uut.CalculatePriceCommand.Execute();
 
-            _fakePageDialogService.Received().DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _fakePageDialogService.Received().DisplayAlertAsync("Ukendt fejl", Arg.Any<string>(), Arg.Any<string>());
         }
 
-        //Denne tester på en måde state, men staten har effekt på viewet.
-        //Ved ikke om det er forkert
+        //Denne tester på en måde state, men staten har effekt på viewet, så føler det er relevant alligevel
         [Test]
         public void CalculatePriceCommand_ApiReturnsSuccessfullResponse_PriceIsUpdated()
         {
-            /*
-            _priceResponseOK=new PriceResponse(new HttpResponseMessage()
-            {
-                StatusCode =HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    price=100,
-                }), Encoding.UTF8, "application/json")
-            });
-            */
-            //TODO
-            
+            _fakeBackendApiService.SubmitCalculatePriceRequest(Arg.Any<ICalculatePriceRequest>())
+                .Returns(_priceResponseOk);
+            _uut.CalculatePriceCommand.Execute();
+            Assert.That(_uut.Price == _priceResponseOk.Body.Price);
+
         }
 
+        [Test]
+        public void CreateRideCommand_ApiReturnsNull_DialogServiceShowsMessage()
+        {
+            _fakeBackendApiService.SubmitCreateRideRequest(_uut.Request).ReturnsNull();
+            _uut.CreateRideCommand.Execute();
+            _fakePageDialogService.Received().DisplayAlertAsync("Forbindelse", Arg.Any<string>(), Arg.Any<string>());
+        }
 
+        [Test]
+        public void CreateRideCommand_ApiReturnsBadRequest_DialogServiceShowsMessage()
+        {
+            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>())
+                .Returns(_rideResponseBadRequest);
+            _uut.CreateRideCommand.Execute();
+            _fakePageDialogService.Received().DisplayAlertAsync("Fejl", Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CreateRideCommand_ApiReturnsOKResponse_DialogIsShown()
+        {
+            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>()).Returns(_rideResponseOk);
+            _uut.CreateRideCommand.Execute();
+            _fakePageDialogService.Received().DisplayAlertAsync("Success", Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CreateRideCommand_ApiReturnsOKResponse_ViewNavigatesBack()
+        {
+            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>()).Returns(_rideResponseOk);
+            _uut.CreateRideCommand.Execute();
+            _fakeNavigationService.Received().GoBackAsync();
+        }
 
 
         #endregion

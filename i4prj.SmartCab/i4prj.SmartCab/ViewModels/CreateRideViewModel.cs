@@ -32,7 +32,6 @@ namespace i4prj.SmartCab.ViewModels
             Price = "Beregn min pris";
 
             //TEST
-            /*
             Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
             Request.OriginStreetName = "Bispehavevej";
@@ -41,13 +40,12 @@ namespace i4prj.SmartCab.ViewModels
             Request.DestinationPostalCode = "8000";
             Request.DestinationStreetName = "Banegårdspladsen";
             Request.DestinationStreetNumber = "1";
-            */
         }
 
         #region Properties
 
-        private CreateRideRequest _request;
-        public CreateRideRequest Request
+        private ICreateRideRequest _request;
+        public ICreateRideRequest Request
         {
             get { return _request; }
             set
@@ -68,42 +66,6 @@ namespace i4prj.SmartCab.ViewModels
 
         #region Commands
 
-        private DelegateCommand _entryReturnFromUserCommand;
-
-        public DelegateCommand EntryReturnFromUserCommand => _entryReturnFromUserCommand ??
-                                                             (_entryReturnFromUserCommand =
-                                                                 new DelegateCommand(ReturnFromUserCommandExecuteAsync)
-                                                             );
-
-        private async void ReturnFromUserCommandExecuteAsync()
-        {
-            if (Request.IsValid)
-            {
-                Debug.WriteLine("Tjekker pris");
-                CalculatePriceRequest request = new CalculatePriceRequest(Request);
-
-                IsBusy = true;
-                PriceResponse response = await _backendApiService.SubmitCalculatePriceRequest(request);
-                IsBusy = false;
-
-
-                if (response == null)
-                {
-                    await DialogService.DisplayAlertAsync("Forbindelse",
-                        "Pris kunne ikke beregnes - ingen internetforbindelse", "OK");
-                }
-                else if (response.WasUnsuccessfull())
-                {
-                    await DialogService.DisplayAlertAsync("Ukendt fejl", "Prisen for turen kunne ikke beregnes", "OK");
-                }
-                else if (response.WasSuccessfull())
-                {
-                    Price = "Din pris: " + response.Body + " kr." + "\n (Tryk for at beregne igen)";
-                }
-            }
-            Debug.WriteLine("Tjekker ikke pris - request ikke godkendt");
-        }
-
         private DelegateCommand _calculatePriceCommand;
         /// <summary>
         /// Submits the CalculatePriceRequest
@@ -113,7 +75,7 @@ namespace i4prj.SmartCab.ViewModels
                                                             new DelegateCommand(CalculatePriceCommandExecuteAsync));
         private async void CalculatePriceCommandExecuteAsync()
         {
-            ICalculatePriceRequest request = new CalculatePriceRequest(Request);
+            CalculatePriceRequest request = new CalculatePriceRequest(Request);
 
             IsBusy = true;
             PriceResponse response = await _backendApiService.SubmitCalculatePriceRequest(request);
@@ -131,7 +93,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if(response.WasSuccessfull())
             {
-                Price = "Din pris: " + response.Body + " kr." + "\n (Tryk for at beregne igen)";
+                Price = response.Body.Price;
             }
         }
         
@@ -149,7 +111,7 @@ namespace i4prj.SmartCab.ViewModels
             CreateRideResponse response = await _backendApiService.SubmitCreateRideRequest(Request);
             IsBusy = false;
 
-            Debug.WriteLine(response.HttpResponseMessage.StatusCode);
+            //Debug.WriteLine(response.HttpResponseMessage.StatusCode);
 
             if (response == null)
             {
@@ -161,7 +123,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasSuccessfull())
             {
-                await DialogService.DisplayAlertAsync("Succes", "Turen er blevet oprettet \nAt betale: "+response.Body.price+" kr.", "OK");
+                await DialogService.DisplayAlertAsync("Success", "Turen er blevet oprettet \nAt betale: "+response.Body.price+" kr.", "OK");
                 await NavigationService.GoBackAsync();
             }
         }

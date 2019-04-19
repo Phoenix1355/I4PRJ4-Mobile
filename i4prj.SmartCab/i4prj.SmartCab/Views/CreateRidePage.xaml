@@ -92,7 +92,7 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
-                <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
+                <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=MinimumDate}" MaximumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}"></TimePicker>
             </StackLayout>
 

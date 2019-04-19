@@ -18,6 +18,8 @@ namespace i4prj.SmartCab.UnitTests.Services
     public class AzureApiServiceTests
     {
         private ICreateCustomerRequest _fakeCreateCustomerRequest;
+        private ICreateRideRequest _fakeCreateRideRequest;
+        private ICalculatePriceRequest _fakeCalculatePriceRequest;
         private ILoginRequest _fakeLoginRequest;
         private ISessionService _fakeSessionService;
 
@@ -27,13 +29,15 @@ namespace i4prj.SmartCab.UnitTests.Services
             _fakeCreateCustomerRequest = Substitute.For<ICreateCustomerRequest>();
             _fakeLoginRequest = Substitute.For<ILoginRequest>();
             _fakeSessionService = Substitute.For<ISessionService>();
+            _fakeCalculatePriceRequest = Substitute.For<ICalculatePriceRequest>();
+            _fakeCreateRideRequest = Substitute.For<ICreateRideRequest>();
         }
 
         // The following HttpClient tests have been adapted from: http://anthonygiretti.com/2018/09/06/how-to-unit-test-a-class-that-consumes-an-httpclient-with-ihttpclientfactory-in-asp-net-core/
 
         // Success response
         [Test]
-        public async Task SubmitCreateCustomerCommand_ReceivesValidJsonResponse_ReturnsExpectedValue()
+        public async Task SubmitCreateCustomerRequest_ReceivesValidJsonResponse_ReturnsExpectedValue()
         {
             // Arange
             // Fake Http Response
@@ -77,7 +81,7 @@ namespace i4prj.SmartCab.UnitTests.Services
 
         // Bad request response
         [Test]
-        public async Task SubmitCreateCustomerCommand_ReceivesBadRequestResponse_ReturnsExpectedValue()
+        public async Task SubmitCreateCustomerRequest_ReceivesBadRequestResponse_ReturnsExpectedValue()
         {
             // Arange
             // Fake Http Response
@@ -113,6 +117,130 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response.Body, Is.Not.Null);
                 Assert.That(response.Body, Is.TypeOf<CreateCustomerResponseBody>());
 
+                Assert.That(response.GetErrors().Count, Is.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public async Task SubmitCreateRideRequest_ReceivesSuccessfullResponse_ReturnsNewCreateRideResponse()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    id = 1,
+                    startDestination = new { cityName = "Test", postalCode = 1234, streetName = "Tester", streetNumber = 1 },
+                    endDestination = new { cityName = "Tester", postalCode = 4321, streetName = "Test", streetNumber = 2 },
+                    departureTime = DateTime.Now.Add(new TimeSpan(0, 0, 30)),
+                    confirmationDeadline = DateTime.Now.Subtract(new TimeSpan(0, 2, 0)),
+                    passengerCount = 1,
+                    createdOn = DateTime.Now,
+                    price = 100,
+                    status = 0,
+                }),Encoding.UTF8,"application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient=new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient,_fakeSessionService);
+
+            var response = await uut.SubmitCreateRideRequest(_fakeCreateRideRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response,Is.Not.Null);
+                Assert.That(response,Is.TypeOf<CreateRideResponse>());
+                Assert.That(response.Body,Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<CreateRideResponse.CreateRideResponseBody>());
+            });
+        }
+
+        [Test]
+        public async Task SubmitCreateRideRequest_ReceivesBadRequestResponse_ReturnsError()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    errors = new Dictionary<string, IList<string>>() {
+                        { "error", new List<string>() { "Address not valid" } }
+                    },
+
+                }), Encoding.UTF8, "application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient, _fakeSessionService);
+
+            var response = await uut.SubmitCreateRideRequest(_fakeCreateRideRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response,Is.Not.Null);
+                Assert.That(response,Is.TypeOf<CreateRideResponse>());
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<CreateRideResponse.CreateRideResponseBody>());
+                Assert.That(response.GetErrors().Count,Is.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public async Task SubmitCalculatePriceRequest_RecievesSuccessfullResponse_ReturnsNewPriceResponse()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    price = 100.00,
+                }), Encoding.UTF8, "application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient, _fakeSessionService);
+
+            var response = await uut.SubmitCalculatePriceRequest(_fakeCalculatePriceRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<PriceResponse>());
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<PriceResponse.PriceResponseBody>());
+            });
+        }
+
+        [Test]
+        public async Task SubmitCalculatePriceRequest_ReceivesBadRequestResponse_ReturnsError()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    errors = new Dictionary<string, IList<string>>() {
+                        { "error", new List<string>() { "Address not valid" } }
+                    },
+
+                }), Encoding.UTF8, "application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient, _fakeSessionService);
+
+            var response = await uut.SubmitCalculatePriceRequest(_fakeCalculatePriceRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<PriceResponse>());
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<PriceResponse.PriceResponseBody>());
                 Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
