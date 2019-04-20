@@ -27,7 +27,7 @@ namespace i4prj.SmartCab.ViewModels
             : base(navigationService, pageDialogService)
         {
             Title = "Opret tur";
-            Request = new CreateRideRequest();
+            Request = new CreateRideRequest(new TimeService());
             _backendApiService = backEndApiService;
             Price = "Beregn min pris";
 

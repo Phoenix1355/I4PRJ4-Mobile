@@ -33,7 +33,6 @@ namespace i4prj.SmartCab.Requests
             get { return _originCityName; }
             set
             {
-                ValidateProperty(value);
                 SetProperty(ref _originCityName, value);
             }
         }
@@ -45,7 +44,6 @@ namespace i4prj.SmartCab.Requests
             get { return _destinationCityName; }
             set
             {
-                ValidateProperty(value);
                 SetProperty(ref _destinationCityName, value);
             }
         }
@@ -101,7 +99,6 @@ namespace i4prj.SmartCab.Requests
             get { return _originStreetNumber; }
             set
             {
-                ValidateProperty(value);
                 SetProperty(ref _originStreetNumber, value);
             }
         }
@@ -113,7 +110,6 @@ namespace i4prj.SmartCab.Requests
             get { return _destinationStreetNumber; }
             set
             {
-                ValidateProperty(value);
                 SetProperty(ref _destinationStreetNumber, value);
             }
         }

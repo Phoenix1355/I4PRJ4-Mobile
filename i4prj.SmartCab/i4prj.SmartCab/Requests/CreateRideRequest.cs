@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using DryIoc;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
@@ -18,12 +19,15 @@ namespace i4prj.SmartCab.Requests
 {
     public class CreateRideRequest : ValidationBase, ICreateRideRequest
     {
+        private ITimeService _timeService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideRequest"/> class.
         /// Sets default values for the request.
         /// </summary>
-        public CreateRideRequest()
+        public CreateRideRequest(ITimeService timeService)
         {
+            _timeService = timeService;
             AmountOfPassengers = 1;
             SetDefaultAddressValues();
             SetDefaultTimeValues();
@@ -43,15 +47,15 @@ namespace i4prj.SmartCab.Requests
 
         private void SetDefaultTimeValues()
         {
-            DepartureDate = DateTime.Now;
-            ConfirmationDeadlineDate = DateTime.Now;
-            DepartureTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(1,0 , 0));
-            ConfirmationDeadlineTime = DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 30, 0));
-            CurrentTime = DateTime.Now;
+            DepartureDate = _timeService.GetCurrentDate();
+            ConfirmationDeadlineDate = _timeService.GetCurrentDate();
+            DepartureTime = _timeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0));
+            ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(new TimeSpan(0, 0, 30, 0));
+            CurrentDate = _timeService.GetCurrentDate();
         }
 
         //SUPER HACK - er nok ikke lige den bedste måde at gøre det på.
-        private void CheckTime()
+        private async void CheckTime()
         {
             if (DepartureDate.Date == ConfirmationDeadlineDate.Date)
             {
@@ -59,12 +63,12 @@ namespace i4prj.SmartCab.Requests
                 {
                     ConfirmationDeadlineTime = DepartureTime;
                     IPageDialogService p = new PageDialogService(new ApplicationProvider());
-                    p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
+                    await p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
                 }
             }
         }
 
-        public DateTime CurrentTime { get; private set; }
+        public DateTime CurrentDate { get; private set; }
 
         private bool _isShared;
         [Required]

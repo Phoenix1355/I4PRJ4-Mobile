@@ -75,7 +75,7 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
-                <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentTime}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
+                <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentDate}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal">

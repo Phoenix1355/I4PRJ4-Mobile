@@ -2,20 +2,36 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using DryIoc;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Requests;
+using i4prj.SmartCab.ViewModels;
+using i4prj.SmartCab.Views;
+using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
+using Prism.Navigation;
+using Prism.Services;
+using Xamarin.Forms;
 
 namespace i4prj.SmartCab.UnitTests.Requests
 {
     public class CreateRideRequestTests
     {
         private CreateRideRequest _uut;
+        private ITimeService _fakeTimeService;
 
+        private DateTime _validDateTime;
+        private DateTime _invalidDateTime;
 
         [SetUp]
         public void SetUp()
         {
-            _uut=new CreateRideRequest();
+
+            _fakeTimeService = Substitute.For<ITimeService>();
+            _fakeTimeService.GetCurrentDate().Returns(new DateTime(2020, 1, 1));
+            _fakeTimeService.GetCurrentTime().Returns(new TimeSpan(0, 12, 0, 0));
+            _uut=new CreateRideRequest(_fakeTimeService);
         }
 
         #region Ctor
@@ -35,15 +51,11 @@ namespace i4prj.SmartCab.UnitTests.Requests
                 Assert.AreEqual(_uut.DestinationStreetName, string.Empty);
                 Assert.AreEqual(_uut.DestinationStreetNumber, string.Empty);
                 
-
-                //TODO
-                /*
-                Assert.AreEqual(_uut.DepartureDate,DateTime.Now);
-                Assert.AreEqual(_uut.ConfirmationDeadlineDate,DateTime.Now);
-                Assert.AreEqual(_uut.DepartureTime, DateTime.Now.TimeOfDay.Add(new TimeSpan(1, 0, 0)));
-                Assert.AreEqual(_uut.ConfirmationDeadlineTime, DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 30, 0)));
-                Assert.AreEqual(_uut.CurrentTime,DateTime.Now);
-                */
+                Assert.AreEqual(_uut.DepartureDate,_fakeTimeService.GetCurrentDate());
+                Assert.AreEqual(_uut.ConfirmationDeadlineDate,_fakeTimeService.GetCurrentDate());
+                Assert.AreEqual(_uut.DepartureTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(1, 0, 0)));
+                Assert.AreEqual(_uut.ConfirmationDeadlineTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 30, 0)));
+                Assert.AreEqual(_uut.CurrentDate,_fakeTimeService.GetCurrentDate());
             });
         }
 
@@ -56,18 +68,48 @@ namespace i4prj.SmartCab.UnitTests.Requests
         #endregion
 
         #region DepartureDate
+
+        [Test]
+        public void DepartureDate_SetValidValue_ValueIsAccepted()
+        {
+
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+
+            Assert.AreEqual(_uut.DepartureDate,new DateTime(2020,1,2));
+        }
+
+        //invalid value not possible as it stands
+        //DateTime objects cant be null, and databinding makes it so the user cant change it to before DateTime.Now.
+
         #endregion
 
         #region DepartureTime
+
+        //Time not tested yet. Implementation not ready for it
+
         #endregion
 
         #region ConfirmationDeadlineDate
+        [Test]
+        public void ConfirmationDeadlineDate_SetValidValue_ValueIsAccepted()
+        {
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+
+            Assert.AreEqual(_uut.DepartureDate,new DateTime(2020,1,1));
+        }
+
+        //invalid value not possible as it stands
+        //DateTime objects cant be null, and databinding makes it so the user cant change it to before DateTime.Now.
         #endregion
 
         #region ConfirmationDeadlineTime
+        //Time not tested yet. Implementation not ready for it
         #endregion
 
+
+
         #region AmountOfPassengers
+
         [Test]
         [TestCase(null)]
         [TestCase(0)]
