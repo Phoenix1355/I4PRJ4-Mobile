@@ -8,6 +8,8 @@ using System.Diagnostics;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Services;
 using i4prj.SmartCab.Interfaces;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Push;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -58,15 +60,55 @@ namespace i4prj.SmartCab
 
         protected override void OnStart()
         {
+            SetupPush();
+
             Debug.WriteLine("OnStart");
+
+            AppCenter.Start("9707acc9-f699-4165-9346-9378d040c10f", typeof(Push));
         }
+
         protected override void OnSleep()
         {
             Debug.WriteLine("OnSleep");
         }
+
         protected override void OnResume()
         {
             Debug.WriteLine("OnResume");
+
+            AppCenter.Start("9707acc9-f699-4165-9346-9378d040c10f", typeof(Push));
+        }
+
+        /// <summary>
+        /// Sets up the eventhandler which is invoked when a notification is
+        /// received
+        /// </summary>
+        private void SetupPush()
+        {
+            if (!AppCenter.Configured)
+            {
+                Push.PushNotificationReceived += (sender, e) =>
+                {
+                        // Add the notification message and title to the message
+                        var summary = $"Push notification received:" +
+                                        $"\n\tNotification title: {e.Title}" +
+                                        $"\n\tMessage: {e.Message}";
+
+                        // If there is custom data associated with the notification,
+                        // print the entries
+                        if (e.CustomData != null)
+                    {
+                        summary += "\n\tCustom data:\n";
+                        foreach (var key in e.CustomData.Keys)
+                        {
+                            summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                        }
+                    }
+
+                        // Send the notification summary to debug output
+                        System.Diagnostics.Debug.WriteLine(summary);
+                };
+            }
         }
     }
 }

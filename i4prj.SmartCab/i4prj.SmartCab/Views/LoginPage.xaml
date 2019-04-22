@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:validation="clr-namespace:i4prj.SmartCab.Validation"
+             xmlns:effects="clr-namespace:i4prj.SmartCab.Effects"
              x:Class="i4prj.SmartCab.Views.LoginPage"
+             x:Name="CurrentPage"
              Title="{Binding Title}"
              xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
     
     <ScrollView Orientation="Vertical">
         <StackLayout Margin="10">
             <Label Text="E-mail"/>
-            <Entry Text="{Binding Request.Email}" Keyboard="Email"  IsVisible="{Binding IsReady}"></Entry>
-            <Entry Text="{Binding Request.Email}" Keyboard="Email"  IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}" Keyboard="Email" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Email" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.EmailErrors}" IsVisible="{Binding Request.EmailHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
             
             <Label Text="Kodeord"/>
-            <Entry Text="{Binding Request.Password}" IsPassword="true" IsVisible="{Binding IsReady}"></Entry>
-            <Entry Text="{Binding Request.Password}" IsPassword="true" IsVisible="{Binding IsBusy}" IsEnabled="false"></Entry>
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsPassword="true" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Password" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsPassword="true" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
 
-            <ActivityIndicator Color="Red" IsRunning="true" IsVisible="{Binding IsBusy}" />
+            <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
             
-            <Button Text="Log ind" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}"></Button>
+            <Button Text="Log ind" Command="{Binding LoginCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            
             <Button Text="Opret bruger" Command="{prism:NavigateTo 'CreateCustomerPage'}" IsVisible="{Binding IsReady}" />
            
         </StackLayout>

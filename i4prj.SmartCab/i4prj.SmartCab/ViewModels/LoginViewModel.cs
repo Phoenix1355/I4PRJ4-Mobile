@@ -48,16 +48,16 @@ namespace i4prj.SmartCab.ViewModels
 
         #region Commands
 
-        private DelegateCommand _submitRequest;
+        private DelegateCommand _loginCommand;
         /// <summary>
         /// Submits the LoginRequest.
         /// </summary>
-        public DelegateCommand SubmitRequestCommand => _submitRequest ?? (_submitRequest = new DelegateCommand(SubmitRequestCommandExecuteAsync));
+        public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(LoginCommandExecuteAsync));
 
-        private async void SubmitRequestCommandExecuteAsync()
+        private async void LoginCommandExecuteAsync()
         {
             IsBusy = true;
-            LoginResponse response = await _backendApiService.SubmitLoginRequestRequest(Request);
+            LoginResponse response = await _backendApiService.SubmitLoginRequest(Request);
             IsBusy = false;
 
             if (response == null)

@@ -78,28 +78,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
-        #region Ctor
-
-        [Test]
-        public void Ctor_Default_EmptyStringProperties()
-        {
-            // Arrange and act
-            var uut = new CreateCustomerRequest();
-
-            // Assert.
-            // Multiple continues even if the first assert inside fails
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(uut.Name, string.Empty);
-                Assert.AreEqual(uut.Email, string.Empty);
-                Assert.AreEqual(uut.Phone, string.Empty);
-                Assert.AreEqual(uut.Password, string.Empty);
-                Assert.AreEqual(uut.PasswordConfirmation, string.Empty);
-            });
-        }
-
-        #endregion
-
         #region Name
 
         [Test]
@@ -555,6 +533,231 @@ namespace i4prj.SmartCab.UnitTests.Requests
             Assert.IsTrue(uut.IsInvalid);
         }
 
+        #endregion
+
+        #region NameErrors
+        [Test]
+        public void NameErrorsProperty_RequestHasInvalidName_IsNotEmpty()
+        {
+            // Arange and act
+            var uut = _invalidNameRequest;
+
+            // Assert
+            Assert.IsNotEmpty(uut.NameErrors);
+        }
+
+        [Test]
+        public void NameErrorsProperty_RequestHasValidName_IsEmpty()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsEmpty(uut.NameErrors);
+        }
+
+        #endregion
+
+        #region NameHasErrors
+        [Test]
+        public void NameHasErrorsProperty_RequestHasInvalidName_ReturnsTrue()
+        {
+            // Arange and act
+            var uut = _invalidNameRequest;
+
+            // Assert
+            Assert.IsTrue(uut.NameHasErrors);
+        }
+
+        [Test]
+        public void NameHasErrorsProperty_RequestHasValidName_ReturnsFalse()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsFalse(uut.NameHasErrors);
+        }
+        #endregion
+
+        #region EmailErrors
+        [Test]
+        public void EmailErrorsProperty_RequestHasInvalidEmail_IsNotEmpty()
+        {
+            // Arange and act
+            var uut = _invalidEmailRequest;
+
+            // Assert
+            Assert.IsNotEmpty(uut.EmailErrors);
+        }
+
+        [Test]
+        public void EmailErrorsProperty_RequestHasValidEmail_IsEmpty()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsEmpty(uut.EmailErrors);
+        }
+
+        #endregion
+
+        #region EmailHasErrors
+        [Test]
+        public void EmailHasErrorsProperty_RequestHasInvalidEmail_ReturnsTrue()
+        {
+            // Arange and act
+            var uut = _invalidEmailRequest;
+
+            // Assert
+            Assert.IsTrue(uut.EmailHasErrors);
+        }
+
+        [Test]
+        public void EmailHasErrorsProperty_RequestHasValidEmail_ReturnsFalse()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsFalse(uut.EmailHasErrors);
+        }
+        #endregion
+
+        #region PhoneErrors
+        [Test]
+        public void PhoneErrorsProperty_RequestHasInvalidPhone_IsNotEmpty()
+        {
+            // Arange and act
+            var uut = _invalidPhoneRequest;
+
+            // Assert
+            Assert.IsNotEmpty(uut.PhoneErrors);
+        }
+
+        [Test]
+        public void PhoneErrorsProperty_RequestHasValidPhone_IsEmpty()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsEmpty(uut.PhoneErrors);
+        }
+
+        #endregion
+
+        #region PhoneHasErrors
+        [Test]
+        public void PhoneHasErrorsProperty_RequestHasInvalidPhone_ReturnsTrue()
+        {
+            // Arange and act
+            var uut = _invalidPhoneRequest;
+
+            // Assert
+            Assert.IsTrue(uut.PhoneHasErrors);
+        }
+
+        [Test]
+        public void PhoneHasErrorsProperty_RequestHasValidPhone_ReturnsFalse()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsFalse(uut.PhoneHasErrors);
+        }
+        #endregion
+
+        #region PasswordErrors
+        [Test]
+        public void PasswordErrorsProperty_RequestHasInvalidPassword_IsNotEmpty()
+        {
+            // Arange and act
+            var uut = _invalidPasswordRequest;
+
+            // Assert
+            Assert.IsNotEmpty(uut.PasswordErrors);
+        }
+
+        [Test]
+        public void PasswordErrorsProperty_RequestHasValidPassword_IsEmpty()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsEmpty(uut.PasswordErrors);
+        }
+
+        #endregion
+
+        #region PasswordHasErrors
+        [Test]
+        public void PasswordHasErrorsProperty_RequestHasInvalidPassword_ReturnsTrue()
+        {
+            // Arange and act
+            var uut = _invalidPasswordRequest;
+
+            // Assert
+            Assert.IsTrue(uut.PasswordHasErrors);
+        }
+
+        [Test]
+        public void PasswordHasErrorsProperty_RequestHasValidPassword_ReturnsFalse()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsFalse(uut.PasswordHasErrors);
+        }
+        #endregion
+
+        #region PasswordConfirmationErrors
+        [Test]
+        public void PasswordConfirmationErrorsProperty_RequestHasInvalidPasswordConfirmation_IsNotEmpty()
+        {
+            // Arange and act
+            var uut = _invalidPasswordConfirmationRequest;
+
+            // Assert
+            Assert.IsNotEmpty(uut.PasswordConfirmationErrors);
+        }
+
+        [Test]
+        public void PasswordConfirmationErrorsProperty_RequestHasValidPasswordConfirmation_IsEmpty()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsEmpty(uut.PasswordConfirmationErrors);
+        }
+
+        #endregion
+
+        #region PasswordConfirmationHasErrors
+        [Test]
+        public void PasswordConfirmationHasErrorsProperty_RequestHasInvalidPasswordConfirmation_ReturnsTrue()
+        {
+            // Arange and act
+            var uut = _invalidPasswordConfirmationRequest;
+
+            // Assert
+            Assert.IsTrue(uut.PasswordConfirmationHasErrors);
+        }
+
+        [Test]
+        public void PasswordConfirmationHasErrorsProperty_RequestHasValidPasswordConfirmation_ReturnsFalse()
+        {
+            // Arange and act
+            var uut = _validRequest;
+
+            // Assert
+            Assert.IsFalse(uut.PasswordConfirmationHasErrors);
+        }
         #endregion
     }
 }
