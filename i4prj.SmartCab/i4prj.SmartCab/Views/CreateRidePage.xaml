@@ -76,7 +76,11 @@
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
                 <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentDate}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding DepartureTime}" BindingContext="{Binding Request}"></TimePicker>
+                <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding Request.DepartureTime}">
+                    <TimePicker.Behaviors>
+                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                    </TimePicker.Behaviors>
+                </TimePicker>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Antal passagerer</Label>
@@ -102,7 +106,11 @@
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
                 <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=MinimumDate}" MaximumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
-                <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}"></TimePicker>
+                <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}">
+                    <TimePicker.Behaviors>
+                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                    </TimePicker.Behaviors>
+                </TimePicker>
             </StackLayout>
 
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />

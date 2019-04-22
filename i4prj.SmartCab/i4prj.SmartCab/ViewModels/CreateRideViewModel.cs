@@ -68,6 +68,26 @@ namespace i4prj.SmartCab.ViewModels
 
         #region Commands
 
+        private DelegateCommand _checkTimeCommand;
+        /// <summary>
+        /// Submits the CalculatePriceRequest
+        /// </summary>
+        public DelegateCommand CheckTimeCommand => _checkTimeCommand ??
+                                                        (_checkTimeCommand =
+                                                            new DelegateCommand(CheckTimeCommandExecuteAsync));
+
+        private async void CheckTimeCommandExecuteAsync()
+        {   
+            if (Request.DepartureDate.Date == Request.ConfirmationDeadlineDate.Date)
+            {
+                if (Request.ConfirmationDeadlineTime > Request.DepartureTime)
+                {
+                    Request.ConfirmationDeadlineTime = Request.DepartureTime;
+                    await DialogService.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
+                }
+            }
+        }
+
         private DelegateCommand _calculatePriceCommand;
         /// <summary>
         /// Submits the CalculatePriceRequest

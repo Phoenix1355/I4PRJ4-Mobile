@@ -157,8 +157,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _uut.CreateRideCommand.Execute();
             _fakeNavigationService.Received().GoBackAsync();
         }
-
-
+       
         #endregion
     }
 }

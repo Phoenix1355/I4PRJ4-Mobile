@@ -54,6 +54,7 @@ namespace i4prj.SmartCab.Requests
             CurrentDate = _timeService.GetCurrentDate();
         }
 
+        /*
         //SUPER HACK - er nok ikke lige den bedste måde at gøre det på.
         private async void CheckTime()
         {
@@ -67,6 +68,7 @@ namespace i4prj.SmartCab.Requests
                 }
             }
         }
+        */
 
         public DateTime CurrentDate { get; private set; }
 
@@ -91,7 +93,6 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _departureDate,value);
-                CheckTime();
             }
         }
 
@@ -104,7 +105,6 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _departureTime, value);
-                CheckTime();
             }
         }
 
@@ -117,7 +117,6 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _confirmationDeadlineDate, value);
-                CheckTime();
             }
         }
 
@@ -130,7 +129,6 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _confirmationDeadlineTime, value);
-                CheckTime();
             }
         }
 

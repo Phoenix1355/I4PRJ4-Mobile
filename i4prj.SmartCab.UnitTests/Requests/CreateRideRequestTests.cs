@@ -83,11 +83,48 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
+        //As it is right now, this is not testable
         #region DepartureTime
+        /*
+        [Test]
+        public void DepartureTime_SetLaterThanConfirmationWithSameDate_ValueAccepted()
+        {
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime();
 
-        //Time not tested yet. Implementation not ready for it
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate();
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0));
 
+
+            Assert.AreEqual(_uut.DepartureTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0)));
+        }
+
+        [Test]
+        public void DepartureTime_SetLaterThanConfirmationWithDifferentDate_ValueAccepted()
+        {
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime();
+
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0));
+
+            Assert.AreEqual(_uut.DepartureTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0)));
+        }
+
+        [Test]
+        public void DepartureTime_SetEarlierThanConfirmation_ValueNotAccepted()
+        {
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime();
+
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate();
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime().Subtract(new TimeSpan(0, 1, 0, 0));
+
+            Assert.AreEqual(_uut.DepartureTime,_uut.ConfirmationDeadlineTime);
+        }
+        */
         #endregion
+
 
         #region ConfirmationDeadlineDate
         [Test]
@@ -102,11 +139,48 @@ namespace i4prj.SmartCab.UnitTests.Requests
         //DateTime objects cant be null, and databinding makes it so the user cant change it to before DateTime.Now.
         #endregion
 
+        //As it is right now, this is not testable
         #region ConfirmationDeadlineTime
-        //Time not tested yet. Implementation not ready for it
+        /*
+        [Test]
+        public void ConfirmationDeadlineTime_SetEarlierThanDepartureWithSameDate_ValueAccepted()
+        {
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate();
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime();
+
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime().Subtract(new TimeSpan(0, 1, 0, 0));
+
+            Assert.AreEqual(_uut.ConfirmationDeadlineTime,
+                _fakeTimeService.GetCurrentTime().Subtract(new TimeSpan(0, 1, 0, 0)));
+        }
+
+        [Test]
+        public void ConfirmationDeadlineTime_SetEarlierThanDepartureWithDifferentDate_ValueAccepted()
+        {
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime();
+
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime().Subtract(new TimeSpan(0, 1, 0, 0));
+
+
+            Assert.AreEqual(_uut.ConfirmationDeadlineTime, _fakeTimeService.GetCurrentTime().Subtract(new TimeSpan(0, 1, 0, 0)));
+        }
+
+        [Test]
+        public void ConfirmationDeadlineTime_SetLaterThanDeparture_ValueNotAccepted()
+        {
+            _uut.DepartureDate = _fakeTimeService.GetCurrentDate();
+            _uut.DepartureTime = _fakeTimeService.GetCurrentTime();
+
+            _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+            _uut.ConfirmationDeadlineTime = _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0));
+
+            Assert.AreEqual(_uut.ConfirmationDeadlineTime,_uut.DepartureTime);
+        }
+        */
         #endregion
-
-
 
         #region AmountOfPassengers
 
