@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="i4prj.SmartCab.Views.EditAccountPage"
+             Title="Rediger konto">
+    <ScrollView>
+        <StackLayout>
+            <Label>Navn</Label>
+            <Entry Text="{Binding Name}" BindingContext="{Binding Request}"></Entry>
+            <Label>Telefonnummer</Label>
+            <Entry Text="{Binding PhoneNumber}" BindingContext="{Binding Request}"></Entry>
+            <Label>Email</Label>
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}"></Entry>
+
+            <StackLayout Orientation="Horizontal">
+                <Switch x:Name="ChangePasswordSwitch" IsToggled="{Binding ChangePassword}" BindingContext="{Binding Request}"></Switch>
+                <Label>Skift kodeord</Label>
+            </StackLayout>
+
+            <StackLayout BindingContext="{Binding Request}">
+
+                <Label>Gammelt kodeord</Label>
+                <Entry Text="{Binding OldPassword}"></Entry>
+
+                <Label>Nyt kodeord</Label>
+                <Entry Text="{Binding Password}"></Entry>
+
+                <Label>Gentag kodeord</Label>
+                <Entry Text="{Binding RepeatedPassword}"></Entry>
+
+            </StackLayout>
+
+
+            <Button Text="OK" Command="{Binding EditAccountCommand}"></Button>
+
+        </StackLayout>
+
+    </ScrollView>
+</ContentPage>

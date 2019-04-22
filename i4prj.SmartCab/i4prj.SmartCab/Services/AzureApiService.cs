@@ -29,6 +29,7 @@ namespace i4prj.SmartCab.Services
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
         private const string _createRideEndPoint = _baseUrl + "Rides/Create";
         private const string _calculatePriceEndPoint = _baseUrl + "Price";
+        private const string _editAccountEndPoint = _baseUrl + "Customer/Edit";
 
         public AzureApiService(HttpClient httpHandler, ISessionService sessionService)
         {
@@ -121,7 +122,36 @@ namespace i4prj.SmartCab.Services
             return result;
         }*/
 
-        
+        public async Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request)
+        {
+            object requestBody;
+
+            if (request.ChangePassword)
+            {
+                requestBody = new
+                {
+                    name = request.Name,
+                    phoneNumber = request.PhoneNumber,
+                    email = request.Email,
+                };
+            }
+            else
+            {
+                requestBody = new
+                {
+                    name = request.Name,
+                    phoneNumber = request.PhoneNumber,
+                    email = request.Email,
+                    oldPassword = request.OldPassword,
+                    newPassword = request.Password,
+                    repeatedPassword = request.RepeatedPassword,
+                };
+            }
+
+            var result = await PostAsync(GetEndPointUrl(request), requestBody);
+
+            return result != null ? new EditAccountResponse(result) : null;
+        }
 
         #endregion
 
@@ -146,6 +176,11 @@ namespace i4prj.SmartCab.Services
         private string GetEndPointUrl(ICalculatePriceRequest request)
         {
             return _calculatePriceEndPoint;
+        }
+
+        private string GetEndPointUrl(IEditAccountRequest request)
+        {
+            return _editAccountEndPoint;
         }
 
         #endregion

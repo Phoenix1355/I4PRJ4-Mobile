@@ -2,13 +2,19 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" 
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   x:Class="i4prj.SmartCab.Views.CustomerMasterDetailPage"
-                  xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
+                  xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+                  xmlns:xaml="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms">
     <MasterDetailPage.Master>
         <ContentPage Title="TEST">
             <StackLayout Margin="10">
                 <Label Text="{Binding Customer.Name}" FontSize="Large"></Label>
-                <Label Text="{Binding Customer.Email}" Margin="0,0,0,10"></Label>
-                <Button Text="Log ud" Command="{Binding LogOutCommand}" />
+                    <Label Text="{Binding Customer.Email}" Margin="0,0,0,10"></Label>
+                <Button Text="Turoversigt" Command="{xaml:NavigateTo 'NavigationPage/RidesPage'}"></Button>
+                <Button Text="Rediger konto" Command="{xaml:NavigateTo 'NavigationPage/EditAccountPage'}"></Button>
+                <Button Text="Saldo"></Button>
+
+                <BoxView HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"></BoxView>
+                <Button Text="Log ud" Command="{Binding LogOutCommand}" VerticalOptions="End"></Button>
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>
