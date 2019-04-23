@@ -102,21 +102,6 @@ namespace i4prj.SmartCab.UnitTests.Services
         /// Test to see whether a successfull response with valid json will be transformed correctly
         /// </summary>
         [Test]
-        public async Task SubmitCreateCustomerRequest_ReceivesBadRequestResponse_ReturnsExpectedValue()
-        {
-            // Arange
-            // Fake Http Response
-            var fakeHttpResponse = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    token = (string)null,
-                    customer = (object)null,
-                    errors = new Dictionary<string, IList<string>>() {
-                        { "error", new List<string>() { "User name is already taken" } }
-                    }
-                }), Encoding.UTF8, "application/json")
         public async Task SubmitLoginRequest_ReceivesValidJsonResponse_ReturnsExpectedValue()
         {
             // Arrange: Fake Http Response
