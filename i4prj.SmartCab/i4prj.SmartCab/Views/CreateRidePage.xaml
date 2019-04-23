@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validation="clr-namespace:i4prj.SmartCab.Validation;assembly=i4prj.SmartCab"
+             x:Class="i4prj.SmartCab.Views.CreateRidePage"
+             Title="Opret tur"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+    <ScrollView Margin="10,0,10,0">
+        <StackLayout Orientation="Vertical">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" ></ColumnDefinition>
+                    <ColumnDefinition Width="50" ></ColumnDefinition>
+                    <ColumnDefinition Width="110" ></ColumnDefinition>
+                    <ColumnDefinition Width="60" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label FontSize="18" Grid.Row="0" Grid.Column="0">Fra</Label>
+                <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginCityName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginStreetName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OriginStreetNumber" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Label Grid.Column="0" FontSize="18" Grid.Row="2">Til</Label>
+                <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationPostalCode" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationStreetName" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}"  BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="DestinationStreetNumber" />
+                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+            </Grid>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Margin="0,15,0,0">Afgangstidspunkt</Label>
+                <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentDate}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding Request.DepartureTime}">
+                    <TimePicker.Behaviors>
+                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                    </TimePicker.Behaviors>
+                </TimePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Margin="0,10,0,0">Antal passagerer</Label>
+                <Label Margin="10,10,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
+                <Stepper x:Name="PassengerStepper" Minimum="1" Increment="1" Value="{Binding AmountOfPassengers}" BindingContext="{Binding Request}">
+                    <Stepper.Triggers>
+                        <DataTrigger TargetType="Stepper" Binding="{Binding IsShared}"  Value="True">
+                            <Setter Property="Maximum" Value="2"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Stepper" Binding="{Binding IsShared}" Value="False">
+                            <Setter Property="Maximum" Value="4"></Setter>
+                        </DataTrigger>
+                    </Stepper.Triggers>
+                </Stepper>
+            </StackLayout>
+            
+
+            <StackLayout Orientation =" Horizontal">
+                <Switch x:Name="IsSharedSwitch" Margin="0,10,0,0" IsToggled="{Binding IsShared}" BindingContext="{Binding Request}"></Switch>
+                <Label Margin="0,15,0,0">Turen må deles (billigere kilometerpris)</Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Margin="0,10,0,0">Jeg vil have svar senest</Label>
+                <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=MinimumDate}" MaximumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
+                <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}">
+                    <TimePicker.Behaviors>
+                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                    </TimePicker.Behaviors>
+                </TimePicker>
+            </StackLayout>
+
+            <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
+            
+            <Button Text="{Binding Price}" Command="{Binding CalculatePriceCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Opret tur" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </ScrollView>
+
+
+</ContentPage>

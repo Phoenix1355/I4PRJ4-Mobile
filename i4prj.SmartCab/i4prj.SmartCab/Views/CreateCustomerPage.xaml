@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validation="clr-namespace:i4prj.SmartCab.Validation"
+             xmlns:effects="clr-namespace:i4prj.SmartCab.Effects"
+             x:Class="i4prj.SmartCab.Views.CreateCustomerPage"
+             x:Name="CurrentPage"
+             Title="{Binding Title}">
+   <ScrollView Orientation="Vertical">
+        <StackLayout Margin="10" Padding="0,0,0,20">
+            
+            <Label Text="Navn" />
+            <Entry Text="{Binding Name}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Name" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Name}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.NameErrors}" IsVisible="{Binding Request.NameHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+            
+            <Label Text="Telefonnr." />
+            <Entry Text="{Binding Phone}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Phone" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Phone}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.PhoneErrors}" IsVisible="{Binding Request.PhoneHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+            
+            <Label Text="E-mail" />
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}" Keyboard="Email">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Email" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.EmailErrors}" IsVisible="{Binding Request.EmailHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+            
+            <Label Text="Kodeord" />
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}" IsPassword="true">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Password" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding Password}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.PasswordErrors}" IsVisible="{Binding Request.PasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+            
+            <Label Text="Bekræft kodeord" />
+            <Entry Text="{Binding PasswordConfirmation}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsReady, Source={x:Reference Name=CurrentPage}}" IsPassword="true">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="PasswordConfirmation" />  
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Text="{Binding PasswordConfirmation}" BindingContext="{Binding Request}" IsVisible="{Binding Path=BindingContext.IsBusy, Source={x:Reference Name=CurrentPage}}" IsPassword="true" IsEnabled="false"></Entry>
+            
+            <Editor Text="{Binding Request.PasswordConfirmationErrors}" IsVisible="{Binding Request.PasswordConfirmationHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+            
+            <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
+            
+            <Button Text="Opret" Command="{Binding SubmitRequestCommand}" IsVisible="{Binding IsReady}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
