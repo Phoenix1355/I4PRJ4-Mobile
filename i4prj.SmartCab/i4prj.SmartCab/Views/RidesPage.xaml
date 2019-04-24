@@ -2,12 +2,56 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xaml="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+             xmlns:selectors="clr-namespace:i4prj.SmartCab.DataTemplateSelectors"
+             xmlns:converters="clr-namespace:i4prj.SmartCab.ValueConverters"
              x:Class="i4prj.SmartCab.Views.RidesPage" 
              Title="{Binding Title}">
-   <ScrollView Orientation="Vertical">
-        <StackLayout Margin="10">
-            <Label>Vis ture her</Label>
-            <Button Text="Opret tur" Command="{xaml:NavigateTo 'CreateRidePage'}"></Button>
-        </StackLayout>
-    </ScrollView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Styles -->
+            <Style TargetType="Label" Class="ArchivedText">
+                
+            </Style>
+            
+            <Style TargetType="Label" Class="EmphasizedArchivedText">
+                
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            
+            <!-- Data Templates -->
+            <DataTemplate x:Key="archivedRideTemplate">
+                <ViewCell>
+                    <StackLayout Margin="15">
+                        <Label StyleClass="EmphasizedArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=DepartureTime, Converter={StaticResource dateTime}, ConverterParameter='d'}}" />
+                        <Label StyleClass="ArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}, ConverterParameter='Fra'}}" />
+                        <Label StyleClass="ArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Destination, Converter={StaticResource flattenAddress}, ConverterParameter='Til'}}" />
+                        <Label StyleClass="EmphasizedArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Price, Converter={StaticResource price}}" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="openRideTemplate">
+                <TextCell Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}}" TextColor="Green" />
+            </DataTemplate>
+            
+            <!-- Template Selectors -->
+            <selectors:ListViewRideDataTemplateSelector x:Key="rideDataTemplateSelector"
+                OpenTemplate="{StaticResource openRideTemplate}"
+                ArchivedTemplate="{StaticResource archivedRideTemplate}" />
+            
+            <!-- Converters -->
+            <converters:FlattenAddressConverter x:Key="flattenAddress" />
+            <converters:DateTimeConverter x:Key="dateTime" />
+            <converters:PriceConverter x:Key="price" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ListView HasUnevenRows="true" IsGroupingEnabled="true" ItemsSource="{Binding Rides}" GroupDisplayBinding="{Binding Title}" GroupShortNameBinding="{Binding ShortName}" ItemTemplate="{StaticResource rideDataTemplateSelector}">
+        <ListView.Header>
+            <StackLayout Margin="10">
+                <Button Text="Opret ny tur" Command="{xaml:NavigateTo 'CreateRidePage'}"></Button>
+            </StackLayout>
+        </ListView.Header>
+    </ListView>
+    
 </ContentPage>

@@ -14,5 +14,15 @@ namespace i4prj.SmartCab.Models
         public int AmountOfPassengers { get; set; }
         public bool Shared { get; set; }
         public double Price { get; set; }
+        public RideStatus Status { get; set; }
+
+        public enum RideStatus
+        {
+            LookingForMatch,
+            Debited,
+            WaitingForAccept,
+            Accepted,
+            Expired
+        }
     }
 }
