@@ -9,12 +9,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <!-- Styles -->
-            <Style TargetType="Label" Class="ArchivedText">
-                
-            </Style>
-            
-            <Style TargetType="Label" Class="EmphasizedArchivedText">
-                
+            <Style TargetType="Label" Class="EmphasizedText">
                 <Setter Property="FontAttributes" Value="Bold" />
             </Style>
             
@@ -22,16 +17,35 @@
             <DataTemplate x:Key="archivedRideTemplate">
                 <ViewCell>
                     <StackLayout Margin="15">
-                        <Label StyleClass="EmphasizedArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=DepartureTime, Converter={StaticResource dateTime}, ConverterParameter='d'}}" />
-                        <Label StyleClass="ArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}, ConverterParameter='Fra'}}" />
-                        <Label StyleClass="ArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Destination, Converter={StaticResource flattenAddress}, ConverterParameter='Til'}}" />
-                        <Label StyleClass="EmphasizedArchivedText" LineBreakMode="TailTruncation" Text="{Binding Path=Price, Converter={StaticResource price}}" />
+                        <Label StyleClass="EmphasizedText" LineBreakMode="TailTruncation" Text="{Binding Path=DepartureTime, Converter={StaticResource dateTime}, ConverterParameter='d'}" />
+                        <Label LineBreakMode="TailTruncation" Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}, ConverterParameter='Fra'}" />
+                        <Label LineBreakMode="TailTruncation" Text="{Binding Path=Destination, Converter={StaticResource flattenAddress}, ConverterParameter='Til'}" />
+                        <Label StyleClass="EmphasizedText" LineBreakMode="TailTruncation" Text="{Binding Path=Price, Converter={StaticResource price}}" />
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
             
             <DataTemplate x:Key="openRideTemplate">
-                <TextCell Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}}" TextColor="Green" />
+                <ViewCell>
+                    <Grid Margin="15" ColumnSpacing="15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="75"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackLayout>
+                            <Label StyleClass="EmphasizedText" LineBreakMode="TailTruncation" Text="{Binding Path=DepartureTime, Converter={StaticResource dateTime}, ConverterParameter='d'}" />
+                            <Label LineBreakMode="TailTruncation" Text="{Binding Path=Origin, Converter={StaticResource flattenAddress}, ConverterParameter='Fra'}" />
+                            <Label LineBreakMode="TailTruncation" Text="{Binding Path=Destination, Converter={StaticResource flattenAddress}, ConverterParameter='Til'}" />
+                            <Label StyleClass="EmphasizedText" LineBreakMode="TailTruncation" Text="{Binding Path=Price, Converter={StaticResource price}}" />
+                            <Label LineBreakMode="TailTruncation" Text="Udløber om X m Y s (TODO)" IsVisible="{Binding Path=Status, Converter={StaticResource statusAccepted}, ConverterParameter=true}" />
+                        </StackLayout>
+                        
+                        <BoxView VerticalOptions="Fill" Color="{Binding Path=Status, Converter={StaticResource statusColor}}" Grid.Column="1" CornerRadius="10"></BoxView>
+                        
+                        <Label Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" Margin="5" Text="{Binding Path=Status, Converter={StaticResource statusText}}" />
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
             
             <!-- Template Selectors -->
@@ -43,10 +57,13 @@
             <converters:FlattenAddressConverter x:Key="flattenAddress" />
             <converters:DateTimeConverter x:Key="dateTime" />
             <converters:PriceConverter x:Key="price" />
+            <converters:RideStatusTextConverter x:Key="statusText" />
+            <converters:RideStatusColorConverter x:Key="statusColor" />
+            <converters:RideStatusToAcceptedBoolConverter x:Key="statusAccepted" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <ListView HasUnevenRows="true" IsGroupingEnabled="true" ItemsSource="{Binding Rides}" GroupDisplayBinding="{Binding Title}" GroupShortNameBinding="{Binding ShortName}" ItemTemplate="{StaticResource rideDataTemplateSelector}">
+    <ListView HasUnevenRows="true" IsGroupingEnabled="true" ItemsSource="{Binding Rides}" GroupDisplayBinding="{Binding Title}" GroupShortNameBinding="{Binding ShortName}" ItemTemplate="{StaticResource rideDataTemplateSelector}" SelectionMode="None">
         <ListView.Header>
             <StackLayout Margin="10">
                 <Button Text="Opret ny tur" Command="{xaml:NavigateTo 'CreateRidePage'}"></Button>

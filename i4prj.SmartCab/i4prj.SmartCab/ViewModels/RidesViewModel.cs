@@ -65,6 +65,28 @@ namespace i4prj.SmartCab.ViewModels
                         Shared = false,
                         Price = 249.95,
                         Status = Ride.RideStatus.WaitingForAccept
+                    },
+                    new Ride {
+                        Origin = new Address
+                        {
+                            CityName = "Aarhus C",
+                            StreetName = "Læssøesgade",
+                            StreetNumber = 45,
+                            PostalCode = 8000
+                        },
+                        Destination = new Address
+                        {
+                            CityName = "Aarhus C",
+                            StreetName = "Banegårdsgade",
+                            StreetNumber = 1,
+                            PostalCode = 8000
+                        },
+                        DepartureTime = DateTime.Now.Add(TimeSpan.FromMinutes(30)),
+                        ConfirmationDeadline = DateTime.Now.Add(TimeSpan.FromMinutes(5)),
+                        AmountOfPassengers = 2,
+                        Shared = false,
+                        Price = 300.00,
+                        Status = Ride.RideStatus.Accepted
                     }
                 },
                 new RideGroup("Arkiverede ture")
@@ -88,7 +110,7 @@ namespace i4prj.SmartCab.ViewModels
                         ConfirmationDeadline = DateTime.Now.Subtract(TimeSpan.FromDays(2)).Subtract(TimeSpan.FromMinutes(30)),
                         AmountOfPassengers = 1,
                         Shared = false,
-                        Price = 100,
+                        Price = 100.00,
                         Status = Ride.RideStatus.WaitingForAccept
                     }
                 }
