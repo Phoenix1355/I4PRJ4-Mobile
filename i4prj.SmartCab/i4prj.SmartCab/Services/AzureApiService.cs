@@ -124,31 +124,17 @@ namespace i4prj.SmartCab.Services
 
         public async Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request)
         {
-            object requestBody;
 
-            if (request.ChangePassword)
+            var result = await PostAsync(GetEndPointUrl(request), new
             {
-                requestBody = new
-                {
-                    name = request.Name,
-                    phoneNumber = request.PhoneNumber,
-                    email = request.Email,
-                };
-            }
-            else
-            {
-                requestBody = new
-                {
-                    name = request.Name,
-                    phoneNumber = request.PhoneNumber,
-                    email = request.Email,
-                    oldPassword = request.OldPassword,
-                    newPassword = request.Password,
-                    repeatedPassword = request.RepeatedPassword,
-                };
-            }
-
-            var result = await PostAsync(GetEndPointUrl(request), requestBody);
+                name=request.Name,
+                email=request.Email,
+                phoneNumber=request.PhoneNumber,
+                changePassword=request.ChangePassword,
+                oldPassword=request.OldPassword,
+                newPassword=request.Password,
+                repeatedPassword=request.RepeatedPassword,
+            });
 
             return result != null ? new EditAccountResponse(result) : null;
         }

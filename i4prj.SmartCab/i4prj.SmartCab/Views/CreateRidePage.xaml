@@ -27,6 +27,7 @@
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
+                
                 <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />

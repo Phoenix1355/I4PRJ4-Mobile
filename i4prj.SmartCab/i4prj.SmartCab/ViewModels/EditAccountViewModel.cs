@@ -59,15 +59,20 @@ namespace i4prj.SmartCab.ViewModels
             {
                 await DialogService.DisplayAlertAsync("Forbindelse", "Du har ikke forbindelse til internettet", "OK");
             }
+            else if (response.WasUnsuccessfull())
+            {
+                await DialogService.DisplayAlertAsync("Ukendt fejl", "Ændringerne kunne ikke registreres", "OK");
+            }
             else if (response.WasSuccessfull())
             {
                 _sessionService.Update(_sessionService.Token,new Customer()
                 {
-                    Email=Request.Email,
-                    Name=Request.Name,
-                    PhoneNumber=Request.PhoneNumber,
+                    Email=response.Body.email,
+                    Name=response.Body.name,
+                    PhoneNumber=response.Body.phoneNumber,
                 });
 
+                await DialogService.DisplayAlertAsync("Success", "Ændringer godkendt", "OK");
                 await NavigationService.NavigateAsync("/"+ nameof(CustomerMasterDetailPage) +"/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
 

@@ -2,36 +2,108 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="i4prj.SmartCab.Views.EditAccountPage"
+             xmlns:validation="clr-namespace:i4prj.SmartCab.Validation;assembly=i4prj.SmartCab"
+             xmlns:effects="clr-namespace:i4prj.SmartCab.Effects;assembly=i4prj.SmartCab"
              Title="Rediger konto">
     <ScrollView>
         <StackLayout>
             <Label>Navn</Label>
-            <Entry Text="{Binding Name}" BindingContext="{Binding Request}"></Entry>
+            <Entry Text="{Binding Name}" BindingContext="{Binding Request}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Name"></validation:EntryValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Editor Text="{Binding Request.NameErrors}" IsVisible="{Binding Request.NameHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+
             <Label>Telefonnummer</Label>
-            <Entry Text="{Binding PhoneNumber}" BindingContext="{Binding Request}"></Entry>
+            <Entry Text="{Binding PhoneNumber}" BindingContext="{Binding Request}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="PhoneNumber"></validation:EntryValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
+            <Editor Text="{Binding Request.PhoneNumberErrors}" IsVisible="{Binding Request.PhoneNumberHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
+
             <Label>Email</Label>
-            <Entry Text="{Binding Email}" BindingContext="{Binding Request}"></Entry>
+            <Entry Text="{Binding Email}" BindingContext="{Binding Request}">
+                <Entry.Behaviors>
+                    <validation:EntryValidationBehavior PropertyName="Email"></validation:EntryValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Editor Text="{Binding Request.EmailErrors}" IsVisible="{Binding Request.EmailHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                <Editor.Effects>
+                    <effects:BorderlessEffect></effects:BorderlessEffect>
+                </Editor.Effects>
+            </Editor>
 
             <StackLayout Orientation="Horizontal">
                 <Switch x:Name="ChangePasswordSwitch" IsToggled="{Binding ChangePassword}" BindingContext="{Binding Request}"></Switch>
                 <Label>Skift kodeord</Label>
             </StackLayout>
 
-            <StackLayout BindingContext="{Binding Request}">
+            <StackLayout>
 
                 <Label>Gammelt kodeord</Label>
-                <Entry Text="{Binding OldPassword}"></Entry>
+                <Entry Text="{Binding OldPassword}" BindingContext="{Binding Request}" IsPassword="true">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="OldPassword"></validation:EntryValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Editor Text="{Binding Request.OldPasswordErrors}" IsVisible="{Binding Request.OldPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                    <Editor.Effects>
+                        <effects:BorderlessEffect></effects:BorderlessEffect>
+                    </Editor.Effects>
+                </Editor>
 
                 <Label>Nyt kodeord</Label>
-                <Entry Text="{Binding Password}"></Entry>
+                <Entry Text="{Binding Password}" IsPassword="true" BindingContext="{Binding Request}">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="Password"></validation:EntryValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Editor Text="{Binding Request.PasswordErrors}" IsVisible="{Binding Request.PasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                    <Editor.Effects>
+                        <effects:BorderlessEffect></effects:BorderlessEffect>
+                    </Editor.Effects>
+                </Editor>
 
                 <Label>Gentag kodeord</Label>
-                <Entry Text="{Binding RepeatedPassword}"></Entry>
+                <Entry Text="{Binding RepeatedPassword}" IsPassword="true" BindingContext="{Binding Request}">
+                    <Entry.Behaviors>
+                        <validation:EntryValidationBehavior PropertyName="RepeatedPassword"></validation:EntryValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Editor Text="{Binding Request.RepeatedPasswordErrors}" IsVisible="{Binding Request.RepeatedPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                    <Editor.Effects>
+                        <effects:BorderlessEffect></effects:BorderlessEffect>
+                    </Editor.Effects>
+                </Editor>
 
             </StackLayout>
 
 
-            <Button Text="OK" Command="{Binding EditAccountCommand}"></Button>
+            <Button Text="OK" Command="{Binding EditAccountCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" ></Setter>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="False">
+                        <Setter Property="IsEnabled" Value="False" ></Setter>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
 
         </StackLayout>
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
@@ -16,14 +18,25 @@ namespace i4prj.SmartCab.Responses
 
         }
 
-        protected override void MakeBody()
+        protected override async void MakeBody()
         {
-
+            string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
+            try
+            {
+                Body = JsonConvert.DeserializeObject<EditAccountResponseBody>(responseBodyAsText);
+                Debug.Write(responseBodyAsText);
+            }
+            catch (Newtonsoft.Json.JsonSerializationException e)
+            {
+                Debug.WriteLine("Http-result kunne parses som json. Fejl: " + e.Message);
+            }
         }
 
         public class EditAccountResponseBody : BackendApiResponseBody
         {
-
+            public string name { get; set; }
+            public string phoneNumber { get; set; }
+            public string email { get; set; }
         }
     }
 }
