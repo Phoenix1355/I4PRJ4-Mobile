@@ -29,17 +29,6 @@ namespace i4prj.SmartCab.ViewModels
 
             _backendApiService = backendApiService;
 
-            /*
-            public IAddress Origin { get; set; }
-            public IAddress Destination { get; set; }
-            public DateTime DepartureTime { get; set; }
-            public DateTime ConfirmationDeadline { get; set; }
-            public int AmountOfPassengers { get; set; }
-            public bool Shared { get; set; }
-            public double Price { get; set; }
-            public RideStatus Status { get; set; }
-            */
-
             Rides = new ObservableCollection<RideGroup>
             {
                 new RideGroup("Åbne ture")
@@ -60,11 +49,12 @@ namespace i4prj.SmartCab.ViewModels
                             PostalCode = 8000
                         },
                         DepartureTime = DateTime.Now.Add(TimeSpan.FromMinutes(30)),
-                        ConfirmationDeadline = DateTime.Now.Add(TimeSpan.FromMinutes(5)),
+                        ConfirmationDeadline = DateTime.Now.Add(TimeSpan.FromMinutes(2)),
                         AmountOfPassengers = 2,
                         Shared = false,
                         Price = 249.95,
-                        Status = Ride.RideStatus.WaitingForAccept
+                        Status = Ride.RideStatus.WaitingForAccept,
+                        Index = 0
                     },
                     new Ride {
                         Origin = new Address
@@ -86,7 +76,8 @@ namespace i4prj.SmartCab.ViewModels
                         AmountOfPassengers = 2,
                         Shared = false,
                         Price = 300.00,
-                        Status = Ride.RideStatus.Accepted
+                        Status = Ride.RideStatus.Accepted,
+                        Index = 1
                     }
                 },
                 new RideGroup("Arkiverede ture")
@@ -126,6 +117,27 @@ namespace i4prj.SmartCab.ViewModels
         public void OnDisappearing()
         {
             Debug.Write("RidesViewModel::OnDisappearing");
+        }
+
+        private DelegateCommand _updateListCommand;
+
+        public DelegateCommand UpdateListCommand => _updateListCommand ?? (_updateListCommand = new DelegateCommand(UpdateListCommandAsync));
+
+        private async void UpdateListCommandAsync()
+        {
+            await DialogService.DisplayAlertAsync("Opdater liste", "Wuhuu", "OK");
+
+            IsRefreshing = false;
+        }
+
+        private bool _isRefreshing = false;
+        public bool IsRefreshing 
+        {
+            get { return _isRefreshing;  }
+            set
+            {
+                SetProperty(ref _isRefreshing, value);
+            }
         }
 
         /*private DelegateCommand _getRidesCommand;

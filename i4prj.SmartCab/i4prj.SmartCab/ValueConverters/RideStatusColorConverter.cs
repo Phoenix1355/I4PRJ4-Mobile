@@ -19,11 +19,11 @@ namespace i4prj.SmartCab.ValueConverters
                     case Ride.RideStatus.WaitingForAccept:
                     case Ride.RideStatus.LookingForMatch:
                     case Ride.RideStatus.Debited:
-                        result = Color.Yellow;
+                        result = Color.FromRgba(25, 90, 136, 40);
                         break;
                     
                     case Ride.RideStatus.Accepted:
-                        result = Color.Green;
+                        result = Color.FromRgba(43, 136, 25, 40);
                         break;
 
                     case Ride.RideStatus.Expired:
