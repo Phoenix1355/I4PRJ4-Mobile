@@ -6,11 +6,11 @@ namespace i4prj.SmartCab.Models
     /// <summary>
     /// A titled group of rides
     /// </summary>
-    public class RideGroup : ObservableCollection<Ride>
+    public class RidesGroup : ObservableCollection<Ride>
     {
         public string Title { get; set; }
 
-        public RideGroup(string title)
+        public RidesGroup(string title)
         {
             Title = title;
         }

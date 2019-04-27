@@ -111,17 +111,15 @@ namespace i4prj.SmartCab.Services
         }
 
         /// <summary>
-        /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
+        /// Gets the rides of the current customer.
         /// </summary>
-        /// <returns>The rides.</returns>
-        /*public async Task<HttpResponseMessage> GetRides()
+        /// <returns>A response containing a list of responses.</returns>
+        public async Task<CustomerRidesResponse> GetCustomerRides()
         {
-            var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
+            var result = await GetAsync(_customerRidesEndPoint);
 
-            return result;
-        }*/
-
-        
+            return result != null ? new CustomerRidesResponse(result) : null;
+        }
 
         #endregion
 

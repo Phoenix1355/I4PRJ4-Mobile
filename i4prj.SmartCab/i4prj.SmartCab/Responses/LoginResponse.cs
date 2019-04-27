@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using i4prj.SmartCab.Interfaces;
@@ -59,7 +60,5 @@ namespace i4prj.SmartCab.Responses
             public string phoneNumber { get; set; }
         }
     }
-
-
     #endregion
 }
