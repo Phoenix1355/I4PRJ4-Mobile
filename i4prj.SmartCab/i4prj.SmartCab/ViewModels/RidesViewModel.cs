@@ -10,6 +10,8 @@ using i4prj.SmartCab.Interfaces;
 using System.Collections.ObjectModel;
 using Prism.AppModel;
 using i4prj.SmartCab.Responses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace i4prj.SmartCab.ViewModels
 {
@@ -17,6 +19,7 @@ namespace i4prj.SmartCab.ViewModels
     {
         private IBackendApiService _backendApiService;
         private ISessionService _sessionService;
+        private IRidesService _ridesService;
 
         /// <summary>
         /// Gets or sets the rides collection to display in the view.
@@ -31,12 +34,13 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="dialogService">Dialog service.</param>
         /// <param name="backendApiService">Backend API service.</param>
         /// <param name="sessionService">Session service.</param>
-        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService) : base(navigationService, dialogService)
+        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService, IRidesService ridesService) : base(navigationService, dialogService)
         {
             Title = "Turoversigt";
 
             _backendApiService = backendApiService;
             _sessionService = sessionService;
+            _ridesService = ridesService;
 
             Rides = new ObservableCollection<RidesGroup>();
         }
@@ -65,29 +69,20 @@ namespace i4prj.SmartCab.ViewModels
             // Build Rides property
             else
             {
-                // Create the two groups of rides
-                var openRidesGroup = new RidesGroup("Åbne ture");
-                var archivedRidesGroup = new RidesGroup("Arkiverede ture");
-
-                // Iterate groups from Backend and add to groups
-                foreach (var item in customerRidesResponse.Body.rides)
-                {
-                    var ride = new Ride(item);
-                    if (ride.IsOpen())
-                    {
-                        openRidesGroup.Add(ride);
-                    }
-                    else
-                    {
-                        archivedRidesGroup.Add(ride);
-                    }
-                }
-
                 // Clear Rides property (as this method can be called numerous times)
                 if (Rides != null && Rides.Count > 0) Rides.Clear();
 
-                // Add non-empty groups to Rides property
+                // Convert the API response to Ride class
+                var allRides = _ridesService.CreateRidesFromApiResponse(customerRidesResponse.Body.rides);
+
+                // Get open rides, add to group of open rides, add group to display property
+                var openRidesGroup = new RidesGroup("Åbne ture");
+                _ridesService.GetOpenRides(allRides).ToList().ForEach(x => openRidesGroup.Add(x));
                 if (openRidesGroup.Count > 0) Rides.Add(openRidesGroup);
+
+                // Get archived rides, add to group of archived rides, add group to display property
+                var archivedRidesGroup = new RidesGroup("Arkiverede ture");
+                _ridesService.GetArchivedRides(allRides).ToList().ForEach(x => openRidesGroup.Add(x));
                 if (archivedRidesGroup.Count > 0) Rides.Add(archivedRidesGroup);
             }
 
