@@ -45,7 +45,7 @@ namespace i4prj.SmartCab.Services
         /// <param name="request">Request.</param>
         public async Task<CreateCustomerResponse> SubmitCreateCustomerRequest(ICreateCustomerRequest request)
         {
-            var result = await PostAsync(GetEndPointUrl(request), new
+            var result = await PostAsync(_customerRegisterEndPoint, new
             {
                 email = request.Email,
                 password = request.Password,
@@ -65,7 +65,7 @@ namespace i4prj.SmartCab.Services
         public async Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request)
         {
           
-            var result = await PostAsync(GetEndPointUrl(request), new
+            var result = await PostAsync(_createRideEndPoint, new
             {
                 isShared=request.IsShared,
                 departureTime = request.DepartureDate+request.DepartureTime,
@@ -85,7 +85,7 @@ namespace i4prj.SmartCab.Services
         /// <returns>The price calculated for the specific ride</returns>
         public async Task<PriceResponse> SubmitCalculatePriceRequest(ICalculatePriceRequest request)
         {
-            var result = await PostAsync(GetEndPointUrl(request), new
+            var result = await PostAsync(_calculatePriceEndPoint, new
             {
                 startAddress = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
                 endAddress = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
@@ -101,7 +101,7 @@ namespace i4prj.SmartCab.Services
         /// <param name="request">Request.</param>
         public async Task<LoginResponse> SubmitLoginRequest(ILoginRequest request)
         {
-            var result = await PostAsync(GetEndPointUrl(request), new
+            var result = await PostAsync(_customerLoginEndPoint, new
             {
                 email = request.Email,
                 password = request.Password
@@ -119,31 +119,6 @@ namespace i4prj.SmartCab.Services
             var result = await GetAsync(_customerRidesEndPoint);
 
             return result != null ? new CustomerRidesResponse(result) : null;
-        }
-
-        #endregion
-
-
-        #region EndPointUrlGetters
-
-        private string GetEndPointUrl(ICreateCustomerRequest request)
-        {
-            return _customerRegisterEndPoint;
-        }
-
-        private string GetEndPointUrl(ILoginRequest request)
-        {
-            return _customerLoginEndPoint;
-        }
-
-        private string GetEndPointUrl(ICreateRideRequest request)
-        {
-            return _createRideEndPoint;
-        }
-
-        private string GetEndPointUrl(ICalculatePriceRequest request)
-        {
-            return _calculatePriceEndPoint;
         }
 
         #endregion
