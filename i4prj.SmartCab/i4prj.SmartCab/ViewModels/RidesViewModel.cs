@@ -105,6 +105,11 @@ namespace i4prj.SmartCab.ViewModels
 
             Debug.Write("RidesViewModel::OnAppearing");
         }
+
+        public void OnDisappearing()
+        {
+            Debug.Write("RidesViewModel::OnDisappearing");
+        }
         #endregion
 
         #region Commands
