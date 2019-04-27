@@ -35,7 +35,7 @@ namespace i4prj.SmartCab.DataTemplateSelectors
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
             var ride = (Ride)item;
-            return (ride.Status == Ride.RideStatus.Expired || ride.ConfirmationDeadline < DateTime.Now) ? ArchivedTemplate : OpenTemplate;
+            return (ride.IsArchived()) ? ArchivedTemplate : OpenTemplate;
         }
     }
 }
