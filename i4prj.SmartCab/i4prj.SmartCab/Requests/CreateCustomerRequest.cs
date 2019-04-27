@@ -110,7 +110,7 @@ namespace i4prj.SmartCab.Requests
         private string _passwordConfirmation;
 
         [Required(ErrorMessage = ValidationMessages.PasswordRequired)]
-        //[Compare(nameof(Password), ErrorMessage = ValidationMessages.PasswordConfirmationComparison)]
+        [Compare(nameof(Password), ErrorMessage = ValidationMessages.PasswordConfirmationComparison)]
         public string PasswordConfirmation
         {
             get { return _passwordConfirmation; }
