@@ -65,13 +65,8 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasSuccessfull())
             {
-                _sessionService.Update(_sessionService.Token,new Customer()
-                {
-                    Email=response.Body.email,
-                    Name=response.Body.name,
-                    PhoneNumber=response.Body.phoneNumber,
-                });
-
+                _sessionService.Update(_sessionService.Token,new Customer(response.Body.customer));
+                
                 await DialogService.DisplayAlertAsync("Success", "Ændringer godkendt", "OK");
                 await NavigationService.NavigateAsync("/"+ nameof(CustomerMasterDetailPage) +"/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }

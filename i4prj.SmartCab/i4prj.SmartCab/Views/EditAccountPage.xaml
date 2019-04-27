@@ -46,55 +46,66 @@
             </Editor>
 
             <StackLayout Orientation="Horizontal">
-                <Switch x:Name="ChangePasswordSwitch" IsToggled="{Binding ChangePassword}" BindingContext="{Binding Request}"></Switch>
+                <Switch x:Name="ChangePasswordSwitch" IsToggled="{Binding ChangePassword}" BindingContext="{Binding Request}" ></Switch>
                 <Label>Skift kodeord</Label>
             </StackLayout>
 
-            <StackLayout>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
 
-                <Label>Gammelt kodeord</Label>
-                <Entry Text="{Binding OldPassword}" BindingContext="{Binding Request}" IsPassword="true">
-                    <Entry.Behaviors>
-                        <validation:EntryValidationBehavior PropertyName="OldPassword"></validation:EntryValidationBehavior>
-                    </Entry.Behaviors>
-                </Entry>
+                <Grid RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackLayout Grid.Row="0" IsVisible="{Binding Request.ChangePassword}">
 
-                <Editor Text="{Binding Request.OldPasswordErrors}" IsVisible="{Binding Request.OldPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
-                    <Editor.Effects>
-                        <effects:BorderlessEffect></effects:BorderlessEffect>
-                    </Editor.Effects>
-                </Editor>
+                        <Label>Gammelt kodeord</Label>
+                        <Entry Text="{Binding OldPassword}" BindingContext="{Binding Request}" IsPassword="true">
+                            <Entry.Behaviors>
+                                <validation:EntryValidationBehavior PropertyName="OldPassword"></validation:EntryValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
 
-                <Label>Nyt kodeord</Label>
-                <Entry Text="{Binding Password}" IsPassword="true" BindingContext="{Binding Request}">
-                    <Entry.Behaviors>
-                        <validation:EntryValidationBehavior PropertyName="Password"></validation:EntryValidationBehavior>
-                    </Entry.Behaviors>
-                </Entry>
+                        <Editor Text="{Binding Request.OldPasswordErrors}" IsVisible="{Binding Request.OldPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                            <Editor.Effects>
+                                <effects:BorderlessEffect></effects:BorderlessEffect>
+                            </Editor.Effects>
+                        </Editor>
 
-                <Editor Text="{Binding Request.PasswordErrors}" IsVisible="{Binding Request.PasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
-                    <Editor.Effects>
-                        <effects:BorderlessEffect></effects:BorderlessEffect>
-                    </Editor.Effects>
-                </Editor>
+                        <Label>Nyt kodeord</Label>
+                        <Entry Text="{Binding Password}" IsPassword="true" BindingContext="{Binding Request}">
+                            <Entry.Behaviors>
+                                <validation:EntryValidationBehavior PropertyName="Password"></validation:EntryValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
 
-                <Label>Gentag kodeord</Label>
-                <Entry Text="{Binding RepeatedPassword}" IsPassword="true" BindingContext="{Binding Request}">
-                    <Entry.Behaviors>
-                        <validation:EntryValidationBehavior PropertyName="RepeatedPassword"></validation:EntryValidationBehavior>
-                    </Entry.Behaviors>
-                </Entry>
+                        <Editor Text="{Binding Request.PasswordErrors}" IsVisible="{Binding Request.PasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                            <Editor.Effects>
+                                <effects:BorderlessEffect></effects:BorderlessEffect>
+                            </Editor.Effects>
+                        </Editor>
 
-                <Editor Text="{Binding Request.RepeatedPasswordErrors}" IsVisible="{Binding Request.RepeatedPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
-                    <Editor.Effects>
-                        <effects:BorderlessEffect></effects:BorderlessEffect>
-                    </Editor.Effects>
-                </Editor>
+                        <Label>Gentag kodeord</Label>
+                        <Entry Text="{Binding RepeatedPassword}" IsPassword="true" BindingContext="{Binding Request}">
+                            <Entry.Behaviors>
+                                <validation:EntryValidationBehavior PropertyName="RepeatedPassword"></validation:EntryValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
 
+                        <Editor Text="{Binding Request.RepeatedPasswordErrors}" IsVisible="{Binding Request.RepeatedPasswordHasErrors}" IsSpellCheckEnabled="false" IsReadOnly="true" AutoSize="TextChanges" Style="{StaticResource validationErrorsStyle}">
+                            <Editor.Effects>
+                                <effects:BorderlessEffect></effects:BorderlessEffect>
+                            </Editor.Effects>
+                        </Editor>
+
+                    </StackLayout>
+                </Grid>
+                
             </StackLayout>
 
+            <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
 
-            <Button Text="OK" Command="{Binding EditAccountCommand}">
+            <Button Text="OK" Command="{Binding EditAccountCommand}" IsVisible="{Binding IsReady}"> 
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
                         <Setter Property="IsEnabled" Value="True" ></Setter>

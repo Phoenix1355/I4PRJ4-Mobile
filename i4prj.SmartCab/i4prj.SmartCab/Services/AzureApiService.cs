@@ -124,16 +124,15 @@ namespace i4prj.SmartCab.Services
 
         public async Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request)
         {
-
-            var result = await PostAsync(GetEndPointUrl(request), new
+ 
+            var result = await PutAsync(GetEndPointUrl(request), new
             {
-                name=request.Name,
-                email=request.Email,
-                phoneNumber=request.PhoneNumber,
-                changePassword=request.ChangePassword,
-                oldPassword=request.OldPassword,
-                newPassword=request.Password,
-                repeatedPassword=request.RepeatedPassword,
+                name = request.Name,
+                email = request.Email,
+                phoneNumber = request.PhoneNumber,
+                oldPassword = request.OldPassword,
+                newPassword = request.Password,
+                repeatedPassword = request.RepeatedPassword
             });
 
             return result != null ? new EditAccountResponse(result) : null;
@@ -185,6 +184,26 @@ namespace i4prj.SmartCab.Services
 
                 return response;
 
+            }
+            catch (HttpRequestException e)
+            {
+                Debug.WriteLine($"Backend API post to {endPointUrl} exception with message: " + e.Message);
+            }
+
+            return null;
+        }
+
+        private async Task<HttpResponseMessage> PutAsync(string endPointUrl, object data)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(data);
+                HttpResponseMessage response = await (await GetClient()).PutAsync(endPointUrl,
+                    new StringContent(json, Encoding.UTF8, "application/json"));
+
+                Debug.WriteLine("Backend API put request submitted to " + endPointUrl + " with " + json);
+
+                return response;
             }
             catch (HttpRequestException e)
             {

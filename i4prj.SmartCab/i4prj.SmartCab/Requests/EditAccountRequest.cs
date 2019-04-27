@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
+using i4prj.SmartCab.CustomAttributes;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Validation;
 
@@ -17,9 +19,9 @@ namespace i4prj.SmartCab.Requests
             PhoneNumber = string.Empty;
             Email = string.Empty;
             ChangePassword = false;
-            OldPassword = string.Empty;
-            Password = string.Empty;
-            RepeatedPassword = string.Empty;
+            //OldPassword = string.Empty;
+            //Password = string.Empty;
+            //RepeatedPassword = string.Empty;
         }
 
         private string _name;
@@ -82,12 +84,27 @@ namespace i4prj.SmartCab.Requests
         public string EmailErrors => string.Join("\n", GetErrors(nameof(Email)).Cast<string>());
         public bool EmailHasErrors => ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
 
+        private bool _changePassword;
         [Required]
-        public bool ChangePassword { get; set; }
+        public bool ChangePassword
+        {
+            get { return _changePassword; }
+            set
+            {
+                ValidateProperty(value);
+                SetProperty(ref _changePassword,value);
+
+                OldPassword = string.Empty;
+                Password = string.Empty;
+                RepeatedPassword = string.Empty;
+
+            }
+        }
 
         private string _oldPassword;
 
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
+        [RequiredIf(nameof(ChangePassword),ValidationMessages.PasswordRequired)]
         public string OldPassword
         {
             get { return _oldPassword; }
@@ -98,6 +115,8 @@ namespace i4prj.SmartCab.Requests
 
                 RaisePropertyChanged(nameof(OldPasswordErrors));
                 RaisePropertyChanged(nameof(OldPasswordHasErrors));
+
+                Password = Password;
             }
         }
 
@@ -107,6 +126,8 @@ namespace i4prj.SmartCab.Requests
         private string _password;
 
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
+        [PropertyCompare(false, nameof(OldPassword), nameof(Password), ValidationMessages.OldPassword)]
+        [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
         public string Password
         {
             get { return _password; }
@@ -117,6 +138,8 @@ namespace i4prj.SmartCab.Requests
 
                 RaisePropertyChanged(nameof(PasswordErrors));
                 RaisePropertyChanged(nameof(PasswordHasErrors));
+
+                RepeatedPassword = RepeatedPassword;
             }
         }
 
@@ -126,6 +149,8 @@ namespace i4prj.SmartCab.Requests
         private string _repeatedPassword;
 
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
+        [PropertyCompare(true,nameof(Password),nameof(RepeatedPassword),ValidationMessages.PasswordConfirmationComparison)]
+        [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
         public string RepeatedPassword
         {
             get { return _repeatedPassword; }
@@ -133,7 +158,7 @@ namespace i4prj.SmartCab.Requests
             {
                 ValidateProperty(value);
                 SetProperty(ref _repeatedPassword, value);
-
+      
                 RaisePropertyChanged(nameof(RepeatedPasswordErrors));
                 RaisePropertyChanged(nameof(RepeatedPasswordHasErrors));
             }

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using i4prj.SmartCab.Interfaces;
+using i4prj.SmartCab.Models;
 using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
@@ -11,6 +13,7 @@ namespace i4prj.SmartCab.Responses
     public class EditAccountResponse : BackendApiResponse
     {
         public EditAccountResponseBody Body { get => (EditAccountResponseBody)_body; private set => _body = value; }
+
 
         public EditAccountResponse(HttpResponseMessage responseMessage)
             : base(responseMessage)
@@ -34,9 +37,17 @@ namespace i4prj.SmartCab.Responses
 
         public class EditAccountResponseBody : BackendApiResponseBody
         {
-            public string name { get; set; }
-            public string phoneNumber { get; set; }
-            public string email { get; set; }
+            
+            public Customer customer { get; set; }
+
+            public class Customer : IApiResponseCustomer
+            {
+                public string name { get; set; }
+                public string phoneNumber { get; set; }
+                public string email { get; set; }
+            }
+           
+
         }
     }
 }

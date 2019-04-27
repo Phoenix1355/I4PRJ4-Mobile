@@ -17,6 +17,7 @@ namespace i4prj.SmartCab.Validation
 
         public const string PasswordRequired = "Du skal angive kodeord.";
         public const string PasswordRegex = "Kodeord er ugyldigt.";
+        public const string OldPassword = "Det nye og gamle kodeord må ikke være ens"; 
 
         public const string PasswordConfirmationComparison = "Kodeord matcher ikke.";
 
