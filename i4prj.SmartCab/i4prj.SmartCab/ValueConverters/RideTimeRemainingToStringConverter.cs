@@ -4,8 +4,20 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ValueConverters
 {
+    /// <summary>
+    /// Ride time remaining to string converter.
+    /// </summary>
     public class RideTimeRemainingToStringConverter : IValueConverter
     {
+        /// <summary>
+        /// Convert the specified (TimeSpan) value to a textual countdown 
+        /// representation
+        /// </summary>
+        /// <returns>The convert.</returns>
+        /// <param name="value">Value.</param>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="parameter">Parameter.</param>
+        /// <param name="culture">Culture.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var result = "Udløber om ";

@@ -6,18 +6,35 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ValueConverters
 {
-    public class IndexToAlternateBackgroundColorConverter : IValueConverter
+    /// <summary>
+    /// Converts ride status to accepted bool converter.
+    /// </summary>
+    public class RideStatusToAcceptedBoolConverter : IValueConverter
     {
+        /// <summary>
+        /// Convert the specified (RideStatus) value to boolean of true value
+        /// of RideStatus is accepted. Optional negation by parameter with value
+        /// of "inverse".
+        /// </summary>
+        /// <returns>The convert.</returns>
+        /// <param name="value">Value.</param>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="parameter">Parameter.</param>
+        /// <param name="culture">Culture.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Color color = Color.Transparent;
-
-            if (value is int index)
+            var result = false;
+            if (value is Ride.RideStatus status)
             {
-                if (index % 2 == 0) color = Color.FromHex("#eeeeee");
+                if (status == Ride.RideStatus.Accepted) result = true;
             }
 
-            return color;
+            if (parameter is string p)
+            {
+                if (p.Equals("inverse")) result = !result;
+            }
+
+            return result;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

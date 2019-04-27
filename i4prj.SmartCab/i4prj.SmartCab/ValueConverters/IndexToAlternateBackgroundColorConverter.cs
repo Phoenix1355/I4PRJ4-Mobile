@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Globalization;
-using i4prj.SmartCab.Interfaces;
-using i4prj.SmartCab.Models;
 using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ValueConverters
 {
-    public class RideStatusToAcceptedBoolConverter : IValueConverter
+    /// <summary>
+    /// Index to alternate background color converter.
+    /// </summary>
+    public class IndexToAlternateBackgroundColorConverter : IValueConverter
     {
+        /// <summary>
+        /// Convert the specified index value to an alternating background color
+        /// of transparent or light gray.
+        /// </summary>
+        /// <returns>The convert.</returns>
+        /// <param name="value">Value.</param>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="parameter">Parameter.</param>
+        /// <param name="culture">Culture.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var result = false;
-            if (value is Ride.RideStatus status)
+            Color color = Color.Transparent;
+
+            if (value is int index)
             {
-                if (status == Ride.RideStatus.Accepted) result = true;
+                if (index % 2 == 0) color = Color.FromHex("#eeeeee");
             }
 
-            if (parameter is string p)
-            {
-                if (p.Equals("inverse")) result = !result;
-            }
-
-            return result;
+            return color;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

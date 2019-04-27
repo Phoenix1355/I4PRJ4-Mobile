@@ -6,8 +6,19 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ValueConverters
 {
+    /// <summary>
+    /// Ride status color converter.
+    /// </summary>
     public class RideStatusColorConverter : IValueConverter
     {
+        /// <summary>
+        /// Convert the specified (RideStatus) value to a specific color.
+        /// </summary>
+        /// <returns>The convert.</returns>
+        /// <param name="value">Value.</param>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="parameter">Parameter.</param>
+        /// <param name="culture">Culture.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Color result = Color.Gray;
