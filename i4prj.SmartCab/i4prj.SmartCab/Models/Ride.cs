@@ -183,7 +183,7 @@ namespace i4prj.SmartCab.Models
                 _timer.Stop();
             }
         }
-        #region
+        #endregion
 
         #region Methods
         /// <summary>
@@ -203,6 +203,6 @@ namespace i4prj.SmartCab.Models
         {
             return !IsOpen();
         }
-        #region
+        #endregion
     }
 }
