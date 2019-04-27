@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Navigation;
-using Prism.Logging;
 using Prism.Services;
 using i4prj.SmartCab.Models;
 using Xamarin.Forms;
 using i4prj.SmartCab.Views;
-using i4prj.SmartCab.Services;
 using System.Diagnostics;
 using i4prj.SmartCab.Interfaces;
 using System.Collections.ObjectModel;
@@ -23,8 +18,19 @@ namespace i4prj.SmartCab.ViewModels
         private IBackendApiService _backendApiService;
         private ISessionService _sessionService;
 
+        /// <summary>
+        /// Gets or sets the rides collection to display in the view.
+        /// </summary>
+        /// <value>The rides for display in the view.</value>
         public ObservableCollection<RidesGroup> Rides { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.RidesViewModel"/> class.
+        /// </summary>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="dialogService">Dialog service.</param>
+        /// <param name="backendApiService">Backend API service.</param>
+        /// <param name="sessionService">Session service.</param>
         public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService) : base(navigationService, dialogService)
         {
             Title = "Turoversigt";
@@ -35,6 +41,10 @@ namespace i4prj.SmartCab.ViewModels
             Rides = new ObservableCollection<RidesGroup>();
         }
 
+        /// <summary>
+        /// Loads the rides.
+        /// </summary>
+        /// <returns>The rides.</returns>
         private async Task LoadRides()
         {
             // Show loader
@@ -85,31 +95,39 @@ namespace i4prj.SmartCab.ViewModels
         }
 
         #region PageLifeCycleAware
+        /// <summary>
+        /// On appearing handler.
+        /// (Re)loads the rides.
+        /// </summary>
         public void OnAppearing()
         {
-            LoadRides();
+            _ = LoadRides();
 
             Debug.Write("RidesViewModel::OnAppearing");
-        }
-
-        public void OnDisappearing()
-        {
-            Debug.Write("RidesViewModel::OnDisappearing");
         }
         #endregion
 
         #region Commands
         private DelegateCommand _updateListCommand;
+        /// <summary>
+        /// Update list of rides command.
+        /// </summary>
+        /// <value>The update list command.</value>
         public DelegateCommand UpdateListCommand => _updateListCommand ?? (_updateListCommand = new DelegateCommand(UpdateListCommandAsync));
 
         private void UpdateListCommandAsync()
         {
-            LoadRides();
+            _ = LoadRides();
         }
         #endregion
 
         #region Properties
         private bool _isRefreshing = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:i4prj.SmartCab.ViewModels.RidesViewModel"/> is refreshing the list of rides.
+        /// </summary>
+        /// <value><c>true</c> if it is refreshing; otherwise, <c>false</c>.</value>
         public bool IsRefreshing 
         {
             get { return _isRefreshing;  }
