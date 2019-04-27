@@ -46,7 +46,7 @@ namespace i4prj.SmartCab.Responses
 
     #region ResponseFormatClasses
     /// <summary>
-    /// Response body from IBackendApiService when reqeusting the logged in Customers rides.
+    /// Response body from IBackendApiService when reqeusting the rides of the logged in Customer.
     /// </summary>
     public class CustomerRidesResponseBody : BackendApiResponseBody
     {

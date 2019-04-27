@@ -10,22 +10,7 @@ namespace i4prj.SmartCab.Models
 {
     public class Ride : BindableBase, IRide
     {
-        public IAddress Origin { get; set; }
-        public IAddress Destination { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public DateTime ConfirmationDeadline { get; set; }
-        public int AmountOfPassengers { get; set; }
-        public bool Shared { get; set; }
-        public double Price { get; set; }
-        public RideStatus Status { get; set; }
-        public TimeSpan TimeRemaining { 
-            get { 
-                return ConfirmationDeadline - DateTime.Now;
-            } 
-        }
-
-        public int Index { get; set; }
-
+        #region RideStatus
         public enum RideStatus
         {
             LookingForMatch,
@@ -36,27 +21,42 @@ namespace i4prj.SmartCab.Models
             // Added in case it could not be read from backend string value
             Unknown
         }
+        #endregion
 
+        #region Properties
+        public IAddress Origin { get; set; }
+
+        public IAddress Destination { get; set; }
+
+        public DateTime DepartureTime { get; set; }
+
+        public DateTime ConfirmationDeadline { get; set; }
+
+        public int AmountOfPassengers { get; set; }
+
+        public bool Shared { get; set; }
+
+        public double Price { get; set; }
+
+        public RideStatus Status { get; set; }
+
+        public TimeSpan TimeRemaining { 
+            get { 
+                return ConfirmationDeadline - DateTime.Now;
+            } 
+        }
+
+        public int Index { get; set; }
+        #endregion
+
+        #region Fields
         private Timer _timer;
+        #endregion
 
+        #region Constructors
         public Ride()
         {
             StartCountdown();
-        }
-
-        private void StartCountdown()
-        {
-            _timer = new Timer();
-            _timer.Interval = 1000;
-            _timer.Elapsed += OnTimedEvent;
-            _timer.Enabled = true;
-        }
-
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
-        {
-            RaisePropertyChanged(nameof(TimeRemaining));
-
-            if (TimeRemaining.TotalSeconds <= 0) _timer.Stop();
         }
 
         public Ride(IApiResponseRide apiResponseRide)
@@ -97,12 +97,32 @@ namespace i4prj.SmartCab.Models
                 if (Enum.IsDefined(typeof(RideStatus), status) | status.ToString().Contains(","))
                 {
                     Status = status;
-                } 
+                }
             }
 
             StartCountdown();
         }
 
+        #endregion
+
+        #region Countdown
+        private void StartCountdown()
+        {
+            _timer = new Timer();
+            _timer.Interval = 1000;
+            _timer.Elapsed += OnTimedEvent;
+            _timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(TimeRemaining));
+
+            if (TimeRemaining.TotalSeconds <= 0) _timer.Stop();
+        }
+        #region
+
+        #region Methods
         public bool IsOpen()
         {
             return !Status.Equals(RideStatus.Expired) && !Status.Equals(RideStatus.Unknown) && ConfirmationDeadline > DateTime.Now;
@@ -112,5 +132,6 @@ namespace i4prj.SmartCab.Models
         {
             return !IsOpen();
         }
+        #region
     }
 }
