@@ -35,7 +35,6 @@ namespace i4prj.SmartCab.Responses
             {
                 Body = JsonConvert.DeserializeObject<CustomerRidesResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
-
             }
             catch (JsonReaderException e)
             {
