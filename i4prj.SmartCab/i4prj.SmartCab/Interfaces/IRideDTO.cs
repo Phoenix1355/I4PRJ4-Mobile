@@ -2,7 +2,7 @@
 namespace i4prj.SmartCab.Interfaces
 {
     /// <summary>
-    /// Interface for IApiResponseRide.
+    /// Ride DTO.
     /// </summary>
     public interface IRideDTO
     {

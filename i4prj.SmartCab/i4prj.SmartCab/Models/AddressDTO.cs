@@ -3,6 +3,9 @@ using i4prj.SmartCab.Interfaces;
 
 namespace i4prj.SmartCab.Models
 {
+    /// <summary>
+    /// Address DTO.
+    /// </summary>
     public class AddressDTO : IAddressDTO
     {
         public string cityName { get; set; }

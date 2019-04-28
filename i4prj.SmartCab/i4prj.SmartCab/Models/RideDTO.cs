@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Models
 {
+    /// <summary>
+    /// Ride DTO.
+    /// </summary>
     public class RideDTO : IRideDTO
     {
         public string customerId { get; set; }
