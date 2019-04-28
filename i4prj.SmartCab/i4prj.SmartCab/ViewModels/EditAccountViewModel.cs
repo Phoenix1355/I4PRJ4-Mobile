@@ -17,6 +17,16 @@ namespace i4prj.SmartCab.ViewModels
     {
         private IBackendApiService _apiService;
         private ISessionService _sessionService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditAccountViewModel"/> class.
+        /// Initializes the request and sets the API and Session Service.
+        /// Also sets the request Email, Name and PhoneNumber to the value of the customer stored in sessionservice.
+        /// </summary>
+        /// <param name="navigationService">The navigation service.</param>
+        /// <param name="pageDialogService">The page dialog service.</param>
+        /// <param name="apiService">The API service.</param>
+        /// <param name="sessionService">The session service.</param>
         public EditAccountViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
             IBackendApiService apiService, ISessionService sessionService) : base(navigationService, pageDialogService)
         {
@@ -48,7 +58,9 @@ namespace i4prj.SmartCab.ViewModels
         public DelegateCommand EditAccountCommand => _editAccountCommand ??
                                                      (_editAccountCommand =
                                                          new DelegateCommand(EditAccountCommandExecuteAsync));
-
+        /// <summary>
+        /// Submits the EditAccountRequest to the API service.
+        /// </summary>
         private async void EditAccountCommandExecuteAsync()
         {
             IsBusy = true;

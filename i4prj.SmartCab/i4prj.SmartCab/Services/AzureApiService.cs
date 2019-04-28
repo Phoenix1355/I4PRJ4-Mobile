@@ -112,16 +112,10 @@ namespace i4prj.SmartCab.Services
         }
 
         /// <summary>
-        /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
+        /// Submits the edit account request.
         /// </summary>
-        /// <returns>The rides.</returns>
-        /*public async Task<HttpResponseMessage> GetRides()
-        {
-            var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
-
-            return result;
-        }*/
-
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         public async Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request)
         {
  
@@ -137,6 +131,17 @@ namespace i4prj.SmartCab.Services
 
             return result != null ? new EditAccountResponse(result) : null;
         }
+
+        /// <summary>
+        /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
+        /// </summary>
+        /// <returns>The rides.</returns>
+        /*public async Task<HttpResponseMessage> GetRides()
+        {
+            var result = await GetAsync(_baseUrl + _customerRidesEndPoint);
+
+            return result;
+        }*/
 
         #endregion
 

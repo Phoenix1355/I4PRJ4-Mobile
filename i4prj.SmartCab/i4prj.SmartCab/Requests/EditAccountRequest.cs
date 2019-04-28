@@ -13,6 +13,10 @@ namespace i4prj.SmartCab.Requests
 {
     public class EditAccountRequest : ValidationBase, IEditAccountRequest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditAccountRequest"/> class.
+        /// Sets <see cref="Name"/>, <see cref="PhoneNumber"/> and <see cref="Email"/> to an empty string
+        /// </summary>
         public EditAccountRequest()
         {
             Name = string.Empty;
@@ -23,7 +27,13 @@ namespace i4prj.SmartCab.Requests
         }
 
         private string _name;
-
+        /// <summary>
+        /// Gets or sets the name.
+        /// Validates the property and sets the property, and then raises the errors for the property
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         [Required(ErrorMessage = ValidationMessages.NameRequired)]
         [StringLength(255, MinimumLength = 3, ErrorMessage = Validation.ValidationMessages.NameLength)]
         public string Name
@@ -43,7 +53,13 @@ namespace i4prj.SmartCab.Requests
         public bool NameHasErrors => ((List<string>) (GetErrors(nameof(Name)))).Count != 0;
 
         private string _phoneNumber;
-
+        /// <summary>
+        /// Gets or sets the phone number.
+        /// Validates the property and sets the property, and then raises the errors for the property
+        /// </summary>
+        /// <value>
+        /// The phone number.
+        /// </value>
         [Required(ErrorMessage = ValidationMessages.PhoneRequired)]
         [RegularExpression(ValidationRules.PhoneRegex, ErrorMessage = ValidationMessages.PhoneRegex)]
         public string PhoneNumber
@@ -63,7 +79,13 @@ namespace i4prj.SmartCab.Requests
         public bool PhoneNumberHasErrors => ((List<string>)(GetErrors(nameof(PhoneNumber)))).Count != 0;
 
         private string _email;
-
+        /// <summary>
+        /// Gets or sets the email.
+        /// Validates the property and sets the property, and then raises the errors for the property
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
         [Required(ErrorMessage = ValidationMessages.EmailRequired)]
         [RegularExpression(ValidationRules.EmailRegex, ErrorMessage = ValidationMessages.EmailRegex)]
         public string Email
@@ -83,6 +105,13 @@ namespace i4prj.SmartCab.Requests
         public bool EmailHasErrors => ((List<string>)(GetErrors(nameof(Email)))).Count != 0;
 
         private bool _changePassword;
+        /// <summary>
+        /// Gets or sets a the value of ChangePassword
+        /// Validates the property and sets the property. Then it sets the value of OldPassword, Password and RepeatedPassword to empty strings.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [change password]; otherwise, <c>false</c>.
+        /// </value>
         [Required]
         public bool ChangePassword
         {
@@ -100,7 +129,14 @@ namespace i4prj.SmartCab.Requests
         }
 
         private string _oldPassword;
-
+        /// <summary>
+        /// Gets or sets the old password.
+        /// Validates the property and sets the property, and then raises the errors for the property.
+        /// Then it updates the Password to ensure validation messages to the user.
+        /// </summary>
+        /// <value>
+        /// The old password.
+        /// </value>
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
         [RequiredIf(nameof(ChangePassword),ValidationMessages.PasswordRequired)]
         public string OldPassword
@@ -122,7 +158,14 @@ namespace i4prj.SmartCab.Requests
         public bool OldPasswordHasErrors => ((List<string>)(GetErrors(nameof(OldPassword)))).Count != 0;
 
         private string _password;
-
+        /// <summary>
+        /// Gets or sets the password.
+        /// Validates the property and sets the property, and then raises the errors for the property
+        /// Then it updates the RepeatedPassword to ensure validation messages to the user.
+        /// </summary>
+        /// <value>
+        /// The password.
+        /// </value>
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
         [PropertyCompare(false, nameof(OldPassword), nameof(Password), ValidationMessages.OldPassword)]
         [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
@@ -146,6 +189,13 @@ namespace i4prj.SmartCab.Requests
 
         private string _repeatedPassword;
 
+        /// <summary>
+        /// Gets or sets the repeated password.
+        /// Validates the property and sets the property, and then raises the errors for the property
+        /// </summary>
+        /// <value>
+        /// The repeated password.
+        /// </value>
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
         [PropertyCompare(true,nameof(Password),nameof(RepeatedPassword),ValidationMessages.PasswordConfirmationComparison)]
         [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
