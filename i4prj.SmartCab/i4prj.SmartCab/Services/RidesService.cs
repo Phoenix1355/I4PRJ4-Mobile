@@ -10,7 +10,7 @@ namespace i4prj.SmartCab.Services
     {
         public IEnumerable<IRide> CreateRidesFromDTO(IEnumerable<IRideDTO> items)
         {
-            List<IRide> result = new List<IRide>();
+            IList<IRide> result = new List<IRide>();
 
             foreach (var item in items)
             {
