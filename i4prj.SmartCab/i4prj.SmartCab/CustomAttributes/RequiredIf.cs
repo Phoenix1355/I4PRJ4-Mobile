@@ -17,7 +17,7 @@ namespace i4prj.SmartCab.CustomAttributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var property = validationContext.ObjectType.GetProperty(BoolProperty);
-            
+
             bool valueOfProperty = (bool)property.GetValue(validationContext.ObjectInstance, null);
 
             if (valueOfProperty)

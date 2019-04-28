@@ -159,5 +159,6 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         }
        
         #endregion
+
     }
 }
