@@ -108,7 +108,7 @@ namespace i4prj.SmartCab.Models
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Models.Ride"/> class.
         /// </summary>
         /// <param name="apiResponseRide">API response ride.</param>
-        public Ride(IApiResponseRide apiResponseRide)
+        public Ride(IRideDTO apiResponseRide)
         {
             Origin = new Address
             {

@@ -4,7 +4,7 @@ namespace i4prj.SmartCab.Interfaces
     /// <summary>
     /// Interface for IApiResponseAddress.
     /// </summary>
-    public interface IApiResponseAddress
+    public interface IAddressDTO
     {
         string cityName { get; set; }
         string postalCode { get; set; }

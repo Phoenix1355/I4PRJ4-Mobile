@@ -11,7 +11,7 @@ namespace i4prj.SmartCab.Interfaces
         /// </summary>
         /// <returns>The rides from API response.</returns>
         /// <param name="rides">Rides.</param>
-        IEnumerable<IRide> CreateRidesFromApiResponse(IEnumerable<IApiResponseRide> rides);
+        IEnumerable<IRide> CreateRidesFromDTO(IEnumerable<IRideDTO> rides);
 
         /// <summary>
         /// Gets the open rides.

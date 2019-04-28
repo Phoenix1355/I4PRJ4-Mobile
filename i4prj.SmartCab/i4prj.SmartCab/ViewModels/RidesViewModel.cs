@@ -70,7 +70,7 @@ namespace i4prj.SmartCab.ViewModels
             else
             {
                 // Convert the API response to Ride class
-                var allRides = _ridesService.CreateRidesFromApiResponse(customerRidesResponse.Body.rides);
+                var allRides = _ridesService.CreateRidesFromDTO(customerRidesResponse.Body.rides);
 
                 // Filter rides
                 var openRides = _ridesService.GetOpenRides(allRides);

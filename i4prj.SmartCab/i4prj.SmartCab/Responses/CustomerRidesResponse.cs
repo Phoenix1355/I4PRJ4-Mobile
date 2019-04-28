@@ -50,23 +50,23 @@ namespace i4prj.SmartCab.Responses
     /// </summary>
     public class CustomerRidesResponseBody : BackendApiResponseBody
     {
-        public List<Ride> rides;
+        public List<RideDTO> rides;
 
-        public class Ride : IApiResponseRide
+        public class RideDTO : IRideDTO
         {
             public string customerId { get; set; }
             public DateTime departureTime { get; set; }
-            [JsonConverter(typeof(ConcreteConverter<Address>))]
-            public IApiResponseAddress startDestination { get; set; }
-            [JsonConverter(typeof(ConcreteConverter<Address>))]
-            public IApiResponseAddress endDestination { get; set; }
+            [JsonConverter(typeof(ConcreteConverter<AddressDTO>))]
+            public IAddressDTO startDestination { get; set; }
+            [JsonConverter(typeof(ConcreteConverter<AddressDTO>))]
+            public IAddressDTO endDestination { get; set; }
             public DateTime confirmationDeadline { get; set; }
             public int passengerCount { get; set; }
             public double price { get; set; }
             public string status { get; set; }
         }
 
-        public class Address : IApiResponseAddress
+        public class AddressDTO : IAddressDTO
         {
             public string cityName { get; set; }
             public string postalCode { get; set; }

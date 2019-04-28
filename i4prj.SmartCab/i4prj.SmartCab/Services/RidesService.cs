@@ -8,7 +8,7 @@ namespace i4prj.SmartCab.Services
 {
     public class RidesService : IRidesService
     {
-        public IEnumerable<IRide> CreateRidesFromApiResponse(IEnumerable<IApiResponseRide> items)
+        public IEnumerable<IRide> CreateRidesFromDTO(IEnumerable<IRideDTO> items)
         {
             List<IRide> result = new List<IRide>();
 
