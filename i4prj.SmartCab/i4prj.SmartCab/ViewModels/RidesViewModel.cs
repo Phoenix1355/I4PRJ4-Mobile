@@ -69,24 +69,45 @@ namespace i4prj.SmartCab.ViewModels
             // Build Rides property
             else
             {
-                // Clear Rides property (as this method can be called numerous times)
-                if (Rides != null && Rides.Count > 0) Rides.Clear();
-
                 // Convert the API response to Ride class
                 var allRides = _ridesService.CreateRidesFromApiResponse(customerRidesResponse.Body.rides);
 
-                // Get open rides, add to group of open rides, add group to display property
-                var openRidesGroup = new RidesGroup("Åbne ture");
-                _ridesService.GetOpenRides(allRides).ToList().ForEach(x => openRidesGroup.Add(x));
-                if (openRidesGroup.Count > 0) Rides.Add(openRidesGroup);
+                // Filter rides
+                var openRides = _ridesService.GetOpenRides(allRides);
+                var archivedRides = _ridesService.GetArchivedRides(allRides);
 
-                // Get archived rides, add to group of archived rides, add group to display property
-                var archivedRidesGroup = new RidesGroup("Arkiverede ture");
-                _ridesService.GetArchivedRides(allRides).ToList().ForEach(x => openRidesGroup.Add(x));
-                if (archivedRidesGroup.Count > 0) Rides.Add(archivedRidesGroup);
+                // Update rides
+                SetRides(openRides, archivedRides);
             }
 
             IsRefreshing = false;
+        }
+
+        /// <summary>
+        /// Sets the Rides property in two groups based on parameters.
+        /// </summary>
+        /// <param name="openRides">Open rides.</param>
+        /// <param name="archivedRides">Archived rides.</param>
+        private void SetRides(IEnumerable<IRide> openRides, IEnumerable<IRide> archivedRides)
+        {
+            // Clear Rides property (as this can be done numerous times)
+            if (Rides != null && Rides.Count > 0) Rides.Clear();
+
+            // Create group for open rides and add them ro Rides property
+            if (openRides.ToList().Count > 0)
+            {
+                var openRidesGroup = new RidesGroup("Åbne ture");
+                openRides.ToList().ForEach(x => openRidesGroup.Add(x));
+                Rides.Add(openRidesGroup);
+            }
+
+            // Create group for archived rides and add them ro Rides property
+            if (archivedRides.ToList().Count > 0)
+            {
+                var archivedRidesGroup = new RidesGroup("Arkiverede ture");
+                archivedRides.ToList().ForEach(x => archivedRidesGroup.Add(x));
+                Rides.Add(archivedRidesGroup);
+            }
         }
 
         #region PageLifeCycleAware
