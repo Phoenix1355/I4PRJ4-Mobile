@@ -134,9 +134,9 @@ namespace i4prj.SmartCab.ViewModels
         /// Update list of rides command.
         /// </summary>
         /// <value>The update list command.</value>
-        public DelegateCommand UpdateListCommand => _updateListCommand ?? (_updateListCommand = new DelegateCommand(UpdateListCommandAsync));
+        public DelegateCommand UpdateListCommand => _updateListCommand ?? (_updateListCommand = new DelegateCommand(UpdateListCommandExecute));
 
-        private void UpdateListCommandAsync()
+        private void UpdateListCommandExecute()
         {
             _ = LoadRides();
         }

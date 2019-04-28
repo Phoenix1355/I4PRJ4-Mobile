@@ -64,6 +64,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakeApiService.Received(1).GetCustomerRides();
         }
 
+        // TODO: Not working for some reason!
         /// <summary>
         /// Test to see if received open rides are populated in bindable Rides property
         /// </summary>
@@ -87,6 +88,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             Assert.That(_uut.Rides.Count(), Is.EqualTo(1));
         }
 
+        // TODO: Not working for some reason!
         /// <summary>
         /// Test to see if received archived rides are populated in bindable Rides property
         /// </summary>
@@ -110,6 +112,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             Assert.That(_uut.Rides[0].Count(), Is.EqualTo(2));
         }
 
+        // TODO: Not working for some reason!
         /// <summary>
         /// Test to see if received mixed rides are populated in bindable Rides property
         /// </summary>
