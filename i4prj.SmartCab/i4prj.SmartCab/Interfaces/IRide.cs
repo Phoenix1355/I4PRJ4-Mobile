@@ -13,5 +13,8 @@ namespace i4prj.SmartCab.Interfaces
         int AmountOfPassengers { get; set; }
         bool Shared { get; set; }
         double Price { get; set; }
+        TimeSpan TimeRemaining { get; }
+        bool IsOpen();
+        bool IsArchived();
     }
 }

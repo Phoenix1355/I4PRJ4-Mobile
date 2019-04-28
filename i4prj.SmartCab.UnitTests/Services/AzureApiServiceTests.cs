@@ -275,6 +275,85 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
+
+        /// <summary>
+        /// Test to see whether a successfull response with valid json will be transformed correctly
+        /// </summary>
+        [Test]
+        public async Task GetCustomerRides_ReceivesValidJsonResponse_ReturnsExpectedValue()
+        {
+            // Arrange: Fake Http Response
+            _fakeHttpMessageHandler.FakeResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\n\t\"rides\": [{\n\t\t\"customerId\": \"string\",\n\t\t\"departureTime\": \"2019-04-28T10:19:36.259Z\",\n\t\t\"startDestination\": {\n\t\t\t\"cityName\": \"string\",\n\t\t\t\"postalCode\": 0,\n\t\t\t\"streetName\": \"string\",\n\t\t\t\"streetNumber\": 0\n\t\t},\n\t\t\"endDestination\": {\n\t\t\t\"cityName\": \"string\",\n\t\t\t\"postalCode\": 0,\n\t\t\t\"streetName\": \"string\",\n\t\t\t\"streetNumber\": 0\n\t\t},\n\t\t\"confirmationDeadline\": \"2019-04-28T10:19:36.259Z\",\n\t\t\"passengerCount\": 0,\n\t\t\"price\": 0,\n\t\t\"status\": \"string\"\n\t}]\n}", Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _uut.GetCustomerRides();
+
+            // Assert
+            Assert.Multiple(() => {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<CustomerRidesResponse>());
+
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<CustomerRidesResponseBody>());
+            });
+        }
+
+        /// <summary>
+        /// Test to see whether a successfull response with invalid json will return a body of null
+        /// </summary>
+        [Test]
+        public async Task GetCustomerRides_ReceivesInvalidJsonResponse_ReturnsNull()
+        {
+            // Arrange: Fake Http Response
+            _fakeHttpMessageHandler.FakeResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("abc", Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _uut.GetCustomerRides();
+
+            // Assert
+            Assert.Multiple(() => {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<CustomerRidesResponse>());
+
+                Assert.That(response.Body, Is.Null);
+            });
+        }
+
+        /// <summary>
+        /// Test to see whether an authorized/unsuccessfull response (with valid json) will be transformed correctly
+        /// </summary>
+        [Test]
+        public async Task GetCustomerRides_ReceivesBadRequestResponse_ReturnsExpectedValue()
+        {
+            // Arrange: Fake Http Response
+            _fakeHttpMessageHandler.FakeResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent("{\n\t\"rides\": null,\n\t\"errors\": {\n\t\t\"error\": [\"Bad credentials\"]\n\t}\n}", Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _uut.GetCustomerRides();
+
+            // Assert
+            Assert.Multiple(() => {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<CustomerRidesResponse>());
+
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<CustomerRidesResponseBody>());
+
+                Assert.That(response.GetErrors().Count, Is.EqualTo(1));
+            });
+        }
     }
 }
 

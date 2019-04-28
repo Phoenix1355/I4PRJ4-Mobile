@@ -56,6 +56,7 @@ namespace i4prj.SmartCab
             // Dependency injection setup
             containerRegistry.Register<ISessionService, LocalSessionService>();
             containerRegistry.Register<IBackendApiService, AzureApiService>();
+            containerRegistry.Register<IRidesService, RidesService>();
         }
 
         protected override void OnStart()
@@ -75,8 +76,6 @@ namespace i4prj.SmartCab
         protected override void OnResume()
         {
             Debug.WriteLine("OnResume");
-
-            AppCenter.Start("9707acc9-f699-4165-9346-9378d040c10f", typeof(Push));
         }
 
         /// <summary>

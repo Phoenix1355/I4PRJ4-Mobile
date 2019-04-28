@@ -26,10 +26,10 @@ namespace i4prj.SmartCab.Interfaces
         Task<LoginResponse> SubmitLoginRequest(ILoginRequest request);
 
         /// <summary>
-        /// Submits a request to fetch rides. NOT YET IMPLEMENTED CORRECTLY! TODO: Implement
+        /// Gets the rides of the current customer.
         /// </summary>
-        /// <returns>A list of rides.</returns>
-        //Task<HttpResponseMessage> GetRides();
+        /// <returns>A response containing a list of responses.</returns>
+        Task<CustomerRidesResponse> GetCustomerRides();
 
         Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request);
 
