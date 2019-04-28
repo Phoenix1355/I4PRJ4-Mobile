@@ -37,9 +37,13 @@ namespace i4prj.SmartCab.Responses
                 Debug.WriteLine("Http-result parset uden fejl.");
 
             }
-            catch (JsonSerializationException e)
+            catch (JsonReaderException e)
             {
                 Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
+            }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine("Http-result kunne ikke omsættes til objekt. Fejl: " + e.Message);
             }
         }
     }
