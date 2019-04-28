@@ -19,9 +19,7 @@ namespace i4prj.SmartCab.Requests
             PhoneNumber = string.Empty;
             Email = string.Empty;
             ChangePassword = false;
-            //OldPassword = string.Empty;
-            //Password = string.Empty;
-            //RepeatedPassword = string.Empty;
+
         }
 
         private string _name;
