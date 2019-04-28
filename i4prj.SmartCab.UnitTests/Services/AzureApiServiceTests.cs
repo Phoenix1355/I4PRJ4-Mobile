@@ -21,6 +21,7 @@ namespace i4prj.SmartCab.UnitTests.Services
         private ICreateRideRequest _fakeCreateRideRequest;
         private ICalculatePriceRequest _fakeCalculatePriceRequest;
         private ILoginRequest _fakeLoginRequest;
+        private IEditAccountRequest _fakeEditAccountRequest;
         private ISessionService _fakeSessionService;
         private FakeHttpMessageHandler _fakeHttpMessageHandler;
         private HttpClient _fakeHttpClient;
@@ -40,6 +41,7 @@ namespace i4prj.SmartCab.UnitTests.Services
             _uut = new AzureApiService(_fakeHttpClient, _fakeSessionService);
             _fakeCalculatePriceRequest = Substitute.For<ICalculatePriceRequest>();
             _fakeCreateRideRequest = Substitute.For<ICreateRideRequest>();
+            _fakeEditAccountRequest = Substitute.For<IEditAccountRequest>();
         }
 
         // The following HttpClient tests have been adapted from: http://anthonygiretti.com/2018/09/06/how-to-unit-test-a-class-that-consumes-an-httpclient-with-ihttpclientfactory-in-asp-net-core/
@@ -272,6 +274,68 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response, Is.TypeOf<PriceResponse>());
                 Assert.That(response.Body, Is.Not.Null);
                 Assert.That(response.Body, Is.TypeOf<PriceResponse.PriceResponseBody>());
+                Assert.That(response.GetErrors().Count, Is.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public async Task SubmitEditAccountRequest_RecievesSuccessfullResponse_ReturnsNewEditAccountResponse()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    customer = new
+                    {
+                        name="Jesper Test",
+                        phoneNumber="12345678",
+                        email="test@tester.com",
+                    }
+                }), Encoding.UTF8, "application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient, _fakeSessionService);
+
+            var response = await uut.SubmitEditAccountRequest(_fakeEditAccountRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<EditAccountResponse>());
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<EditAccountResponse.EditAccountResponseBody>());
+            });
+        }
+
+        [Test]
+        public async Task SubmitEditAccountRequest_RecievesBadRequestResponse_ReturnsErrors()
+        {
+            var fakeHttpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    errors = new Dictionary<string, IList<string>>() {
+                        { "error", new List<string>() { "Name not valid" } }
+                    },
+                }), Encoding.UTF8, "application/json"),
+            };
+
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpResponse);
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var uut = new AzureApiService(fakeHttpClient, _fakeSessionService);
+
+            var response = await uut.SubmitEditAccountRequest(_fakeEditAccountRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response, Is.Not.Null);
+                Assert.That(response, Is.TypeOf<EditAccountResponse>());
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response.Body, Is.TypeOf<EditAccountResponse.EditAccountResponseBody>());
                 Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
