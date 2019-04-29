@@ -67,12 +67,22 @@ namespace i4prj.SmartCab.Services
           
             var result = await PostAsync(_createRideEndPoint, new
             {
-                isShared=request.IsShared,
-                departureTime = request.DepartureDate+request.DepartureTime,
-                confirmationDeadline = request.ConfirmationDeadlineDate+request.ConfirmationDeadlineTime,
+                isShared = request.IsShared,
+                departureTime = new DateTime(request.DepartureDate.Year, request.DepartureDate.Month, request.DepartureDate.Day, request.DepartureTime.Hours, request.DepartureTime.Minutes, request.DepartureTime.Seconds),
+                confirmationDeadline = new DateTime(request.ConfirmationDeadlineDate.Year, request.ConfirmationDeadlineDate.Month, request.ConfirmationDeadlineDate.Day, request.ConfirmationDeadlineTime.Hours, request.ConfirmationDeadlineTime.Minutes, request.ConfirmationDeadlineTime.Seconds),
                 passengerCount = (int)request.AmountOfPassengers,
-                startDestination = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
-                endDestination = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
+                startDestination = new {
+                    cityName = request.OriginCityName,
+                    postalCode = request.OriginPostalCode,
+                    streetName = request.OriginStreetName,
+                    streetNumber = request.OriginStreetNumber
+                },
+                endDestination = new {
+                    cityName = request.DestinationCityName,
+                    postalCode = request.DestinationPostalCode,
+                    streetName = request.DestinationStreetName,
+                    streetNumber = request.DestinationStreetNumber
+                }
             });
 
             return result != null ? new CreateRideResponse(result) : null;
