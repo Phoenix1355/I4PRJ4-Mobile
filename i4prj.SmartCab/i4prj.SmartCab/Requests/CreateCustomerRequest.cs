@@ -99,6 +99,9 @@ namespace i4prj.SmartCab.Requests
 
                 RaisePropertyChanged(nameof(PasswordErrors));
                 RaisePropertyChanged(nameof(PasswordHasErrors));
+                
+                //To make sure the comparison error is removed, if a change to this property makes the passwords equal. 
+                PasswordConfirmation = PasswordConfirmation;
             }
         }
 
@@ -110,7 +113,7 @@ namespace i4prj.SmartCab.Requests
         private string _passwordConfirmation;
 
         [Required(ErrorMessage = ValidationMessages.PasswordRequired)]
-        [Compare(nameof(Password), ErrorMessage = ValidationMessages.PasswordConfirmationComparison)]
+        [PropertyCompare(true,nameof(Password),ValidationMessages.PasswordConfirmationComparison)]
         public string PasswordConfirmation
         {
             get { return _passwordConfirmation; }
