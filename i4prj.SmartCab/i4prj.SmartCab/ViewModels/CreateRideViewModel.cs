@@ -32,7 +32,7 @@ namespace i4prj.SmartCab.ViewModels
             Price = "Beregn min pris";
 
             //TEST
-            /*
+            
             Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
             Request.OriginStreetName = "Bispehavevej";
@@ -41,7 +41,7 @@ namespace i4prj.SmartCab.ViewModels
             Request.DestinationPostalCode = "8000";
             Request.DestinationStreetName = "Banegårdspladsen";
             Request.DestinationStreetNumber = "1";
-            */
+            
         }
 
         #region Properties
@@ -115,7 +115,8 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if(response.WasSuccessfull())
             {
-                Price = response.Body.Price;
+                Price = "199.9";
+                //Price = response.Body.Price;
             }
         }
         

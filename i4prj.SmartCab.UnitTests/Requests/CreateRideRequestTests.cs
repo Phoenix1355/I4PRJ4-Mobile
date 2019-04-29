@@ -330,6 +330,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
         [TestCase("Ålebakken")] //Contains Å
         [TestCase("Eg")] //2 letters
         [TestCase("Testvejmeddetretlangenavn")] //25 letters
+        [TestCase("Hunde vej")] //contains spaces
         public void OriginStreetName_SetValidValues_IsValid(string setValue)
         {
             var validationResults = new List<ValidationResult>();
@@ -351,7 +352,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
         [TestCase("A")] //too short 
         [TestCase("Testvejemeddetretlangenavn")] //too long
         [TestCase("123+")] //contains special character
-        [TestCase("123 4")] //contains spaces
         public void OriginStreetName_SetInvalidValues_IsInvalid(string setValue)
         {
             var validationResults = new List<ValidationResult>();
