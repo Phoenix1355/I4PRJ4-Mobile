@@ -29,6 +29,7 @@ namespace i4prj.SmartCab.Services
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
         private const string _createRideEndPoint = _baseUrl + "Rides/Create";
         private const string _calculatePriceEndPoint = _baseUrl + "Price";
+        private const string _editAccountEndPoint = _baseUrl + "Customer/Edit";
 
         public AzureApiService(HttpClient httpHandler, ISessionService sessionService)
         {
@@ -121,7 +122,28 @@ namespace i4prj.SmartCab.Services
         }
 
         /// <summary>
-        /// Gets the rides of the current customer.
+        /// Submits the edit account request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public async Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request)
+        {
+ 
+            var result = await PutAsync(GetEndPointUrl(request), new
+            {
+                name = request.Name,
+                email = request.Email,
+                phoneNumber = request.PhoneNumber,
+                oldPassword = request.OldPassword,
+                password = request.Password,
+                repeatedPassword = request.RepeatedPassword
+            });
+
+            return result != null ? new EditAccountResponse(result) : null;
+        }
+
+        /// <summary>
+        /// Gets the current customers rides. NOT YET IMPLEMENTED. TODO: Implement
         /// </summary>
         /// <returns>A response containing a list of responses.</returns>
         public async Task<CustomerRidesResponse> GetCustomerRides()
@@ -129,6 +151,11 @@ namespace i4prj.SmartCab.Services
             var result = await GetAsync(_customerRidesEndPoint);
 
             return result != null ? new CustomerRidesResponse(result) : null;
+        }
+
+        private string GetEndPointUrl(IEditAccountRequest request)
+        {
+            return _editAccountEndPoint;
         }
 
         #endregion
@@ -147,6 +174,26 @@ namespace i4prj.SmartCab.Services
 
                 return response;
 
+            }
+            catch (HttpRequestException e)
+            {
+                Debug.WriteLine($"Backend API post to {endPointUrl} exception with message: " + e.Message);
+            }
+
+            return null;
+        }
+
+        private async Task<HttpResponseMessage> PutAsync(string endPointUrl, object data)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(data);
+                HttpResponseMessage response = await (await GetClient()).PutAsync(endPointUrl,
+                    new StringContent(json, Encoding.UTF8, "application/json"));
+
+                Debug.WriteLine("Backend API put request submitted to " + endPointUrl + " with " + json);
+
+                return response;
             }
             catch (HttpRequestException e)
             {

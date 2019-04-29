@@ -34,5 +34,7 @@ namespace i4prj.SmartCab.Interfaces
         Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request);
 
         Task<PriceResponse> SubmitCalculatePriceRequest(ICalculatePriceRequest request);
+
+        Task<EditAccountResponse> SubmitEditAccountRequest(IEditAccountRequest request);
     }
 }
