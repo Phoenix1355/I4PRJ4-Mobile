@@ -33,14 +33,14 @@ namespace i4prj.SmartCab.ViewModels
 
             //TEST
             
-            Request.OriginCityName = "Aarhus V";
+            /*Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
             Request.OriginStreetName = "Bispehavevej";
             Request.OriginStreetNumber = "3";
             Request.DestinationCityName = "Aarhus C";
             Request.DestinationPostalCode = "8000";
             Request.DestinationStreetName = "Banegårdspladsen";
-            Request.DestinationStreetNumber = "1";
+            Request.DestinationStreetNumber = "1";*/
             
         }
 
