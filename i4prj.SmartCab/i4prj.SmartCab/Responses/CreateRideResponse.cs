@@ -60,6 +60,7 @@ namespace i4prj.SmartCab.Responses
             public DateTime confirmationDeadline { get; set; }
             public DateTime createdOn { get; set; }
             public double price { get; set; }
+            public string status { get; set; }
 
 
             public class Address
