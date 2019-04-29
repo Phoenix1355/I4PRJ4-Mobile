@@ -16,5 +16,6 @@ namespace i4prj.SmartCab.Interfaces
         TimeSpan TimeRemaining { get; }
         bool IsOpen();
         bool IsArchived();
+        int Index { get; set; }
     }
 }

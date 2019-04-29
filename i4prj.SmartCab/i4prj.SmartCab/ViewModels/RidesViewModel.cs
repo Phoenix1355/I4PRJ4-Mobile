@@ -93,6 +93,21 @@ namespace i4prj.SmartCab.ViewModels
             // Clear Rides property (as this can be done numerous times)
             if (Rides != null && Rides.Count > 0) Rides.Clear();
 
+            // Set Index property on rides to show alternating background color
+            var i = 0;
+            foreach (var item in openRides)
+            {
+                item.Index = i;
+                i++;
+            }
+
+            i = 0;
+            foreach (var item in archivedRides)
+            {
+                item.Index = i;
+                i++;
+            }
+
             // Create group for open rides and add them ro Rides property
             if (openRides.ToList().Count > 0)
             {
