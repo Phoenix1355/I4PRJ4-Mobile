@@ -121,9 +121,9 @@ namespace i4prj.SmartCab.Requests
                 ValidateProperty(value);
                 SetProperty(ref _changePassword,value);
 
-                OldPassword = string.Empty;
-                Password = string.Empty;
-                RepeatedPassword = string.Empty;
+                OldPassword = "";
+                Password = "";
+                RepeatedPassword = "";
 
             }
         }

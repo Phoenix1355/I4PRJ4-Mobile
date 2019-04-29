@@ -125,7 +125,7 @@ namespace i4prj.SmartCab.Services
                 email = request.Email,
                 phoneNumber = request.PhoneNumber,
                 oldPassword = request.OldPassword,
-                newPassword = request.Password,
+                password = request.Password,
                 repeatedPassword = request.RepeatedPassword
             });
 
