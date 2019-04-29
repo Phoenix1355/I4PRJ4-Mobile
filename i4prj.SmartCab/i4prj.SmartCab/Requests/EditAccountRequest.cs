@@ -167,7 +167,7 @@ namespace i4prj.SmartCab.Requests
         /// The password.
         /// </value>
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
-        [PropertyCompare(false, nameof(OldPassword), nameof(Password), ValidationMessages.OldPassword)]
+        [PropertyCompare(false, nameof(OldPassword), ValidationMessages.OldPassword)]
         [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
         public string Password
         {
@@ -197,7 +197,7 @@ namespace i4prj.SmartCab.Requests
         /// The repeated password.
         /// </value>
         [RegularExpression(ValidationRules.PasswordRegex, ErrorMessage = ValidationMessages.PasswordRegex)]
-        [PropertyCompare(true,nameof(Password),nameof(RepeatedPassword),ValidationMessages.PasswordConfirmationComparison)]
+        [PropertyCompare(true,nameof(Password),ValidationMessages.PasswordConfirmationComparison)]
         [RequiredIf(nameof(ChangePassword), ValidationMessages.PasswordRequired)]
         public string RepeatedPassword
         {

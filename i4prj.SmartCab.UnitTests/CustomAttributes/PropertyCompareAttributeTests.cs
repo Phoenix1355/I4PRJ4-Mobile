@@ -28,12 +28,11 @@ namespace i4prj.SmartCab.UnitTests.CustomAttributes
         [Test]
         public void Ctor_InstantiateAttribute_PropertiesAreSet()
         {
-            _uut=new PropertyCompareAttribute(true,"SomeProperty","SomeOtherProperty","Some Error Message");
+            _uut=new PropertyCompareAttribute(true,"SomeProperty","Some Error Message");
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(_uut.FirstValue, "SomeProperty");
+                Assert.AreEqual(_uut.CompareProperty, "SomeProperty");
                 Assert.AreEqual(_uut.PropertiesShallBeEqual,true);
-                Assert.AreEqual(_uut.SecondValue,"SomeOtherProperty");
             });
         }
         #endregion
@@ -131,7 +130,7 @@ namespace i4prj.SmartCab.UnitTests.CustomAttributes
             public bool ShouldBeEqual { get; set; }
             public string OtherValue { get; set; }
 
-            [PropertyCompare(true,nameof(OtherValue),nameof(EqualAttribute),"Some Error")]
+            [PropertyCompare(true,nameof(OtherValue),"Some Error")]
             public string EqualAttribute { get; set; }
         }
 
@@ -140,7 +139,7 @@ namespace i4prj.SmartCab.UnitTests.CustomAttributes
             public bool ShouldBeEqual { get; set; }
             public string OtherValue { get; set; }
 
-            [PropertyCompare(false, nameof(OtherValue), nameof(EqualAttribute), "Some Error")]
+            [PropertyCompare(false, nameof(OtherValue), "Some Error")]
             public string EqualAttribute { get; set; }
         }
     }
