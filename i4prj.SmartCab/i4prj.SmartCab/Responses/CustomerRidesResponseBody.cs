@@ -11,8 +11,7 @@ namespace i4prj.SmartCab.Responses
     /// </summary>
     public class CustomerRidesResponseBody : BaseResponseBody
     {
-        // UNTESTED ON COLLECTION
-        [JsonConverter(typeof(ConcreteConverter<RideDTO>))]
-        public List<IRideDTO> rides;
+        [JsonConverter(typeof(ConcreteConverter<IEnumerable<RideDTO>>))]
+        public IEnumerable<IRideDTO> rides;
     }
 }
