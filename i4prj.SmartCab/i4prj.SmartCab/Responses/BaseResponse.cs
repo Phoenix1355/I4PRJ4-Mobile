@@ -10,9 +10,9 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Base class from which all http responses from IBackendApiService is derived. 
     /// </summary>
-    public abstract class BackendApiResponse
+    public abstract class BaseResponse
     {
-        protected BackendApiResponseBody _body;
+        protected BaseResponseBody _body;
 
         public HttpResponseMessage HttpResponseMessage { get; private set; }
 
@@ -20,7 +20,7 @@ namespace i4prj.SmartCab.Responses
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.Responses.BackendApiResponse"/> class.
         /// </summary>
         /// <param name="responseMessage">Response message.</param>
-        public BackendApiResponse(HttpResponseMessage responseMessage)
+        public BaseResponse(HttpResponseMessage responseMessage)
         {
             HttpResponseMessage = responseMessage;
 
