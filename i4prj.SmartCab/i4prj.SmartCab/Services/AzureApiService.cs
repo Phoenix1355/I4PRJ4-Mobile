@@ -71,7 +71,7 @@ namespace i4prj.SmartCab.Services
             var result = await PostAsync(_createRideEndPoint, new
             {
                 deviceId = installId.ToString(),
-                rideType = request.IsShared ? Ride.RideType.SoloRide.ToString() : Ride.RideType.SharedRide.ToString(),
+                rideType = request.IsShared ? Ride.RideType.SharedRide.ToString() : Ride.RideType.SoloRide.ToString(),
                 departureTime = new DateTime(request.DepartureDate.Year, request.DepartureDate.Month, request.DepartureDate.Day, request.DepartureTime.Hours, request.DepartureTime.Minutes, request.DepartureTime.Seconds),
                 confirmationDeadline = new DateTime(request.ConfirmationDeadlineDate.Year, request.ConfirmationDeadlineDate.Month, request.ConfirmationDeadlineDate.Day, request.ConfirmationDeadlineTime.Hours, request.ConfirmationDeadlineTime.Minutes, request.ConfirmationDeadlineTime.Seconds),
                 passengerCount = (int)request.AmountOfPassengers,
