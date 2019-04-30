@@ -256,35 +256,5 @@ namespace i4prj.SmartCab.Requests
             RaisePropertyChanged("IsValid");
             RaisePropertyChanged("IsInvalid");
         }
-
-        /// <summary>
-        /// Returns true if this <see cref="CreateRideRequest"/> is valid. Otherwise false
-         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsValid
-        {
-            get
-            {
-                return !HasErrors;
-            }
-
-        }
-
-        /// <summary>
-        /// Returns true if this <see cref="CreateRideRequest"/> is invalid. Otherwise false
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is invalid; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsInvalid
-        {
-            get
-            {
-                return HasErrors;
-            }
-        }
-
     }
 }
