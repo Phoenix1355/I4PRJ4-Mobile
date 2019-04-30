@@ -185,7 +185,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response,Is.Not.Null);
                 Assert.That(response,Is.TypeOf<CreateRideResponse>());
                 Assert.That(response.Body,Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<CreateRideResponse.CreateRideResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<CreateRideResponseBody>());
             });
         }
 
@@ -215,7 +215,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response,Is.Not.Null);
                 Assert.That(response,Is.TypeOf<CreateRideResponse>());
                 Assert.That(response.Body, Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<CreateRideResponse.CreateRideResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<CreateRideResponseBody>());
                 Assert.That(response.GetErrors().Count,Is.EqualTo(1));
             });
         }
@@ -243,7 +243,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response, Is.Not.Null);
                 Assert.That(response, Is.TypeOf<PriceResponse>());
                 Assert.That(response.Body, Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<PriceResponse.PriceResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<PriceResponseBody>());
             });
         }
 
@@ -273,7 +273,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response, Is.Not.Null);
                 Assert.That(response, Is.TypeOf<PriceResponse>());
                 Assert.That(response.Body, Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<PriceResponse.PriceResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<PriceResponseBody>());
                 Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
@@ -385,7 +385,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response, Is.Not.Null);
                 Assert.That(response, Is.TypeOf<EditAccountResponse>());
                 Assert.That(response.Body, Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<EditAccountResponse.EditAccountResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<EditAccountResponseBody>());
             });
         }
 
@@ -414,7 +414,7 @@ namespace i4prj.SmartCab.UnitTests.Services
                 Assert.That(response, Is.Not.Null);
                 Assert.That(response, Is.TypeOf<EditAccountResponse>());
                 Assert.That(response.Body, Is.Not.Null);
-                Assert.That(response.Body, Is.TypeOf<EditAccountResponse.EditAccountResponseBody>());
+                Assert.That(response.Body, Is.TypeOf<EditAccountResponseBody>());
                 Assert.That(response.GetErrors().Count, Is.EqualTo(1));
             });
         }
