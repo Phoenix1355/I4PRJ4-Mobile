@@ -1,11 +1,13 @@
 language: csharp
 solution: i4prj.SmartCab.sln
 #mono: none
-dotnet: 2.1.502
+#dotnet: 2.1.502
 install:
   - nuget restore i4prj.SmartCab.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
-  - dotnet restore
-  - msbuild /p:Configuration=Release i4prj.SmartCab.sln
+#  - dotnet restore
+#  - msbuild /p:Configuration=Release i4prj.SmartCab.sln
+  - msbuild /p:Configuration=Release ./i4prj.SmartCab/i4prj.SmartCab/i4prj.SmartCab.csproj
+  - msbuild /p:Configuration=Release ./i4prj.SmartCab/i4prj.SmartCab.UnitTests/i4prj.SmartCab.UnitTests.csproj
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./i4prj.SmartCab.UnitTests/bin/Release/netcoreapp2.0/i4prj.SmartCab.UnitTests.dll
