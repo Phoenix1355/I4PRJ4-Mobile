@@ -8,7 +8,7 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Response from IBackendApiService when reqeusting the logged in Customers rides.
     /// </summary>
-    public class CustomerRidesResponse : BackendApiResponse
+    public class CustomerRidesResponse : BaseResponse
     {
         public CustomerRidesResponseBody Body { get => (CustomerRidesResponseBody)_body; private set => _body = value; }
 
@@ -30,7 +30,7 @@ namespace i4prj.SmartCab.Responses
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
             Debug.WriteLine("Http response body: " + responseBodyAsText);
 
-            // Convert json string body CustomerRidesResponseBody
+            // Convert json string body
             try
             {
                 Body = JsonConvert.DeserializeObject<CustomerRidesResponseBody>(responseBodyAsText);

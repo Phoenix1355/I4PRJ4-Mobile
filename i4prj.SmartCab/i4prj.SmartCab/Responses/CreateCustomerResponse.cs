@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
-using i4prj.SmartCab.Converters;
-using i4prj.SmartCab.Interfaces;
 using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
@@ -10,7 +8,7 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Response from IBackendApiService when submitting a request to create a Customer.
     /// </summary>
-    public class CreateCustomerResponse : BackendApiResponse
+    public class CreateCustomerResponse : BaseResponse
     {
         public CreateCustomerResponseBody Body { get => (CreateCustomerResponseBody)_body; private set => _body = value; }
 
@@ -28,41 +26,24 @@ namespace i4prj.SmartCab.Responses
         /// </summary>
         protected override async void MakeBody()
         {
+            // Get json body as string
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
-
             Debug.WriteLine("Http response body: " + responseBodyAsText);
+
+            // Convert json string body
             try
             {
                 Body = JsonConvert.DeserializeObject<CreateCustomerResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
-
             }
-            catch (JsonSerializationException e)
+            catch (JsonReaderException e)
             {
                 Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine("Http-result kunne ikke omsættes til objekt. Fejl: " + e.Message);
+            }
         }
     }
-
-    #region ResponseBodyJsonFormat
-
-    /// <summary>
-    /// Response body from IBackendApiService when submitting a request to create a Customer.
-    /// </summary>
-    public class CreateCustomerResponseBody : BackendApiResponseBody
-    {
-        public string token { get; set; }
-
-        [JsonConverter(typeof(ConcreteConverter<Customer>))]
-        public IApiResponseCustomer customer { get; set; }
-
-        public class Customer : IApiResponseCustomer
-        {
-            public string name { get; set; }
-            public string email { get; set; }
-            public string phoneNumber { get; set; }
-        }
-    }
-
-    #endregion
 }

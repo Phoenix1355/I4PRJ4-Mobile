@@ -2,9 +2,9 @@
 namespace i4prj.SmartCab.Interfaces
 {
     /// <summary>
-    /// Interface for IApiResponseCustomer.
+    /// Interface for Customer DTO.
     /// </summary>
-    public interface IApiResponseCustomer
+    public interface ICustomerDTO
     {
         string name { get; set; }
         string email { get; set; }

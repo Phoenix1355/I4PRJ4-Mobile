@@ -10,13 +10,8 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Base class from which all http response body from IBackendApiService is derived.
     /// </summary>
-    public abstract class BackendApiResponseBody
+    public abstract class BaseResponseBody
     {
-        public string title { get; set; }
-
-        public int status { get; set; }
-
         public Dictionary<string, IList<string>> errors { get; set; }
-
     }
 }
