@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Prism.Mvvm;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 // Adapted from: https://devblogs.microsoft.com/premier-developer/validate-input-in-xamarin-forms-using-inotifydataerrorinfo-custom-behaviors-effects-and-prism/
 
@@ -168,12 +169,9 @@ namespace i4prj.SmartCab.Validation
 
         public void UpdatePropertyErrors(string propertyName, string propertyValue)
         {
-            if (propertyValue != "")
-            {
-                ValidateProperty(propertyValue, propertyName);
-                RaisePropertyChanged(propertyName + "Errors");
-                RaisePropertyChanged(propertyName + "HasErrors");
-            }
+            ValidateProperty(propertyValue, propertyName);
+            RaisePropertyChanged(propertyName + "Errors");
+            RaisePropertyChanged(propertyName + "HasErrors");
         }
 
         /// <summary>

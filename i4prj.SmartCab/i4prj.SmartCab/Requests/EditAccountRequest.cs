@@ -158,10 +158,10 @@ namespace i4prj.SmartCab.Requests
                 RaisePropertyChanged(nameof(OldPasswordErrors));
                 RaisePropertyChanged(nameof(OldPasswordHasErrors));
 
-                UpdatePropertyErrors(nameof(Password),Password);
                 
+                if(Password!="")
+                    UpdatePropertyErrors(nameof(Password),Password);
                 
-                //Password = Password;
             }
         }
 
@@ -191,9 +191,9 @@ namespace i4prj.SmartCab.Requests
                 RaisePropertyChanged(nameof(PasswordErrors));
                 RaisePropertyChanged(nameof(PasswordHasErrors));
 
-                UpdatePropertyErrors(nameof(RepeatedPassword),RepeatedPassword);
+                if(RepeatedPassword!="")
+                    UpdatePropertyErrors(nameof(RepeatedPassword),RepeatedPassword);
                 
-                //RepeatedPassword = RepeatedPassword;
             }
         }
 
