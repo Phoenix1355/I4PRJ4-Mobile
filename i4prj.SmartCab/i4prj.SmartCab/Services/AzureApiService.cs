@@ -171,7 +171,7 @@ namespace i4prj.SmartCab.Services
             {
                 string json = JsonConvert.SerializeObject(data);
 
-                HttpResponseMessage response = await (await GetClient()).PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = await GetClient().PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
                 Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
 
@@ -191,7 +191,7 @@ namespace i4prj.SmartCab.Services
             try
             {
                 string json = JsonConvert.SerializeObject(data);
-                HttpResponseMessage response = await (await GetClient()).PutAsync(endPointUrl,
+                HttpResponseMessage response = await GetClient().PutAsync(endPointUrl,
                     new StringContent(json, Encoding.UTF8, "application/json"));
 
                 Debug.WriteLine("Backend API put request submitted to " + endPointUrl + " with " + json);
@@ -210,7 +210,7 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                HttpResponseMessage response = await (await GetClient()).GetAsync(endPointUrl);
+                HttpResponseMessage response = await GetClient().GetAsync(endPointUrl);
 
                 Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
 
@@ -224,7 +224,7 @@ namespace i4prj.SmartCab.Services
             return null;
         }
 
-        private async Task<HttpClient> GetClient()
+        private HttpClient GetClient()
         {
             _httpClient.DefaultRequestHeaders.Clear();
 
