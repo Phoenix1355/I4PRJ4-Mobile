@@ -28,37 +28,24 @@ namespace i4prj.SmartCab.Responses
         /// </summary>
         protected override async void MakeBody()
         {
+            // Get json body as string
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
             Debug.WriteLine("Http response body: " + responseBodyAsText);
+
+            // Convert json string body
             try
             {
                 Body = JsonConvert.DeserializeObject<LoginResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
-
             }
-            catch (Newtonsoft.Json.JsonSerializationException e)
+            catch (JsonReaderException e)
             {
                 Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine("Http-result kunne ikke omsættes til objekt. Fejl: " + e.Message);
+            }
         }
     }
-
-    #region ResponseFormatClasses
-    /// <summary>
-    /// Response body from IBackendApiService when submitting a request to login with Customer credentials.
-    /// </summary>
-    public class LoginResponseBody : BaseResponseBody
-    {
-        public string token { get; set; }
-
-        public Customer customer { get; set; }
-
-        public class Customer : ICustomerDTO
-        {
-            public string name { get; set; }
-            public string email { get; set; }
-            public string phoneNumber { get; set; }
-        }
-    }
-    #endregion
 }
