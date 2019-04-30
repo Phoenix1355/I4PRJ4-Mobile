@@ -65,7 +65,7 @@ namespace i4prj.SmartCab.Responses
         /// <returns><c>true</c>, if errors are present, <c>false</c> otherwise.</returns>
         public bool HasErrors()
         {
-            return (_body != null && _body.errors.Count != 0);
+            return (_body != null && _body.errors != null && _body.errors.Count != 0);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace i4prj.SmartCab.Responses
         {
             var errors = new List<string>();
 
-            if (_body != null)
+            if (_body != null && _body.errors != null)
             {
                 foreach (KeyValuePair<string, IList<string>> kvp in _body.errors)
                 {
