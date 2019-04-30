@@ -65,10 +65,13 @@ namespace i4prj.SmartCab.Services
         /// <returns>The CreateRideResponse</returns>
         public async Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request)
         {
-          
+            // Get custom install ID header (used for Push notifications)
+            System.Guid? installId = await AppCenter.GetInstallIdAsync();
+
             var result = await PostAsync(_createRideEndPoint, new
             {
-                isShared = request.IsShared,
+                deviceId = installId.ToString(),
+                rideType = request.IsShared ? Ride.RideType.SoloRide.ToString() : Ride.RideType.SharedRide.ToString(),
                 departureTime = new DateTime(request.DepartureDate.Year, request.DepartureDate.Month, request.DepartureDate.Day, request.DepartureTime.Hours, request.DepartureTime.Minutes, request.DepartureTime.Seconds),
                 confirmationDeadline = new DateTime(request.ConfirmationDeadlineDate.Year, request.ConfirmationDeadlineDate.Month, request.ConfirmationDeadlineDate.Day, request.ConfirmationDeadlineTime.Hours, request.ConfirmationDeadlineTime.Minutes, request.ConfirmationDeadlineTime.Seconds),
                 passengerCount = (int)request.AmountOfPassengers,
@@ -227,14 +230,6 @@ namespace i4prj.SmartCab.Services
 
             // Add backend authorization
             if (_sessionService.Token != null) _httpClient.DefaultRequestHeaders.Add("authorization", "Bearer " + _sessionService.Token);
-
-            // Add custom install ID header (used for Push notifications)
-            // Just keept here until permanent solution is found
-            // as to keep the ID updated at the backend
-            System.Guid? installId = await AppCenter.GetInstallIdAsync();
-            if (installId != null) _httpClient.DefaultRequestHeaders.Add("X-Install-ID", installId.ToString());
-
-
             return _httpClient;
         }
 

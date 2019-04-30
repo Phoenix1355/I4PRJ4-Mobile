@@ -20,6 +20,14 @@ namespace i4prj.SmartCab.Models
         }
         #endregion
 
+        #region RideType
+        public enum RideType
+        {
+            SoloRide,
+            SharedRide
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// Gets or sets the starting address
