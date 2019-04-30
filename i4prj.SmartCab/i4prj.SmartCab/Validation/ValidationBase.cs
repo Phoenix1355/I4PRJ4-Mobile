@@ -166,6 +166,16 @@ namespace i4prj.SmartCab.Validation
             if (_dirtyList.Contains(propertyName)) _dirtyList.Remove(propertyName);
         }
 
+        public void UpdatePropertyErrors(string propertyName, string propertyValue)
+        {
+            if (propertyValue != "")
+            {
+                ValidateProperty(propertyValue, propertyName);
+                RaisePropertyChanged(propertyName + "Errors");
+                RaisePropertyChanged(propertyName + "HasErrors");
+            }
+        }
+
         /// <summary>
         /// Checks to see if property is dirty
         /// </summary>
