@@ -10,7 +10,7 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Response from IBackendApiService when submitting a request to login with Customer credentials.
     /// </summary>
-    public class LoginResponse : BackendApiResponse
+    public class LoginResponse : BaseResponse
     {
         public LoginResponseBody Body { get => (LoginResponseBody)_body; private set => _body = value; }
 
@@ -47,13 +47,13 @@ namespace i4prj.SmartCab.Responses
     /// <summary>
     /// Response body from IBackendApiService when submitting a request to login with Customer credentials.
     /// </summary>
-    public class LoginResponseBody : BackendApiResponseBody
+    public class LoginResponseBody : BaseResponseBody
     {
         public string token { get; set; }
 
         public Customer customer { get; set; }
 
-        public class Customer : IApiResponseCustomer
+        public class Customer : ICustomerDTO
         {
             public string name { get; set; }
             public string email { get; set; }

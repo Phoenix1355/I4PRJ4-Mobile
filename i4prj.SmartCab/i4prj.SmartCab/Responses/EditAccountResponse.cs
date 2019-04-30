@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
-    public class EditAccountResponse : BackendApiResponse
+    public class EditAccountResponse : BaseResponse
     {
         public EditAccountResponseBody Body { get => (EditAccountResponseBody)_body; private set => _body = value; }
 
@@ -35,12 +35,12 @@ namespace i4prj.SmartCab.Responses
             }
         }
 
-        public class EditAccountResponseBody : BackendApiResponseBody
+        public class EditAccountResponseBody : BaseResponseBody
         {
             
             public Customer customer { get; set; }
 
-            public class Customer : IApiResponseCustomer
+            public class Customer : ICustomerDTO
             {
                 public string name { get; set; }
                 public string phoneNumber { get; set; }

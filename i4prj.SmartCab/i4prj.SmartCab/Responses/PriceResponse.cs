@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
-    public class PriceResponse : BackendApiResponse
+    public class PriceResponse : BaseResponse
     {
 
         public PriceResponseBody Body
@@ -48,8 +48,8 @@ namespace i4prj.SmartCab.Responses
         /// <summary>
         /// Responsebody for PriceResponse
         /// </summary>
-        /// <seealso cref="i4prj.SmartCab.Responses.BackendApiResponseBody" />
-        public class PriceResponseBody : BackendApiResponseBody
+        /// <seealso cref="i4prj.SmartCab.Responses.BaseResponseBody" />
+        public class PriceResponseBody : BaseResponseBody
         {
             public string Price { get; set; }
         }

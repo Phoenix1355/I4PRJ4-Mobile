@@ -14,7 +14,7 @@ namespace i4prj.SmartCab.UnitTests.Models
         public void Ctor_WithResponseFromCreateCustomerRequest_HasTheRightProperties(string name, string phoneNumber, string email)
         {
             // Arrange
-            var customerFromResponseBody = Substitute.For<IApiResponseCustomer>();
+            var customerFromResponseBody = Substitute.For<ICustomerDTO>();
             customerFromResponseBody.name.Returns(name);
             customerFromResponseBody.phoneNumber.Returns(phoneNumber);
             customerFromResponseBody.email.Returns(email);
