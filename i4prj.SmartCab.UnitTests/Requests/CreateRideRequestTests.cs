@@ -21,9 +21,6 @@ namespace i4prj.SmartCab.UnitTests.Requests
         private CreateRideRequest _uut;
         private ITimeService _fakeTimeService;
 
-        private DateTime _validDateTime;
-        private DateTime _invalidDateTime;
-
         [SetUp]
         public void SetUp()
         {
