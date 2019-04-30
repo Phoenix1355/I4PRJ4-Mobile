@@ -121,9 +121,17 @@ namespace i4prj.SmartCab.Requests
                 ValidateProperty(value);
                 SetProperty(ref _changePassword,value);
 
-                OldPassword = "";
-                Password = "";
-                RepeatedPassword = "";
+                // Reset password fields and unset dirtyness (pristine)
+                // to make validation ignore the fields
+                if (value == false)
+                {
+                    OldPassword = "";
+                    Password = "";
+                    RepeatedPassword = "";
+                    SetPristine(nameof(OldPassword));
+                    SetPristine(nameof(Password));
+                    SetPristine(nameof(RepeatedPassword));
+                }
 
             }
         }

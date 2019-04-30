@@ -161,6 +161,11 @@ namespace i4prj.SmartCab.Validation
             _dirtyList.Add(propertyName);
         }
 
+        public void SetPristine([CallerMemberName] string propertyName = null)
+        {
+            if (_dirtyList.Contains(propertyName)) _dirtyList.Remove(propertyName);
+        }
+
         /// <summary>
         /// Checks to see if property is dirty
         /// </summary>
