@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Responses;
 using NUnit.Framework;
 
@@ -75,25 +78,27 @@ namespace i4prj.SmartCab.UnitTests.Responses
             Assert.Multiple(() => {
                 Assert.That(_uut.Body, Is.Not.Null);
 
-                Assert.That(_uut.Body.rides[0].departureTime, Is.TypeOf<DateTime>());
+                var rides = _uut.Body.rides.ToList();
 
-                Assert.That(_uut.Body.rides[0].startDestination.cityName, Is.EqualTo("Aarhus C").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].startDestination.postalCode, Is.EqualTo("8000").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].startDestination.streetName, Is.EqualTo("Bånegårdspladsen").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].startDestination.streetNumber, Is.EqualTo("1").IgnoreCase);
+                Assert.That(rides[0].departureTime, Is.TypeOf<DateTime>());
 
-                Assert.That(_uut.Body.rides[0].endDestination.cityName, Is.EqualTo("Skanderborg").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].endDestination.postalCode, Is.EqualTo("8660").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].endDestination.streetName, Is.EqualTo("Sverigesvej").IgnoreCase);
-                Assert.That(_uut.Body.rides[0].endDestination.streetNumber, Is.EqualTo("10").IgnoreCase);
+                Assert.That(rides[0].startDestination.cityName, Is.EqualTo("Aarhus C").IgnoreCase);
+                Assert.That(rides[0].startDestination.postalCode, Is.EqualTo("8000").IgnoreCase);
+                Assert.That(rides[0].startDestination.streetName, Is.EqualTo("Bånegårdspladsen").IgnoreCase);
+                Assert.That(rides[0].startDestination.streetNumber, Is.EqualTo("1").IgnoreCase);
 
-                Assert.That(_uut.Body.rides[0].confirmationDeadline, Is.TypeOf<DateTime>());
+                Assert.That(rides[0].endDestination.cityName, Is.EqualTo("Skanderborg").IgnoreCase);
+                Assert.That(rides[0].endDestination.postalCode, Is.EqualTo("8660").IgnoreCase);
+                Assert.That(rides[0].endDestination.streetName, Is.EqualTo("Sverigesvej").IgnoreCase);
+                Assert.That(rides[0].endDestination.streetNumber, Is.EqualTo("10").IgnoreCase);
 
-                Assert.That(_uut.Body.rides[0].passengerCount, Is.EqualTo(2));
+                Assert.That(rides[0].confirmationDeadline, Is.TypeOf<DateTime>());
 
-                Assert.That(_uut.Body.rides[0].price, Is.EqualTo(199.95));
+                Assert.That(rides[0].passengerCount, Is.EqualTo(2));
 
-                Assert.That(_uut.Body.rides[0].status, Is.EqualTo("LookingForMatch").IgnoreCase);
+                Assert.That(rides[0].price, Is.EqualTo(199.95));
+
+                Assert.That(rides[0].status, Is.EqualTo("LookingForMatch").IgnoreCase);
             });
         }
 
