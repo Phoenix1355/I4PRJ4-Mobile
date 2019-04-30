@@ -67,7 +67,7 @@ namespace i4prj.SmartCab.ViewModels
                 await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
             }
             // Build Rides property
-            else
+            else if (customerRidesResponse.WasSuccessfull())
             {
                 // Convert the API response to Ride class
                 var allRides = _ridesService.CreateRidesFromDTO(customerRidesResponse.Body.rides);
@@ -78,6 +78,10 @@ namespace i4prj.SmartCab.ViewModels
 
                 // Update rides
                 SetRides(openRides, archivedRides);
+            } 
+            else
+            {
+                await DialogService.DisplayAlertAsync("Fejl", "Vi beklager, men noget gik galt og vi kan derfor ikke vise din tuveroversigt.", "OK");
             }
 
             IsRefreshing = false;
