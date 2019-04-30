@@ -1,6 +1,6 @@
 language: csharp
 solution: i4prj.SmartCab.sln
-mono: none
+#mono: none
 dotnet: 2.1.502
 install:
   - nuget restore i4prj.SmartCab.sln
