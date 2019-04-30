@@ -7,5 +7,5 @@ install:
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
 #  - dotnet restore
-  - msbuild /p:Configuration=Release i4prj.SmartCab.sln
+  - msbuild /t:restore /p:Configuration=Release i4prj.SmartCab.sln
   - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./i4prj.SmartCab.UnitTests/bin/Release/netcoreapp2.0/i4prj.SmartCab.UnitTests.dll
