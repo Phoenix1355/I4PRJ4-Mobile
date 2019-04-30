@@ -2,7 +2,7 @@
 namespace i4prj.SmartCab.Interfaces
 {
     /// <summary>
-    /// Interface for IApiResponseCustomer.
+    /// Interface for Customer DTO.
     /// </summary>
     public interface ICustomerDTO
     {
