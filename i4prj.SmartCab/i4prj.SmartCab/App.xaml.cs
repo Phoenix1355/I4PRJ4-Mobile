@@ -37,10 +37,28 @@ namespace i4prj.SmartCab
 
             Debug.WriteLine($"App::OnInitialized Token: {sessionService.Token}");
 
+            // Check expiration if token is available
             if (sessionService.Token != null)
             {
-                await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
+                var unixExpiration = JWTService.GetPayloadValue(sessionService.Token, "exp");
+
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(unixExpiration));
+                DateTime loginExpirationDate = dateTimeOffset.LocalDateTime;
+
+                // Login has expired
+                if (loginExpirationDate < DateTime.Now)
+                {
+                    sessionService.Clear();
+
+                    await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(LoginPage));
+                }
+                // Login still valid
+                else
+                {
+                    await NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
+                }
             }
+            // No token available
             else 
             {
                 await NavigationService.NavigateAsync(nameof(NavigationPage) + "/" + nameof(LoginPage));
