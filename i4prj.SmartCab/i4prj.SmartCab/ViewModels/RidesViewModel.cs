@@ -15,10 +15,9 @@ using System.Linq;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class RidesViewModel : ViewModelBase, IPageLifecycleAware
+    public class RidesViewModel : RestrictedAccessViewModelBase
     {
         private IBackendApiService _backendApiService;
-        private ISessionService _sessionService;
         private IRidesService _ridesService;
 
         /// <summary>
@@ -34,12 +33,12 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="dialogService">Dialog service.</param>
         /// <param name="backendApiService">Backend API service.</param>
         /// <param name="sessionService">Session service.</param>
-        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService, IRidesService ridesService) : base(navigationService, dialogService)
+        public RidesViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService, IRidesService ridesService) 
+            : base(navigationService, dialogService, sessionService)
         {
             Title = "Turoversigt";
 
             _backendApiService = backendApiService;
-            _sessionService = sessionService;
             _ridesService = ridesService;
 
             Rides = new ObservableCollection<RidesGroup>();
@@ -57,17 +56,7 @@ namespace i4prj.SmartCab.ViewModels
             // Get rides
             CustomerRidesResponse customerRidesResponse = await _backendApiService.GetCustomerRides();
 
-            // Log out user if request was unauthorized
-            if (customerRidesResponse.WasUnauthorized())
-            {
-                _sessionService.Clear();
-
-                await DialogService.DisplayAlertAsync("Udløbet log ind", "Dit log ind er udløbet. Du vil blive vist til log ind siden.", "OK");
-
-                await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
-            }
-            // Build Rides property
-            else if (customerRidesResponse.WasSuccessfull())
+            if (customerRidesResponse.WasSuccessfull())
             {
                 // Convert the API response to Ride class
                 var allRides = _ridesService.CreateRidesFromDTO(customerRidesResponse.Body.rides);
@@ -134,16 +123,13 @@ namespace i4prj.SmartCab.ViewModels
         /// On appearing handler.
         /// (Re)loads the rides.
         /// </summary>
-        public void OnAppearing()
+        public override void OnAppearing()
         {
+            base.OnAppearing();
+
             _ = LoadRides();
 
             Debug.Write("RidesViewModel::OnAppearing");
-        }
-
-        public void OnDisappearing()
-        {
-            Debug.Write("RidesViewModel::OnDisappearing");
         }
         #endregion
 

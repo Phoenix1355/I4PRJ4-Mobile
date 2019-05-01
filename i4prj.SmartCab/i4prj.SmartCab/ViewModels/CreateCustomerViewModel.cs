@@ -20,7 +20,6 @@ namespace i4prj.SmartCab.ViewModels
     public class CreateCustomerViewModel : ViewModelBase
     {
         private IBackendApiService _backendApiService;
-        private ISessionService _sessionService;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.CreateCustomerViewModel"/> class. Dependencies auto injected.
@@ -29,13 +28,12 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="dialogService">Dialog service.</param>
         /// /// <param name="backendApiService">Backend Api Service.</param>
         public CreateCustomerViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService)
-            : base(navigationService, dialogService)
+            : base(navigationService, dialogService, sessionService)
         {
             Title = "Opret bruger";
             Request = new CreateCustomerRequest();
 
             _backendApiService = backendApiService;
-            _sessionService = sessionService;
         }
 
         #region Properties
@@ -74,7 +72,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else
             {
-                if (response.Body != null) _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
+                if (response.Body != null) SessionService.Update(response.Body.token, new Customer(response.Body.customer));
 
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }

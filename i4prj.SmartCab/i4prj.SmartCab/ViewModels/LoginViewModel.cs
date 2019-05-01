@@ -16,7 +16,6 @@ namespace i4prj.SmartCab.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private IBackendApiService _backendApiService;
-        private ISessionService _sessionService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:i4prj.SmartCab.ViewModels.LoginViewModel"/> class. Dependencies auto injected.
@@ -25,14 +24,13 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="dialogService">Dialog service.</param>
         /// <param name="backendApiService">Backend Api service.</param>
         public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService, IBackendApiService backendApiService, ISessionService sessionService)
-            : base(navigationService, dialogService)
+            : base(navigationService, dialogService, sessionService)
         {
             Title = "Log ind";
 
             Request = new LoginRequest();
 
             _backendApiService = backendApiService;
-            _sessionService = sessionService;
         }
 
         #region Properties
@@ -70,7 +68,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else
             {
-                _sessionService.Update(response.Body.token, new Customer(response.Body.customer));
+                SessionService.Update(response.Body.token, new Customer(response.Body.customer));
 
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
