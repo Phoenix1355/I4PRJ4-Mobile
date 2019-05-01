@@ -25,6 +25,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         private IBackendApiService _fakeBackendApiService;
         private INavigationService _fakeNavigationService;
         private IPageDialogService _fakePageDialogService;
+        private ISessionService _fakeSessionService;
 
         private PriceResponse _priceResponseOk;
         private PriceResponse _priceResponseBadRequest;
@@ -37,7 +38,8 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakeBackendApiService = Substitute.For<IBackendApiService>();
             _fakeNavigationService = Substitute.For<INavigationService>();
             _fakePageDialogService = Substitute.For<IPageDialogService>();
-            _uut=new CreateRideViewModel(_fakeNavigationService,_fakePageDialogService,_fakeBackendApiService);
+            _fakeSessionService = Substitute.For<ISessionService>();
+            _uut = new CreateRideViewModel(_fakeNavigationService, _fakePageDialogService, _fakeSessionService, _fakeBackendApiService);
 
             
             _priceResponseOk = new PriceResponse(new HttpResponseMessage()
