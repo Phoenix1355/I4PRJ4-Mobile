@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class RidesViewModel : ViewModelBase, IPageLifecycleAware
+    public class RidesViewModel : ViewModelBase
     {
         private IBackendApiService _backendApiService;
         private ISessionService _sessionService;
@@ -134,16 +134,13 @@ namespace i4prj.SmartCab.ViewModels
         /// On appearing handler.
         /// (Re)loads the rides.
         /// </summary>
-        public void OnAppearing()
+        public override void OnAppearing()
         {
+            base.OnAppearing();
+
             _ = LoadRides();
 
             Debug.Write("RidesViewModel::OnAppearing");
-        }
-
-        public void OnDisappearing()
-        {
-            Debug.Write("RidesViewModel::OnDisappearing");
         }
         #endregion
 

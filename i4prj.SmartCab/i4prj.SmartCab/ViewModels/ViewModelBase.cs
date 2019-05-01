@@ -8,10 +8,11 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Collections;
+using Prism.AppModel;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible
+    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware
     {
         protected INavigationService NavigationService { get; private set; }
         protected IPageDialogService DialogService { get; private set; }
@@ -76,6 +77,16 @@ namespace i4prj.SmartCab.ViewModels
         }
 
         public virtual void Destroy()
+        {
+
+        }
+
+        public virtual void OnAppearing()
+        {
+
+        }
+
+        public virtual void OnDisappearing()
         {
 
         }
