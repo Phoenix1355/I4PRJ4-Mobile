@@ -9,13 +9,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Collections;
 using Prism.AppModel;
+using i4prj.SmartCab.Interfaces;
+using System.Diagnostics;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware
+    public abstract class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware
     {
         protected INavigationService NavigationService { get; private set; }
         protected IPageDialogService DialogService { get; private set; }
+        protected ISessionService SessionService { get; private set; }
 
         private string _title;
 
@@ -55,10 +58,11 @@ namespace i4prj.SmartCab.ViewModels
 
         #endregion
 
-        public ViewModelBase(INavigationService navigationService, IPageDialogService dialogService)
+        protected ViewModelBase(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService)
         {
             NavigationService = navigationService;
             DialogService = dialogService;
+            SessionService = sessionService;
         }
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
@@ -83,7 +87,7 @@ namespace i4prj.SmartCab.ViewModels
 
         public virtual void OnAppearing()
         {
-
+            Debug.WriteLine("ViewModelBase::OnAppearing");
         }
 
         public virtual void OnDisappearing()

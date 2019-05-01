@@ -15,10 +15,8 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class CustomerMasterDetailPageViewModel : ViewModelBase
+    public class CustomerMasterDetailPageViewModel : RestrictedAccessViewModelBase
     {
-        private ISessionService _sessionService;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:i4prj.SmartCab.ViewModels.CustomerMasterDetailPageViewModel"/> class. Dependencies auto injected.
@@ -26,12 +24,10 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="dialogService">Dialog service.</param>
         public CustomerMasterDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService)
-            : base(navigationService, dialogService)
+            : base(navigationService, dialogService, sessionService)
         {
             Title = "Customer Master Detail Page"; 
             Customer = sessionService.Customer;
-
-            _sessionService = sessionService;
         }
 
         public ICustomer Customer { get; private set; }
@@ -46,7 +42,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void LogOutCommandExecute()
         {
-            _sessionService.Clear();
+            SessionService.Clear();
 
             await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
         }

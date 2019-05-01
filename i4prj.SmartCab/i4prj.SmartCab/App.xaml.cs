@@ -10,6 +10,10 @@ using i4prj.SmartCab.Services;
 using i4prj.SmartCab.Interfaces;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
+using System.Text;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
