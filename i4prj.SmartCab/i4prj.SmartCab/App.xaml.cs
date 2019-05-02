@@ -143,35 +143,18 @@ namespace i4prj.SmartCab
 
         private void HandleReceivedPushNotification(PushNotificationReceivedEventArgs e)
         {
-            // Navigate to the RidesPage on received notification
-            // if logged in
-            var sessionService = new LocalSessionService();
-
-            // Check expiration if token is available
-            if (sessionService.Token != null)
+            // Pass on custom data from push notification
+            // to the view model of next view
+            var navigationParams = new NavigationParameters();
+            if (e.CustomData != null)
             {
-                var unixExpiration = JWTService.GetPayloadValue(sessionService.Token, "exp");
-
-                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(unixExpiration));
-                DateTime loginExpirationDate = dateTimeOffset.LocalDateTime;
-
-                // Login valid
-                if (loginExpirationDate > DateTime.Now)
+                foreach (var item in e.CustomData)
                 {
-                    // Pass on custom data from push notification
-                    // to the view model of next view
-                    var navigationParams = new NavigationParameters();
-                    if (e.CustomData != null)
-                    {
-                        foreach (var item in e.CustomData)
-                        {
-                            navigationParams.Add(item.Key, item.Value);
-                        }
-                    }
-
-                    NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage), navigationParams);
+                    navigationParams.Add(item.Key, item.Value);
                 }
             }
+            Console.WriteLine("Navigating to: " + "/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
+            NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage), navigationParams);
         }
     }
 }
