@@ -29,10 +29,10 @@ namespace i4prj.SmartCab.ValueConverters
                 {
                     case Ride.RideStatus.WaitingForAccept:
                     case Ride.RideStatus.LookingForMatch:
-                    case Ride.RideStatus.Debited:
                         result = "Afventer bekræftelse";
                         break;
-                    
+
+                    case Ride.RideStatus.Debited:
                     case Ride.RideStatus.Accepted:
                         result = "Bekræftet";
                         break;

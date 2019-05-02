@@ -26,7 +26,7 @@ namespace i4prj.SmartCab.ValueConverters
             var result = false;
             if (value is Ride.RideStatus status)
             {
-                if (status == Ride.RideStatus.Accepted) result = true;
+                if (status == Ride.RideStatus.Accepted || status == Ride.RideStatus.Debited) result = true;
             }
 
             if (parameter is string p)
