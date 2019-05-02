@@ -163,5 +163,18 @@ namespace i4prj.SmartCab.ViewModels
             }
         }
         #endregion
+
+        #region INavigationAware
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            var rideId = parameters.GetValue<string>("rideId");
+            if (rideId != null)
+            {
+                Debug.WriteLine("Navigated here with paramter rideId: " + rideId);
+            }
+        }
+        #endregion
     }
 }

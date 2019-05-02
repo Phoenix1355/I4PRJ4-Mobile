@@ -25,7 +25,14 @@ namespace i4prj.SmartCab.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+
+            // Copy intent from splash screen to MainActivity
+            // so received Push Notifications are passed on to MainActivity
+            // From: https://docs.microsoft.com/en-us/appcenter/sdk/push/xamarin-forms
+            var intent = new Intent(Application.Context, typeof(MainActivity));
+            if (Intent.Extras != null) intent.PutExtras(Intent.Extras);
+
+            StartActivity(intent);
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
+using Prism.Navigation;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab
@@ -111,25 +112,65 @@ namespace i4prj.SmartCab
             {
                 Push.PushNotificationReceived += (sender, e) =>
                 {
-                        // Add the notification message and title to the message
-                        var summary = $"Push notification received:" +
-                                        $"\n\tNotification title: {e.Title}" +
-                                        $"\n\tMessage: {e.Message}";
+                    DebugWriteReceivedPushNotification(e);
+                    HandleReceivedPushNotification(e);
 
-                        // If there is custom data associated with the notification,
-                        // print the entries
-                        if (e.CustomData != null)
+                };
+            }
+        }
+
+        private void DebugWriteReceivedPushNotification(PushNotificationReceivedEventArgs e)
+        {
+            // Add the notification message and title to the message
+            var summary = $"Push notification received:" +
+                            $"\n\tNotification title: {e.Title}" +
+                            $"\n\tMessage: {e.Message}";
+
+            // If there is custom data associated with the notification,
+            // print the entries
+            if (e.CustomData != null)
+            {
+                summary += "\n\tCustom data:\n";
+                foreach (var key in e.CustomData.Keys)
+                {
+                    summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                }
+            }
+
+            // Send the notification summary to debug output
+            Debug.WriteLine(summary);
+        }
+
+        private void HandleReceivedPushNotification(PushNotificationReceivedEventArgs e)
+        {
+            // Navigate to the RidesPage on received notification
+            // if logged in
+            var sessionService = new LocalSessionService();
+
+            // Check expiration if token is available
+            if (sessionService.Token != null)
+            {
+                var unixExpiration = JWTService.GetPayloadValue(sessionService.Token, "exp");
+
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(unixExpiration));
+                DateTime loginExpirationDate = dateTimeOffset.LocalDateTime;
+
+                // Login valid
+                if (loginExpirationDate > DateTime.Now)
+                {
+                    // Pass on custom data from push notification
+                    // to the view model of next view
+                    var navigationParams = new NavigationParameters();
+                    if (e.CustomData != null)
                     {
-                        summary += "\n\tCustom data:\n";
-                        foreach (var key in e.CustomData.Keys)
+                        foreach (var item in e.CustomData)
                         {
-                            summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                            navigationParams.Add(item.Key, item.Value);
                         }
                     }
 
-                        // Send the notification summary to debug output
-                        System.Diagnostics.Debug.WriteLine(summary);
-                };
+                    NavigationService.NavigateAsync(nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage), navigationParams);
+                }
             }
         }
     }
