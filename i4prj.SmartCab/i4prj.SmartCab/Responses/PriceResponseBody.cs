@@ -7,6 +7,6 @@ namespace i4prj.SmartCab.Responses
     /// <seealso cref="i4prj.SmartCab.Responses.BaseResponseBody" />
     public class PriceResponseBody : BaseResponseBody
     {
-        public string Price { get; set; }
+        public string price { get; set; }
     }
 }

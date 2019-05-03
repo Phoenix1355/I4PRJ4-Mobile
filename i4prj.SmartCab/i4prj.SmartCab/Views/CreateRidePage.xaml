@@ -6,7 +6,7 @@
              Title="Opret tur"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ScrollView Margin="10,0,10,0">
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" x:Name="MainPage">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -21,26 +21,26 @@
                     <ColumnDefinition Width="60" ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label FontSize="18" Grid.Row="0" Grid.Column="0">Fra</Label>
-                <Entry Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginCityName" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                
-                <Entry Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+
+                <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetName" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                <Entry  Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetNumber" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
@@ -48,25 +48,25 @@
                 </Entry>
 
                 <Label Grid.Column="0" FontSize="18" Grid.Row="2">Til</Label>
-                <Entry Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
+                <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
+                <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationPostalCode" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
+                <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetName" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}"  BindingContext="{Binding Request}" Placeholder="Vejnr.">
+                <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}"  BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetNumber" />
                         <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
@@ -86,12 +86,15 @@
             <StackLayout Orientation="Horizontal">
                 <Label Margin="0,10,0,0">Antal passagerer</Label>
                 <Label Margin="10,10,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
-                <Stepper x:Name="PassengerStepper" Minimum="1" Increment="1" Value="{Binding AmountOfPassengers}" BindingContext="{Binding Request}">
+                <Stepper x:Name="PassengerStepper" Minimum="1" Increment="1" Value="{Binding Request.AmountOfPassengers}">
+                    <Stepper.Behaviors>
+                        <b:EventToCommandBehavior EventName="ValueChanged" Command="{Binding CalculatePriceCommand}"></b:EventToCommandBehavior>
+                    </Stepper.Behaviors>
                     <Stepper.Triggers>
-                        <DataTrigger TargetType="Stepper" Binding="{Binding IsShared}"  Value="True">
+                        <DataTrigger TargetType="Stepper" Binding="{Binding Request.IsShared}"  Value="True">
                             <Setter Property="Maximum" Value="2"></Setter>
                         </DataTrigger>
-                        <DataTrigger TargetType="Stepper" Binding="{Binding IsShared}" Value="False">
+                        <DataTrigger TargetType="Stepper" Binding="{Binding Request.IsShared}" Value="False">
                             <Setter Property="Maximum" Value="4"></Setter>
                         </DataTrigger>
                     </Stepper.Triggers>
@@ -100,7 +103,11 @@
             
 
             <StackLayout Orientation =" Horizontal">
-                <Switch x:Name="IsSharedSwitch" Margin="0,10,0,0" IsToggled="{Binding IsShared}" BindingContext="{Binding Request}"></Switch>
+                <Switch x:Name="IsSharedSwitch" Margin="0,10,0,0" IsToggled="{Binding Request.IsShared}">
+                    <Switch.Behaviors>
+                        <b:EventToCommandBehavior Command="{Binding CalculatePriceCommand}" EventName="Toggled"></b:EventToCommandBehavior>
+                    </Switch.Behaviors>
+                </Switch>
                 <Label Margin="0,15,0,0">Turen må deles (billigere kilometerpris)</Label>
             </StackLayout>
 
@@ -115,19 +122,8 @@
             </StackLayout>
 
             <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
-            
-            <Button Text="{Binding Price}" Command="{Binding CalculatePriceCommand}" IsVisible="{Binding IsReady}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
-                        <Setter Property="IsEnabled" Value="True" />
-                    </DataTrigger>
-                    <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
-                        <Setter Property="IsEnabled" Value="False" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
 
-            <Button Text="Opret tur" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
+            <Button Text="{Binding Price}" Command="{Binding CreateRideCommand}" IsVisible="{Binding IsReady}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding Request.IsValid}" Value="True">
                         <Setter Property="IsEnabled" Value="True" />

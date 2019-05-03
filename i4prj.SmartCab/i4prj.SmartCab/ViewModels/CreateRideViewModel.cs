@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using i4prj.SmartCab.Interfaces;
@@ -17,6 +18,7 @@ namespace i4prj.SmartCab.ViewModels
     public class CreateRideViewModel : RestrictedAccessViewModelBase
     {
         private IBackendApiService _backendApiService;
+        private int counter = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
@@ -29,7 +31,7 @@ namespace i4prj.SmartCab.ViewModels
             Title = "Opret tur";
             Request = new CreateRideRequest(new TimeService());
             _backendApiService = backendApiService;
-            Price = "Beregn min pris";
+            Price = "Opret tur";
 
             //TEST
             
@@ -97,6 +99,11 @@ namespace i4prj.SmartCab.ViewModels
                                                             new DelegateCommand(CalculatePriceCommandExecuteAsync));
         private async void CalculatePriceCommandExecuteAsync()
         {
+            if (!Request.IsValid)
+            {
+                return;
+            }
+
             CalculatePriceRequest request = new CalculatePriceRequest(Request);
 
             IsBusy = true;
@@ -115,7 +122,8 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if(response.WasSuccessfull())
             {
-                Price = "199.9";
+                counter++;
+                Price = "Opret tur:" + " 199.9" + " kr. " + counter.ToString();
                 //Price = response.Body.Price;
             }
         }
@@ -129,6 +137,12 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void CreateRideCommandExecuteAsync()
         {
+            string action = await DialogService.DisplayActionSheetAsync("Bekræft tur: " + "199.9 kr.", "Afbryd", "OK");
+
+            if (action == "Afbryd")
+            {
+                return;
+            }
 
             IsBusy = true;
             CreateRideResponse response = await _backendApiService.SubmitCreateRideRequest(Request);

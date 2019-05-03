@@ -35,7 +35,8 @@ namespace i4prj.SmartCab
             InitializeComponent();
 
             var sessionService = new LocalSessionService();
-
+            sessionService.Clear();
+            
             Debug.WriteLine($"App::OnInitialized Token: {sessionService.Token}");
 
             // Check expiration if token is available
@@ -86,6 +87,7 @@ namespace i4prj.SmartCab
         protected override void OnStart()
         {
             SetupPush();
+
 
             Debug.WriteLine("OnStart");
 
