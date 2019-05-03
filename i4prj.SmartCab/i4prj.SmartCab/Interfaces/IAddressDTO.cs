@@ -2,7 +2,7 @@
 namespace i4prj.SmartCab.Interfaces
 {
     /// <summary>
-    /// Address DTO.
+    /// Interface for Address DTO.
     /// </summary>
     public interface IAddressDTO
     {

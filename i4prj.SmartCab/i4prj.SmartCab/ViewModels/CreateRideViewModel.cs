@@ -14,7 +14,7 @@ using Prism.Services;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class CreateRideViewModel : ViewModelBase
+    public class CreateRideViewModel : RestrictedAccessViewModelBase
     {
         private IBackendApiService _backendApiService;
 
@@ -23,12 +23,12 @@ namespace i4prj.SmartCab.ViewModels
         /// </summary>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="pageDialogService">Page dialog service.</param>
-        public CreateRideViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IBackendApiService backEndApiService)
-            : base(navigationService, pageDialogService)
+        public CreateRideViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ISessionService sessionService, IBackendApiService backendApiService)
+            : base(navigationService, pageDialogService, sessionService)
         {
             Title = "Opret tur";
             Request = new CreateRideRequest(new TimeService());
-            _backendApiService = backEndApiService;
+            _backendApiService = backendApiService;
             Price = "Beregn min pris";
 
             //TEST

@@ -13,10 +13,9 @@ using Xamarin.Forms;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class EditAccountViewModel : ViewModelBase
+    public class EditAccountViewModel : RestrictedAccessViewModelBase
     {
         private IBackendApiService _apiService;
-        private ISessionService _sessionService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditAccountViewModel"/> class.
@@ -27,16 +26,15 @@ namespace i4prj.SmartCab.ViewModels
         /// <param name="pageDialogService">The page dialog service.</param>
         /// <param name="apiService">The API service.</param>
         /// <param name="sessionService">The session service.</param>
-        public EditAccountViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
-            IBackendApiService apiService, ISessionService sessionService) : base(navigationService, pageDialogService)
+        public EditAccountViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IBackendApiService apiService, ISessionService sessionService) 
+            : base(navigationService, pageDialogService, sessionService)
         {
             _apiService = apiService;
-            _sessionService = sessionService;
             Request = new EditAccountRequest();
 
-            Request.Email = _sessionService.Customer.Email;
-            Request.Name = _sessionService.Customer.Name;
-            Request.PhoneNumber = _sessionService.Customer.PhoneNumber;
+            Request.Email = SessionService.Customer.Email;
+            Request.Name = SessionService.Customer.Name;
+            Request.PhoneNumber = SessionService.Customer.PhoneNumber;
         }
 
         #region Properties
@@ -77,7 +75,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasSuccessfull())
             {
-                _sessionService.Update(_sessionService.Token,new Customer(response.Body.customer));
+                SessionService.Update(SessionService.Token,new Customer(response.Body.customer));
                 
                 await DialogService.DisplayAlertAsync("Success", "Ændringer godkendt", "OK");
                 await NavigationService.NavigateAsync("/"+ nameof(CustomerMasterDetailPage) +"/" + nameof(NavigationPage) + "/" + nameof(RidesPage));

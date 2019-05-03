@@ -65,10 +65,13 @@ namespace i4prj.SmartCab.Services
         /// <returns>The CreateRideResponse</returns>
         public async Task<CreateRideResponse> SubmitCreateRideRequest(ICreateRideRequest request)
         {
-          
+            // Get custom install ID header (used for Push notifications)
+            System.Guid? installId = await AppCenter.GetInstallIdAsync();
+
             var result = await PostAsync(_createRideEndPoint, new
             {
-                isShared = request.IsShared,
+                deviceId = installId.ToString(),
+                rideType = request.IsShared ? Ride.RideType.SharedRide.ToString() : Ride.RideType.SoloRide.ToString(),
                 departureTime = new DateTime(request.DepartureDate.Year, request.DepartureDate.Month, request.DepartureDate.Day, request.DepartureTime.Hours, request.DepartureTime.Minutes, request.DepartureTime.Seconds),
                 confirmationDeadline = new DateTime(request.ConfirmationDeadlineDate.Year, request.ConfirmationDeadlineDate.Month, request.ConfirmationDeadlineDate.Day, request.ConfirmationDeadlineTime.Hours, request.ConfirmationDeadlineTime.Minutes, request.ConfirmationDeadlineTime.Seconds),
                 passengerCount = (int)request.AmountOfPassengers,
@@ -168,7 +171,7 @@ namespace i4prj.SmartCab.Services
             {
                 string json = JsonConvert.SerializeObject(data);
 
-                HttpResponseMessage response = await (await GetClient()).PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = await GetClient().PostAsync(endPointUrl, new StringContent(json, Encoding.UTF8, "application/json"));
 
                 Debug.WriteLine("Backend API post request submitted to " + endPointUrl + " with " + json);
 
@@ -188,7 +191,7 @@ namespace i4prj.SmartCab.Services
             try
             {
                 string json = JsonConvert.SerializeObject(data);
-                HttpResponseMessage response = await (await GetClient()).PutAsync(endPointUrl,
+                HttpResponseMessage response = await GetClient().PutAsync(endPointUrl,
                     new StringContent(json, Encoding.UTF8, "application/json"));
 
                 Debug.WriteLine("Backend API put request submitted to " + endPointUrl + " with " + json);
@@ -207,7 +210,7 @@ namespace i4prj.SmartCab.Services
         {
             try
             {
-                HttpResponseMessage response = await (await GetClient()).GetAsync(endPointUrl);
+                HttpResponseMessage response = await GetClient().GetAsync(endPointUrl);
 
                 Debug.WriteLine("Backend API get request submitted to " + endPointUrl + ". Response: " + response);
 
@@ -221,20 +224,12 @@ namespace i4prj.SmartCab.Services
             return null;
         }
 
-        private async Task<HttpClient> GetClient()
+        private HttpClient GetClient()
         {
             _httpClient.DefaultRequestHeaders.Clear();
 
             // Add backend authorization
             if (_sessionService.Token != null) _httpClient.DefaultRequestHeaders.Add("authorization", "Bearer " + _sessionService.Token);
-
-            // Add custom install ID header (used for Push notifications)
-            // Just keept here until permanent solution is found
-            // as to keep the ID updated at the backend
-            System.Guid? installId = await AppCenter.GetInstallIdAsync();
-            if (installId != null) _httpClient.DefaultRequestHeaders.Add("X-Install-ID", installId.ToString());
-
-
             return _httpClient;
         }
 

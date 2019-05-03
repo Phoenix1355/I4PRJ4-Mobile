@@ -8,9 +8,8 @@ using Newtonsoft.Json;
 
 namespace i4prj.SmartCab.Responses
 {
-    public class PriceResponse : BackendApiResponse
+    public class PriceResponse : BaseResponse
     {
-
         public PriceResponseBody Body
         {
             get => (PriceResponseBody) _body;
@@ -24,7 +23,6 @@ namespace i4prj.SmartCab.Responses
         public PriceResponse(HttpResponseMessage response)
             :base(response)
         {
-
         }
 
         /// <summary>
@@ -32,26 +30,24 @@ namespace i4prj.SmartCab.Responses
         /// </summary>
         protected override async void MakeBody()
         {
+            // Get json body as string
             string responseBodyAsText = await HttpResponseMessage.Content.ReadAsStringAsync();
+            Debug.WriteLine("Http response body: " + responseBodyAsText);
+
+            // Convert json string body
             try
             {
                 Body = JsonConvert.DeserializeObject<PriceResponseBody>(responseBodyAsText);
                 Debug.WriteLine("Http-result parset uden fejl.");
-                Debug.Write(responseBodyAsText);
             }
-            catch (Newtonsoft.Json.JsonSerializationException e)
+            catch (JsonReaderException e)
             {
-                Debug.WriteLine("Http-result kunne parses som json. Fejl: " + e.Message);
+                Debug.WriteLine("Http-result kunne ikke parses som json. Fejl: " + e.Message);
             }
-        }
-
-        /// <summary>
-        /// Responsebody for PriceResponse
-        /// </summary>
-        /// <seealso cref="i4prj.SmartCab.Responses.BackendApiResponseBody" />
-        public class PriceResponseBody : BackendApiResponseBody
-        {
-            public string Price { get; set; }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine("Http-result kunne ikke omsættes til objekt. Fejl: " + e.Message);
+            }
         }
     }
 }
