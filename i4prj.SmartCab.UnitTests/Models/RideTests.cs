@@ -332,5 +332,39 @@ namespace i4prj.SmartCab.UnitTests.Models
         // IsArchived is the opposite of IsOpen. Therefore tested through
         // IsOpen tests
         #endregion
+
+        #region SharedProperty
+        // SharedProperty is not used and could maybe be removed
+        // This test is made to keep coverage up
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SetSharedProperty_WithValue_HasCorrectValue(bool value)
+        {
+            // Arrange
+            var uut = new Ride();
+
+            // Act
+            uut.Shared = value;
+
+            Assert.That(uut.Shared, Is.EqualTo(value));
+        }
+        #endregion
+
+        #region IndexPropery
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(25)]
+        public void SetIndexProperty_WithValue_HasCorrectValue(int index)
+        {
+            // Arrange
+            var uut = new Ride();
+
+            // Act
+            uut.Index = index;
+
+            Assert.That(uut.Index, Is.EqualTo(index));
+        }
+        #endregion
     }
 }

@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 using Prism.Navigation;
+using i4prj.SmartCab.Responses;
+using System.Net.Http;
+using System.Net;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace i4prj.SmartCab

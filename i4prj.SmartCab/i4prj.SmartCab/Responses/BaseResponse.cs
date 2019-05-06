@@ -47,7 +47,7 @@ namespace i4prj.SmartCab.Responses
         /// <returns><c>true</c>, if unsuccessfull, <c>false</c> otherwise.</returns>
         public bool WasUnsuccessfull()
         {
-            return HttpResponseMessage.StatusCode == HttpStatusCode.BadRequest;
+            return !WasSuccessfull();
         }
 
         /// <summary>

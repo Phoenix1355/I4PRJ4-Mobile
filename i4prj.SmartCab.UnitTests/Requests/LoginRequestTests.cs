@@ -106,6 +106,22 @@ namespace i4prj.SmartCab.UnitTests.Requests
 
         #endregion
 
+        #region Password
+        [TestCase("Qwert12!")]
+        [TestCase("#HansE6!7")]
+        [TestCase("LukMigInd8/")]
+        [TestCase("How_About_Them_Spurs1998?")]
+        public void PasswordProperty_SetWithValue_HasSetValue(string password)
+        {
+           // Act
+            _uut.Password = password;
+          
+            // Assert
+            Assert.That(_uut.Password, Is.EqualTo(password));
+        }
+
+        #endregion
+
         #region IsValid
 
         [Test]

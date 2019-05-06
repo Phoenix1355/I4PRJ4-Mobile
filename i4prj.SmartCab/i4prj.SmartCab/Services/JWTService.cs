@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -26,17 +27,20 @@ namespace i4prj.SmartCab.Services
 
             if (!string.IsNullOrEmpty(token))
             {
-                var parts = token.Split('.');
-
-                if (parts.Length == 3)
+                try
                 {
-                    var headerJson = System.Convert.FromBase64String(parts[0]);
+                    var parts = token.Split('.');
 
-                    string headerJsonConverted = Encoding.UTF8.GetString(headerJson, 0, headerJson.Length);
+                    if (parts.Length == 3)
+                    {
+                        var deserialized = JsonConvert.DeserializeObject<Dictionary<string, string>>(FromBase64String(parts[0]));
 
-                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, string>>(headerJsonConverted);
-
-                    result = FindValueByKey(deserialized, key);
+                        result = FindValueByKey(deserialized, key);
+                    }
+                }
+                catch (FormatException)
+                {
+                    // Silent
                 }
             }
 
@@ -55,17 +59,20 @@ namespace i4prj.SmartCab.Services
 
             if (!string.IsNullOrEmpty(token))
             {
-                var parts = token.Split('.');
-
-                if (parts.Length == 3)
+                try
                 {
-                    var payloadJson = System.Convert.FromBase64String(parts[1]);
+                    var parts = token.Split('.');
 
-                    string payloadJsonConverted = Encoding.UTF8.GetString(payloadJson, 0, payloadJson.Length);
+                    if (parts.Length == 3)
+                    {
+                        var deserialized = JsonConvert.DeserializeObject<Dictionary<string, string>>(FromBase64String(parts[1]));
 
-                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, string>>(payloadJsonConverted);
-
-                    result = FindValueByKey(deserialized, key);
+                        result = FindValueByKey(deserialized, key);
+                    }
+                } 
+                catch (FormatException)
+                {
+                    // Silent
                 }
             }
 
@@ -86,6 +93,24 @@ namespace i4prj.SmartCab.Services
             }
 
             return result;
+        }
+
+        private static string FromBase64String(string value)
+        {
+            Debug.WriteLine(AddPadding(value));
+            var temp = System.Convert.FromBase64String(AddPadding(value));
+            return Encoding.UTF8.GetString(temp, 0, temp.Length);
+        }
+
+        private static string AddPadding(string value)
+        {
+            // Padd ending with = until length is multiple of 4
+            for (var i = 0; i < (value.Length % 4); i++)
+            {
+                value += "=";
+            }
+
+            return value;
         }
     }
 }
