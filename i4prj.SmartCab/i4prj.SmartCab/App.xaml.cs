@@ -75,6 +75,7 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<RidesPage, RidesViewModel>();
             containerRegistry.RegisterForNavigation<CreateRidePage,CreateRideViewModel>();
             containerRegistry.RegisterForNavigation<EditAccountPage,EditAccountViewModel>();
+            containerRegistry.RegisterForNavigation<MapsPage,MapsViewModel>();
 
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
 
