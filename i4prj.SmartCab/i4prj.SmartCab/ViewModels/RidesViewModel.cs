@@ -141,9 +141,9 @@ namespace i4prj.SmartCab.ViewModels
         /// <value>The update list command.</value>
         public DelegateCommand UpdateListCommand => _updateListCommand ?? (_updateListCommand = new DelegateCommand(UpdateListCommandExecute));
 
-        private void UpdateListCommandExecute()
+        private async void UpdateListCommandExecute()
         {
-            _ = LoadRides();
+            await LoadRides();
         }
         #endregion
 
