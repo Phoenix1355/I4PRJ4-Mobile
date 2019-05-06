@@ -28,7 +28,7 @@ namespace i4prj.SmartCab.Services
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
         private const string _createRideEndPoint = _baseUrl + "Rides/Create";
-        private const string _calculatePriceEndPoint = _baseUrl + "Price";
+        private const string _calculatePriceEndPoint = _baseUrl + "Rides/Price";
         private const string _editAccountEndPoint = _baseUrl + "Customer/Edit";
 
         public AzureApiService(HttpClient httpHandler, ISessionService sessionService)
@@ -103,6 +103,7 @@ namespace i4prj.SmartCab.Services
             {
                 startAddress = new {cityName=request.OriginCityName,postalCode=request.OriginPostalCode,streetName=request.OriginStreetName,streetNumber=request.OriginStreetNumber},
                 endAddress = new {cityName=request.DestinationCityName,postalCode=request.DestinationPostalCode,streetName=request.DestinationStreetName,streetNumber=request.DestinationStreetNumber},
+                rideType = request.IsShared ? Ride.RideType.SharedRide.ToString() : Ride.RideType.SoloRide.ToString(),
             });
 
             return result != null ? new PriceResponse(result) : null;

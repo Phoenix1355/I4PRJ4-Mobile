@@ -20,10 +20,20 @@ namespace i4prj.SmartCab.Requests
             OriginStreetName = request.OriginStreetName;
             OriginStreetNumber = request.OriginStreetNumber;
 
+            IsShared = request.IsShared;
+
             DestinationCityName = request.DestinationCityName;
             DestinationPostalCode = request.DestinationPostalCode;
             DestinationStreetName = request.DestinationStreetName;
             DestinationStreetNumber = request.DestinationStreetNumber;
+        }
+
+        private bool _isShared;
+
+        public bool IsShared
+        {
+            get { return _isShared; }
+            set { SetProperty(ref _isShared, value); }
         }
 
         private string _originCityName;

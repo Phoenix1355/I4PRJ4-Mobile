@@ -17,5 +17,7 @@ namespace i4prj.SmartCab.Interfaces
         string DestinationStreetName { get; set; }
         string OriginStreetNumber { get; set; }
         string DestinationStreetNumber { get; set; }
+
+        bool IsShared { get; set; }
     }
 }

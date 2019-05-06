@@ -12,7 +12,6 @@
                 <Button Text="Turoversigt" Command="{xaml:NavigateTo 'NavigationPage/RidesPage'}"></Button>
                 <Button Text="Rediger konto" Command="{xaml:NavigateTo 'NavigationPage/EditAccountPage'}"></Button>
                 <Button Text="Saldo"></Button>
-                <Button Text="Maps" Command="{xaml:NavigateTo 'NavigationPage/MapsPage'}"></Button>
 
                 <BoxView HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"></BoxView>
                 <Button Text="Log ud" Command="{Binding LogOutCommand}" VerticalOptions="End"></Button>

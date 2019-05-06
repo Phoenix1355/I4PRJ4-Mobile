@@ -2,13 +2,35 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-             x:Class="i4prj.SmartCab.Views.MapsPage">
+             x:Class="i4prj.SmartCab.Views.MapsPage"
+             >
     <ContentPage.Content>
-        <StackLayout VerticalOptions="StartAndExpand" Padding="30">
-            <maps:Map WidthRequest="320" HeightRequest="200"
-                      x:Name="MyMap"
-                      MapType="Hybrid">
+        <StackLayout VerticalOptions="StartAndExpand" Padding="30" x:Name="MainPage">
+            <Label Text="Din bestilte tur: "></Label>
+            <maps:Map WidthRequest="320" HeightRequest="450"
+                      x:Name="Map"
+                      MapType="Street" ItemsSource="{Binding Locations}" >
+                <maps:Map.ItemTemplate>
+                    <DataTemplate>
+                        <maps:Pin Position="{Binding Position}"
+                                  Address="{Binding Address}" 
+                                  Label="{Binding TypeOfAddress}" Type="Place"/>
+                    </DataTemplate>
+                </maps:Map.ItemTemplate>
             </maps:Map>
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="20" Text="At betale: "></Label>
+                <Label FontSize="20" Text="{Binding Price}"></Label>
+                <Label FontSize="20" Text="kr."></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Bekræft" Command="{Binding ConfirmCommand}"></Button>
+                <Button Text="Annullér" Command="{Binding CancelCommand}"></Button>
+            </StackLayout>
+
+            
+            <Label Text="{Binding Request.OriginCityName}"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -87,9 +87,6 @@
                 <Label Margin="0,10,0,0">Antal passagerer</Label>
                 <Label Margin="10,10,0,0" FontSize="18" Text="{Binding Source={x:Reference PassengerStepper},Path=Value}"></Label>
                 <Stepper x:Name="PassengerStepper" Minimum="1" Increment="1" Value="{Binding Request.AmountOfPassengers}">
-                    <Stepper.Behaviors>
-                        <b:EventToCommandBehavior EventName="ValueChanged" Command="{Binding CalculatePriceCommand}"></b:EventToCommandBehavior>
-                    </Stepper.Behaviors>
                     <Stepper.Triggers>
                         <DataTrigger TargetType="Stepper" Binding="{Binding Request.IsShared}"  Value="True">
                             <Setter Property="Maximum" Value="2"></Setter>
