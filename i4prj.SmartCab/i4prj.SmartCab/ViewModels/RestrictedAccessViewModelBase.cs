@@ -35,11 +35,6 @@ namespace i4prj.SmartCab.ViewModels
            
         }
 
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-
         private async Task AutoLogout()
         {
             if (SessionService.Token != null)
