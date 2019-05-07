@@ -40,9 +40,8 @@ namespace i4prj.SmartCab.ViewModels
             _positionOfMap = new Position();
         }
 
-        private async void GetPositionsFromRequest()
+        private async void SetUpMap()
         {
-
             string fromAddress = Request.CreateStringAddress("origin");
             string toAddress = Request.CreateStringAddress("destination");
 
@@ -55,14 +54,11 @@ namespace i4prj.SmartCab.ViewModels
                 _locationPins.Add(new Pin() { Address = toAddress, Type = PinType.Generic, Label = "Slutdestination", Position = new Position(toLocation.Latitude, toLocation.Longitude) });
 
                 //udregn position mellem de to lokationer
-
-                Position middlePosition = new Position((fromLocation.Latitude + toLocation.Latitude) / 2,(fromLocation.Longitude + toLocation.Longitude)/2);
-
                 //sæt position og radius
-                MapRadius = Xamarin.Essentials.Location.CalculateDistance(new Location(middlePosition.Latitude, middlePosition.Longitude), fromLocation, DistanceUnits.Kilometers)+_radiusMargin;
-                PositionOfMap = middlePosition;
+
+                MapRadius = _mapsService.GetMapRadius(fromLocation,toLocation,_radiusMargin);
+                PositionOfMap = _mapsService.GetMiddlePosition(fromLocation, toLocation);
             }
-            
         }
 
         private ObservableCollection<Pin> _locationPins;
@@ -144,11 +140,17 @@ namespace i4prj.SmartCab.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            Price = parameters.GetValue<string>("Price");
+            if(parameters.ContainsKey("Price"))
+                Price = "At betale: " + parameters.GetValue<string>("Price")+ " kr.";
 
-            Request = parameters.GetValue<CreateRideRequest>("Ride");
+            if(parameters.ContainsKey("Ride"))
+                Request = parameters.GetValue<CreateRideRequest>("Ride");
 
-            GetPositionsFromRequest();
+            if (Request != null && Price != null)
+            {
+                SetUpMap();
+            }
+
         }
         
     }

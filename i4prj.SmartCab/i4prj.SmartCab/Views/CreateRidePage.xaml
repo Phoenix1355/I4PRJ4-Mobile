@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="110" ></ColumnDefinition>
                     <ColumnDefinition Width="60" ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label FontSize="18" Grid.Row="0" Grid.Column="0">Fra</Label>
+                <Label FontSize="18" FontAttributes="Bold" Margin="0,15,0,0" Grid.Row="0" Grid.Column="0">Fra</Label>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginCityName" />
@@ -47,7 +47,7 @@
                     </Entry.Behaviors>
                 </Entry>
 
-                <Label Grid.Column="0" FontSize="18" Grid.Row="2">Til</Label>
+                <Label Grid.Column="0" FontSize="18" Grid.Row="2" FontAttributes="Bold" Margin="0,15,0,0">Til</Label>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
@@ -127,6 +127,12 @@
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding Request.IsInvalid}" Value="True">
                         <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding PriceCalculationSucceeded}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding PriceCalculationSucceeded}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
                     </DataTrigger>
                 </Button.Triggers>
             </Button>

@@ -32,5 +32,17 @@ namespace i4prj.SmartCab.Services
 
             return null;
         }
+
+        public Position GetMiddlePosition(Location from, Location to)
+        {
+            return new Position((from.Latitude + to.Latitude) / 2, (from.Longitude + to.Longitude) / 2);
+        }
+
+        public double GetMapRadius(Location from, Location to, double margin)
+        {
+            Position middlePosition = GetMiddlePosition(from, to);
+
+            return Xamarin.Essentials.Location.CalculateDistance(new Location(middlePosition.Latitude, middlePosition.Longitude), from, DistanceUnits.Kilometers) + margin;
+        }
     }
 }

@@ -4,16 +4,15 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:map="clr-namespace:i4prj.SmartCab.CustomControls"
              x:Class="i4prj.SmartCab.Views.MapsPage"
-             >
+             Title="Opret tur">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="StartAndExpand" Padding="30" x:Name="MainPage" Margin="10">
-            <Label Text="Din bestilte tur: "></Label>
-            <map:BindableMap WidthRequest="100" HeightRequest="400"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}">
+        <StackLayout VerticalOptions="StartAndExpand" Padding="30" Margin="10">
+            <Label Text="Din bestilte tur: " FontSize="25" FontAttributes="Bold"></Label>
+            <map:BindableMap WidthRequest="100" HeightRequest="300"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}" >
             </map:BindableMap>
-            <StackLayout Orientation="Horizontal">
-                <Label FontSize="20" Text="At betale: "></Label>
-                <Label FontSize="20" Text="{Binding Price}"></Label>
-                <Label FontSize="20" Text="kr."></Label>
+
+            <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Price}"></Label>
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">

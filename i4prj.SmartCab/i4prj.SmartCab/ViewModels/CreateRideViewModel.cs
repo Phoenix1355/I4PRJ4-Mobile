@@ -69,6 +69,14 @@ namespace i4prj.SmartCab.ViewModels
 
         public INavigationParameters RideInfo { get; set; }
 
+        private bool _priceCalculationSucceeded;
+        
+        public bool PriceCalculationSucceeded
+        {
+            get { return _priceCalculationSucceeded; }
+            set { SetProperty(ref _priceCalculationSucceeded, value); }
+        }
+
         #endregion
 
         #region Commands
@@ -116,17 +124,17 @@ namespace i4prj.SmartCab.ViewModels
 
             if (response == null)
             {
-                Price = "Opret tur";
+                Price = "Opret tur: Pris kunne ikke beregnes";
                 RideInfo = new NavigationParameters();
-
+                PriceCalculationSucceeded = false;
                 await DialogService.DisplayAlertAsync("Forbindelse",
                     "Pris kunne ikke beregnes - ingen internetforbindelse", "OK");
             }
             else if (response.WasUnsuccessfull())
             {
-                Price = "Opret tur";
+                Price = "Opret tur: Pris kunne ikke beregnes";
                 RideInfo = new NavigationParameters();
-                
+                PriceCalculationSucceeded = false;
                 await DialogService.DisplayAlertAsync("Ukendt fejl", "Prisen for turen kunne ikke beregnes", "OK");
             }
             else if(response.WasSuccessfull())
@@ -135,6 +143,7 @@ namespace i4prj.SmartCab.ViewModels
                 
                 RideInfo = new NavigationParameters();
 
+                PriceCalculationSucceeded = true;
                 RideInfo.Add("Price",response.Body.price);
                 RideInfo.Add("Ride",Request);
             }

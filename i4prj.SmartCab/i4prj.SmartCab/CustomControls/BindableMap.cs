@@ -19,14 +19,15 @@ namespace i4prj.SmartCab.CustomControls
                  typeof(ObservableCollection<Pin>),
                  typeof(BindableMap),
                  new ObservableCollection<Pin>(),
-                 propertyChanged: (b, o, n) =>
+                 propertyChanged: (map, oldValue, newValue) =>
                  {
-                     var bindable = (BindableMap)b;
+                     var bindable = (BindableMap)map;
                      bindable.Pins.Clear();
 
-                     var collection = (ObservableCollection<Pin>)n;
+                     var collection = (ObservableCollection<Pin>)newValue;
                      foreach (var item in collection)
                          bindable.Pins.Add(item);
+
                      collection.CollectionChanged += (sender, e) =>
                      {
                          Device.BeginInvokeOnMainThread(() =>
@@ -34,8 +35,6 @@ namespace i4prj.SmartCab.CustomControls
                              switch (e.Action)
                              {
                                  case NotifyCollectionChangedAction.Add:
-                                 case NotifyCollectionChangedAction.Replace:
-                                 case NotifyCollectionChangedAction.Remove:
                                      if (e.OldItems != null)
                                          foreach (var item in e.OldItems)
                                              bindable.Pins.Remove((Pin)item);
@@ -43,25 +42,23 @@ namespace i4prj.SmartCab.CustomControls
                                          foreach (var item in e.NewItems)
                                              bindable.Pins.Add((Pin)item);
                                      break;
-                                 case NotifyCollectionChangedAction.Reset:
-                                     bindable.Pins.Clear();
-                                     break;
                              }
                          });
                      };
                  });
-        public IList<Pin> MapPins { get; set; }
+
+        public List<Pin> MapPins { get; set; }
 
         public static readonly BindableProperty MapPositionProperty = BindableProperty.Create(
                  nameof(MapPosition),
                  typeof(Position),
                  typeof(BindableMap),
                  new Position(0,0),
-                 propertyChanged: (b,o, n) =>
+                 propertyChanged: (map,oldValue, newValue) =>
                  {
-                     ((BindableMap)b).MoveToRegion(MapSpan.FromCenterAndRadius(
-                         (Position)n,
-                         Distance.FromKilometers((double)((BindableMap)b).GetValue(RadiusProperty))));
+                     ((BindableMap)map).MoveToRegion(MapSpan.FromCenterAndRadius(
+                         (Position)newValue,
+                         Distance.FromKilometers((double)((BindableMap)map).GetValue(RadiusProperty))));
                  }, defaultBindingMode:(BindingMode.TwoWay));
 
 
@@ -71,7 +68,7 @@ namespace i4prj.SmartCab.CustomControls
             nameof(Radius),
             typeof(double),
             typeof(BindableMap),
-            propertyChanged: (b, o, n) => { ((BindableMap) b).Radius = (double) n; });
+            propertyChanged: (map, oldValue, newValue) => { ((BindableMap) map).Radius = (double) newValue; });
 
         public double Radius { get; set; }
     }
