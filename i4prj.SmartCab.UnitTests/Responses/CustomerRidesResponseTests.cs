@@ -45,7 +45,7 @@ namespace i4prj.SmartCab.UnitTests.Responses
         /// Test to see if Body property is set when constructed by valid json
         /// </summary>
         [Test]
-        public void Ctor_ValidJson_BodyIsNotNull()
+        public void Ctor_ValidJsonMatchingBody_BodyIsNotNull()
         {
             // Arrange
             var httpResponse = new HttpResponseMessage()
@@ -62,7 +62,7 @@ namespace i4prj.SmartCab.UnitTests.Responses
         }
 
         [Test]
-        public void Ctor_ValidJson_BodyHasPopulatedDTOs()
+        public void Ctor_ValidJsonMatchingBody_BodyHasPopulatedDTOs()
         {
             // Arrange
             var httpResponse = new HttpResponseMessage()
@@ -113,6 +113,26 @@ namespace i4prj.SmartCab.UnitTests.Responses
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent("agsdhsdh", Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            CustomerRidesResponse _uut = new CustomerRidesResponse(httpResponse);
+
+            // Assert
+            Assert.That(_uut.Body, Is.Null);
+        }
+
+        /// <summary>
+        /// Test to see if Body property is null when constructed by invalid json
+        /// </summary>
+        [Test]
+        public void Ctor_ValidJsonNotMatchingBody_BodyIsNull()
+        {
+            // Arrange
+            var httpResponse = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\r\n\t\"rides\": [{\r\n\t\t\"startDestination\": \"some address\",\r\n\t\t\"departureTime\": \"ABCD\",\r\n\t\t\"endDestination\": {\r\n\t\t\t\"subProperty\": {\r\n\t\t\t\t\"subArray\": [1, 6, 9]\r\n\t\t\t}\r\n\t\t}\r\n\t}]\r\n}", Encoding.UTF8, "application/json")
             };
 
             // Act

@@ -59,9 +59,16 @@ namespace i4prj.SmartCab.UnitTests.Requests
         #endregion
 
         #region IsShared
+        // This simple test is made to keep coverage up
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SetIsSharedProperty_WithValue_HasCorrectValue(bool value)
+        {
+            // Act
+            _uut.IsShared = value;
 
-        //no tests
-
+            Assert.That(_uut.IsShared, Is.EqualTo(value));
+        }
         #endregion
 
         #region DepartureDate
