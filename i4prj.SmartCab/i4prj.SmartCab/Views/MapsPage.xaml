@@ -6,12 +6,12 @@
              Title="Opret tur">
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand" Padding="30" Margin="10">
-            <Label Text="Din bestilte tur: " FontSize="25" FontAttributes="Bold"></Label>
+            <Label Text="Din tur: " FontSize="25" FontAttributes="Bold"></Label>
             <map:BindableMap WidthRequest="100" HeightRequest="300"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}" >
             </map:BindableMap>
 
             <StackLayout Orientation="Vertical">
-                <Label FontSize="15" FontAttributes="Bold" Text="{Binding Price}"></Label>
+                <Label FontAttributes="Bold" Text="{Binding Price}"></Label>
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">

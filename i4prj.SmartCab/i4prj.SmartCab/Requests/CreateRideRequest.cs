@@ -21,6 +21,9 @@ namespace i4prj.SmartCab.Requests
     {
         private ITimeService _timeService;
 
+        private readonly TimeSpan _departureTimeMargin = new TimeSpan(0, 1, 0, 0);
+        private readonly TimeSpan _confirmationTimeMargin = new TimeSpan(0, 0, 30, 0);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideRequest"/> class.
         /// Sets default values for the request.
@@ -48,9 +51,14 @@ namespace i4prj.SmartCab.Requests
         private void SetDefaultTimeValues()
         {
             DepartureDate = _timeService.GetCurrentDate();
+
             ConfirmationDeadlineDate = _timeService.GetCurrentDate();
-            DepartureTime = _timeService.GetCurrentTime().Add(new TimeSpan(0, 1, 0, 0));
-            ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(new TimeSpan(0, 0, 30, 0));
+
+            DepartureTime = _timeService.GetCurrentTime().Add(_departureTimeMargin);
+            
+
+            ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(_confirmationTimeMargin);
+
             CurrentDate = _timeService.GetCurrentDate();
         }
 
