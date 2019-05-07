@@ -18,14 +18,8 @@ namespace i4prj.SmartCab.Views
         public MapsPage()
         {
             InitializeComponent();
-
-            MapsViewModel viewModel = (MapsViewModel)BindingContext;
-
-            IEnumerable b = viewModel.Locations;
-            
-            //Mangler at udtrække locations her og sætte mapregion til det rigtige.
-
-            Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(10, 10), Distance.FromKilometers(100)));
         }
+
+        
     }
 }

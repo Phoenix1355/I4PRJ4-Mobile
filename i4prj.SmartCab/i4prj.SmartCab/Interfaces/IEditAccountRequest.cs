@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace i4prj.SmartCab.Interfaces
@@ -13,5 +14,7 @@ namespace i4prj.SmartCab.Interfaces
         string OldPassword { get; set; }
         string Password { get; set; }
         string RepeatedPassword { get; set; }
+
+        
     }
 }

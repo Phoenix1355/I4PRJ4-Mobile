@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DryIoc;
+using i4prj.SmartCab.CustomControls;
 using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Models;
 using i4prj.SmartCab.Requests;
@@ -17,8 +18,10 @@ using i4prj.SmartCab.Views;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using Map = Xamarin.Essentials.Map;
 
 namespace i4prj.SmartCab.ViewModels
 {
@@ -27,29 +30,63 @@ namespace i4prj.SmartCab.ViewModels
 
         private readonly IBackendApiService _backendApiService;
         private readonly IMapsService _mapsService;
+        private readonly double _radiusMargin = 1;
 
         public MapsViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService, IBackendApiService apiService) : base(navigationService, dialogService, sessionService)
         {
             _backendApiService = apiService;
             _mapsService = new GoogleMapsService();
-            _locations = new ObservableCollection<Location>();
+            _locationPins = new ObservableCollection<Pin>();
+            _positionOfMap = new Position();
         }
 
         private async void GetPositionsFromRequest()
         {
+
+            string fromAddress = Request.CreateStringAddress("origin");
+            string toAddress = Request.CreateStringAddress("destination");
+
+            Xamarin.Essentials.Location fromLocation = await _mapsService.GetPosition(fromAddress);
+            Xamarin.Essentials.Location toLocation = await _mapsService.GetPosition(toAddress);
+
+            if (fromLocation != null && toLocation != null)
+            {
+                _locationPins.Add(new Pin(){Address=fromAddress,Type=PinType.Generic,Label="Startdestination",Position =new Position(fromLocation.Latitude,fromLocation.Longitude)});
+                _locationPins.Add(new Pin() { Address = toAddress, Type = PinType.Generic, Label = "Slutdestination", Position = new Position(toLocation.Latitude, toLocation.Longitude) });
+
+                //udregn position mellem de to lokationer
+
+                Position middlePosition = new Position((fromLocation.Latitude + toLocation.Latitude) / 2,(fromLocation.Longitude + toLocation.Longitude)/2);
+
+                //sæt position og radius
+                MapRadius = Xamarin.Essentials.Location.CalculateDistance(new Location(middlePosition.Latitude, middlePosition.Longitude), fromLocation, DistanceUnits.Kilometers)+_radiusMargin;
+                PositionOfMap = middlePosition;
+            }
             
-            List<string> addresses = _mapsService.ConvertRequestToAddresses(Request);
-            List<Xamarin.Essentials.Location> locations = await _mapsService.GetPosition(addresses);
-
-            _locations.Add(new Location(addresses[0],"Startdestination",new Position(locations[0].Latitude, locations[0].Longitude)));
-            _locations.Add(new Location(addresses[1],"Slutdestination", new Position(locations[1].Latitude, locations[1].Longitude)));
-
-            MapView = MapSpan.FromCenterAndRadius(new Position(10, 10),Distance.FromKilometers(10));
         }
 
-        private ObservableCollection<Location> _locations;
+        private ObservableCollection<Pin> _locationPins;
+        public ObservableCollection<Pin> LocationPins
+        {
+            get { return _locationPins; }
+            set { SetProperty(ref _locationPins, value); }
+        }
 
-        public IEnumerable Locations => _locations;
+        private Position _positionOfMap;
+
+        public Position PositionOfMap
+        {
+            get { return _positionOfMap; }
+            set { SetProperty(ref _positionOfMap, value); }
+        }
+
+        private double _mapRadius;
+
+        public double MapRadius
+        {
+            get { return _mapRadius; }
+            set { SetProperty(ref _mapRadius, value); }
+        }
 
         private ICreateRideRequest _request;
         public ICreateRideRequest Request
@@ -61,16 +98,6 @@ namespace i4prj.SmartCab.ViewModels
             }
         }
 
-        private MapSpan _mapView;
-        public MapSpan MapView
-        {
-            get { return _mapView; }
-            set
-            {
-                SetProperty(ref _mapView, value);
-            }
-        }
-
         private string _price;
 
         public string Price
@@ -78,7 +105,6 @@ namespace i4prj.SmartCab.ViewModels
             get { return _price; }
             set { SetProperty(ref _price, value); }
         }
-
 
         private DelegateCommand _confirmCommand;
         public DelegateCommand ConfirmCommand => _confirmCommand ?? (_confirmCommand = new DelegateCommand(ConfirmCommandExecute));
@@ -123,38 +149,6 @@ namespace i4prj.SmartCab.ViewModels
             Request = parameters.GetValue<CreateRideRequest>("Ride");
 
             GetPositionsFromRequest();
-        }
-
-
-        public class Location : INotifyPropertyChanged
-        {
-            Position _position;
-
-            public string Address { get; }
-            public string TypeOfAddress { get; }
-
-            public Position Position
-            {
-                get => _position;
-                set
-                {
-                    if (!_position.Equals(value))
-                    {
-                        _position = value;
-                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
-                    }
-                }
-            }
-
-            public Location(string address,string typeOfAddress, Position position)
-            {
-                Address = address;
-                Position = position;
-                TypeOfAddress = typeOfAddress;
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-            
         }
         
     }

@@ -25,5 +25,7 @@ namespace i4prj.SmartCab.Interfaces
         double AmountOfPassengers { get; set; }
 
         bool IsValid { get; }
+
+        string CreateStringAddress(string type);
     }
 }

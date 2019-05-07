@@ -256,5 +256,22 @@ namespace i4prj.SmartCab.Requests
             RaisePropertyChanged("IsValid");
             RaisePropertyChanged("IsInvalid");
         }
+
+        public string CreateStringAddress(string type)
+        {
+            if (type == "origin")
+            {
+                return
+                    $"{OriginStreetName} {OriginStreetNumber} {OriginCityName} {OriginPostalCode}";
+            }
+            else if (type == "destination")
+            {
+                return $"{DestinationStreetName} {DestinationStreetNumber} {DestinationCityName} {DestinationPostalCode}";
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
