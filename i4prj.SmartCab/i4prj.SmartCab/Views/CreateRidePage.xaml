@@ -24,26 +24,22 @@
                 <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="0" FontSize="12" Text="{Binding OriginCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginCityName" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
                 <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="1" FontSize="12" Text="{Binding OriginPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginPostalCode" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="2" FontSize="12" Text="{Binding OriginStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetName" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry  Completed="Entry_OnCompleted" Grid.Row="1" Grid.Column="3" FontSize="12" Text="{Binding OriginStreetNumber}" BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="OriginStreetNumber" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
 
@@ -51,25 +47,21 @@
                 <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="0" FontSize="12" Text="{Binding DestinationCityName}" BindingContext="{Binding Request}" Placeholder="Bynavn">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationCityName" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="1" FontSize="12" Text="{Binding DestinationPostalCode}" BindingContext="{Binding Request}" Placeholder="Postnr." >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationPostalCode" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="2" FontSize="12" Text="{Binding DestinationStreetName}" BindingContext="{Binding Request}" Placeholder="Vejnavn" >
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetName" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
                 <Entry Completed="Entry_OnCompleted" Grid.Row="3" Grid.Column="3" FontSize="12" Text="{Binding DestinationStreetNumber}"  BindingContext="{Binding Request}" Placeholder="Vejnr.">
                     <Entry.Behaviors>
                         <validation:EntryValidationBehavior PropertyName="DestinationStreetNumber" />
-                        <b:EventToCommandBehavior EventName="Completed" Command="{Binding EntryReturnFromUserCommand}"></b:EventToCommandBehavior>
                     </Entry.Behaviors>
                 </Entry>
             </Grid>

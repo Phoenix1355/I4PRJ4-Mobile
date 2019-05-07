@@ -38,7 +38,7 @@ namespace i4prj.SmartCab
             InitializeComponent();
 
             var sessionService = new LocalSessionService();
-            sessionService.Clear();
+            //sessionService.Clear();
             
             Debug.WriteLine($"App::OnInitialized Token: {sessionService.Token}");
 

@@ -31,8 +31,6 @@ namespace i4prj.SmartCab.ViewModels
             Request = new LoginRequest();
 
             _backendApiService = backendApiService;
-            Request.Email = "repsej.stroem@gmail.com";
-            Request.Password = "Test123!";
         }
 
         #region Properties

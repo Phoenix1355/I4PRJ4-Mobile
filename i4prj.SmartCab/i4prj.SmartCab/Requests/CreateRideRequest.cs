@@ -54,21 +54,6 @@ namespace i4prj.SmartCab.Requests
             CurrentDate = _timeService.GetCurrentDate();
         }
 
-        /*
-        //SUPER HACK - er nok ikke lige den bedste måde at gøre det på.
-        private async void CheckTime()
-        {
-            if (DepartureDate.Date == ConfirmationDeadlineDate.Date)
-            {
-                if (ConfirmationDeadlineTime > DepartureTime)
-                {
-                    ConfirmationDeadlineTime = DepartureTime;
-                    IPageDialogService p = new PageDialogService(new ApplicationProvider());
-                    await p.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
-                }
-            }
-        }
-        */
 
         public DateTime CurrentDate { get; private set; }
 

@@ -53,9 +53,6 @@ namespace i4prj.SmartCab.ViewModels
                 _locationPins.Add(new Pin(){Address=fromAddress,Type=PinType.Generic,Label="Startdestination",Position =new Position(fromLocation.Latitude,fromLocation.Longitude)});
                 _locationPins.Add(new Pin() { Address = toAddress, Type = PinType.Generic, Label = "Slutdestination", Position = new Position(toLocation.Latitude, toLocation.Longitude) });
 
-                //udregn position mellem de to lokationer
-                //sæt position og radius
-
                 MapRadius = _mapsService.GetMapRadius(fromLocation,toLocation,_radiusMargin);
                 PositionOfMap = _mapsService.GetMiddlePosition(fromLocation, toLocation);
             }
@@ -123,7 +120,7 @@ namespace i4prj.SmartCab.ViewModels
             }
             else if (response.WasSuccessfull())
             {
-                await DialogService.DisplayAlertAsync("Success", "Turen er blevet oprettet \nAt betale: " + response.Body.price + " kr.", "OK");
+                await DialogService.DisplayAlertAsync("Succes", "Turen er blevet oprettet \nAt betale: " + response.Body.price + " kr.", "OK");
                 await NavigationService.NavigateAsync("/" + nameof(CustomerMasterDetailPage) + "/" + nameof(NavigationPage) + "/" + nameof(RidesPage));
             }
 

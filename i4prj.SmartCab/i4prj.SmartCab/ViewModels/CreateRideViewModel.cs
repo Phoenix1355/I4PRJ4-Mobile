@@ -35,7 +35,7 @@ namespace i4prj.SmartCab.ViewModels
             RideInfo=new NavigationParameters();
 
             //TEST
-            
+            /*
             Request.OriginCityName = "Aarhus V";
             Request.OriginPostalCode = "8210";
             Request.OriginStreetName = "Bispehavevej";
@@ -44,7 +44,7 @@ namespace i4prj.SmartCab.ViewModels
             Request.DestinationPostalCode = "8000";
             Request.DestinationStreetName = "Banegårdspladsen";
             Request.DestinationStreetNumber = "1";
-            
+            */
         }
 
         #region Properties
@@ -90,7 +90,7 @@ namespace i4prj.SmartCab.ViewModels
                                                             new DelegateCommand(CheckTimeCommandExecuteAsync));
 
         private async void CheckTimeCommandExecuteAsync()
-        {   
+        {
             if (Request.DepartureDate.Date == Request.ConfirmationDeadlineDate.Date)
             {
                 if (Request.ConfirmationDeadlineTime > Request.DepartureTime)
