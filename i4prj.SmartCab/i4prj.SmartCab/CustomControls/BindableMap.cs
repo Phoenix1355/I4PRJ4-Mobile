@@ -14,6 +14,9 @@ namespace i4prj.SmartCab.CustomControls
     //Heavy inspiration from https://xamarinhelp.com/xamarin-forms-maps/
     public class BindableMap : Map
     {
+        /// <summary>
+        /// Initializes a property for the pins on the map, which is bindable from the view.
+        /// </summary>
         public static readonly BindableProperty MapPinsProperty = BindableProperty.Create(
                  nameof(Pins),
                  typeof(ObservableCollection<Pin>),
@@ -49,6 +52,9 @@ namespace i4prj.SmartCab.CustomControls
 
         public List<Pin> MapPins { get; set; }
 
+        /// <summary>
+        /// Initializes a property for the map position, which is bindable from the view.
+        /// </summary>
         public static readonly BindableProperty MapPositionProperty = BindableProperty.Create(
                  nameof(MapPosition),
                  typeof(Position),
@@ -64,6 +70,9 @@ namespace i4prj.SmartCab.CustomControls
 
         public Position MapPosition { get; set; }
 
+        /// <summary>
+        /// Initializes a property for the map radius, which is bindable from the view.
+        /// </summary>
         public static readonly BindableProperty RadiusProperty = BindableProperty.Create(
             nameof(Radius),
             typeof(double),

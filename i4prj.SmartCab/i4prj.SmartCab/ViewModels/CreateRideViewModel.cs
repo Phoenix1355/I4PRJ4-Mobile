@@ -83,7 +83,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private DelegateCommand _checkTimeCommand;
         /// <summary>
-        /// Submits the CalculatePriceRequest
+        /// Checks the time in the request, and shows a dialog, if it is not.
         /// </summary>
         public DelegateCommand CheckTimeCommand => _checkTimeCommand ??
                                                         (_checkTimeCommand =
@@ -152,7 +152,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private DelegateCommand _createRideCommand;
         /// <summary>
-        /// Submits the CreateRideRequest
+        /// Navigates to the MapsPage
         /// </summary>
         public DelegateCommand CreateRideCommand => _createRideCommand ?? (_createRideCommand = new DelegateCommand(CreateRideCommandExecuteAsync));
 

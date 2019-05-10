@@ -32,6 +32,14 @@ namespace i4prj.SmartCab.ViewModels
         private readonly IMapsService _mapsService;
         private readonly double _radiusMargin = 1;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="MapsViewModel"/>
+        /// </summary>
+        /// <param name="navigationService"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="sessionService"></param>
+        /// <param name="apiService"></param>
+
         public MapsViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService, IBackendApiService apiService) : base(navigationService, dialogService, sessionService)
         {
             _backendApiService = apiService;
@@ -40,6 +48,9 @@ namespace i4prj.SmartCab.ViewModels
             _positionOfMap = new Position();
         }
 
+        /// <summary>
+        /// Initializes the instance of the Google Maps. Sets position of pins, position of map, and the radius of the mapview.
+        /// </summary>
         private async void SetUpMap()
         {
             string fromAddress = Request.CreateStringAddress("origin");
@@ -100,6 +111,10 @@ namespace i4prj.SmartCab.ViewModels
         }
 
         private DelegateCommand _confirmCommand;
+        /// <summary>
+        /// Submits the CreateRideRequest
+        /// </summary>
+        
         public DelegateCommand ConfirmCommand => _confirmCommand ?? (_confirmCommand = new DelegateCommand(ConfirmCommandExecute));
 
         private async void ConfirmCommandExecute()
@@ -127,7 +142,9 @@ namespace i4prj.SmartCab.ViewModels
         }
 
         private DelegateCommand _cancelCommand;
-
+        /// <summary>
+        /// The view navigates back to the CreateRideViewModel
+        /// </summary>
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(CancelCommandExecute));
 
         private async void CancelCommandExecute()
@@ -135,6 +152,10 @@ namespace i4prj.SmartCab.ViewModels
             await NavigationService.GoBackAsync();
         }
 
+        /// <summary>
+        /// Initializes Price and Request to the value of parameters. If the properties are not null, the SetUpMap is called.
+        /// </summary>
+        /// <param name="parameters"></param>
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if(parameters.ContainsKey("Price"))
