@@ -494,5 +494,41 @@ namespace i4prj.SmartCab.UnitTests.Requests
             Assert.That(_uut.IsInvalid);
         }
         #endregion
+
+        [Test]
+        public void CreateStringAddress_TypeOrigin_StringFromOriginIsReturned()
+        {
+            _uut.AmountOfPassengers = 1;
+            _uut.DestinationCityName = "Hinnerup";
+            _uut.DestinationPostalCode = "8382";
+            _uut.DestinationStreetName = "Bispehavevej";
+            _uut.DestinationStreetNumber = "1";
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "5";
+
+            string result = _uut.CreateStringAddress("origin");
+
+            Assert.That(result.Contains("Aarhus"));
+        }
+
+           [Test]
+        public void CreateStringAddress_TypeDestination_StringFromDestinationIsReturned()
+        {
+            _uut.AmountOfPassengers = 1;
+            _uut.DestinationCityName = "Hinnerup";
+            _uut.DestinationPostalCode = "8382";
+            _uut.DestinationStreetName = "Bispehavevej";
+            _uut.DestinationStreetNumber = "1";
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "5";
+
+            string result = _uut.CreateStringAddress("destination");
+
+            Assert.That(result.Contains("Hinnerup"));
+        }
     }
 }

@@ -55,7 +55,6 @@ namespace i4prj.SmartCab.Requests
             ConfirmationDeadlineDate = _timeService.GetCurrentDate();
 
             DepartureTime = _timeService.GetCurrentTime().Add(_departureTimeMargin);
-            
 
             ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(_confirmationTimeMargin);
 

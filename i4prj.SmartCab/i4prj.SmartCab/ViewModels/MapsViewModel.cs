@@ -29,8 +29,8 @@ namespace i4prj.SmartCab.ViewModels
     {
 
         private readonly IBackendApiService _backendApiService;
-        private readonly IMapsService _mapsService;
         private readonly double _radiusMargin = 1;
+        public IMapsService _mapsService;
 
         /// <summary>
         /// Initializes an instance of the <see cref="MapsViewModel"/>
@@ -164,7 +164,7 @@ namespace i4prj.SmartCab.ViewModels
             if(parameters.ContainsKey("Ride"))
                 Request = parameters.GetValue<CreateRideRequest>("Ride");
 
-            if (Request != null && Price != null)
+            if (Request != null && !Price.Length.Equals(0))
             {
                 SetUpMap();
             }

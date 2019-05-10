@@ -29,8 +29,6 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
 
         private PriceResponse _priceResponseOk;
         private PriceResponse _priceResponseBadRequest;
-        private CreateRideResponse _rideResponseOk;
-        private CreateRideResponse _rideResponseBadRequest;
 
         [SetUp]
         public void SetUp()
@@ -40,8 +38,16 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakePageDialogService = Substitute.For<IPageDialogService>();
             _fakeSessionService = Substitute.For<ISessionService>();
             _uut = new CreateRideViewModel(_fakeNavigationService, _fakePageDialogService, _fakeSessionService, _fakeBackendApiService);
+            _uut.Request.AmountOfPassengers = 1;
+            _uut.Request.DestinationCityName = "Aarhus V";
+            _uut.Request.DestinationPostalCode = "8210";
+            _uut.Request.DestinationStreetName = "Bispehavevej";
+            _uut.Request.DestinationStreetNumber = "1";
+            _uut.Request.OriginCityName = "Aarhus V";
+            _uut.Request.OriginPostalCode = "8210";
+            _uut.Request.OriginStreetName = "Bispehavevej";
+            _uut.Request.OriginStreetNumber = "5";
 
-            
             _priceResponseOk = new PriceResponse(new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
@@ -62,39 +68,18 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
                     },
                 }), Encoding.UTF8, "application/json"),
             });
-
-            _rideResponseOk=new CreateRideResponse(new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    id=1,
-                    startDestination = new {cityName="Test",postalCode=1234,streetName="Tester",streetNumber=1},
-                    endDestination = new { cityName = "Tester", postalCode = 4321, streetName = "Test", streetNumber = 2 },
-                    departureTime=DateTime.Now.Add(new TimeSpan(0,0,30)),
-                    confirmationDeadline=DateTime.Now.Subtract(new TimeSpan(0,2,0)),
-                    passengerCount=1,
-                    createdOn=DateTime.Now,
-                    price=100,
-                    status=0,
-
-                }),Encoding.UTF8,"application/json"),
-            });
-
-            _rideResponseBadRequest = new CreateRideResponse(new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    errors = new Dictionary<string, IList<string>>()
-                    {
-                        {"error",new List<string>{"Not enough money"} }
-                    },
-                }), Encoding.UTF8, "application/json"),
-            });
         }
 
         #region Commands
+
+        [Test]
+        public void CalculatePriceCommand_RequestIsInvalid_NothingHappens()
+        {
+            _uut.Request=new CreateRideRequest(new TimeService());
+            _fakeBackendApiService.SubmitCalculatePriceRequest(new CalculatePriceRequest(_uut.Request)).ReturnsNull();
+            _uut.CalculatePriceCommand.Execute();
+            _fakeBackendApiService.DidNotReceive().SubmitCalculatePriceRequest(Arg.Any<CalculatePriceRequest>());
+        }
 
         [Test]
         public void CalculatePriceCommand_ApiReturnsNull_DialogServiceShowsMessage()
@@ -103,6 +88,16 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _uut.CalculatePriceCommand.Execute();
             _fakePageDialogService.Received().DisplayAlertAsync("Forbindelse", Arg.Any<string>(), Arg.Any<string>());
         }
+
+        [Test]
+        public void CalculatePriceCommand_ApiReturnsNull_RideInfoCleared()
+        {
+            _fakeBackendApiService.SubmitCalculatePriceRequest(new CalculatePriceRequest(_uut.Request)).ReturnsNull();
+            _uut.CalculatePriceCommand.Execute();
+            Assert.That(!_uut.RideInfo.ContainsKey("Price"));
+            Assert.That(!_uut.RideInfo.ContainsKey("Ride"));
+        }
+
 
         [Test]
         public void CalculatePriceCommand_ApiReturnsBadRequest_DialogServiceShowsMessage()
@@ -116,48 +111,37 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakePageDialogService.Received().DisplayAlertAsync("Ukendt fejl", Arg.Any<string>(), Arg.Any<string>());
         }
 
-        //Denne tester på en måde state, men staten har effekt på viewet, så føler det er relevant alligevel
         [Test]
-        public void CalculatePriceCommand_ApiReturnsSuccessfullResponse_PriceIsUpdated()
+        public void CalculatePriceCommand_ApiReturnsBadRequest_RideInfoCleared()
+        {
+
+            _fakeBackendApiService.SubmitCalculatePriceRequest(Arg.Any<ICalculatePriceRequest>())
+                .Returns(_priceResponseBadRequest);
+
+            _uut.CalculatePriceCommand.Execute();
+
+            Assert.That(!_uut.RideInfo.ContainsKey("Price"));
+            Assert.That(!_uut.RideInfo.ContainsKey("Ride"));
+        }
+
+        [Test]
+        public void CalculatePriceCommand_ApiReturnsOkRequest_RideInfoUpdated()
         {
             _fakeBackendApiService.SubmitCalculatePriceRequest(Arg.Any<ICalculatePriceRequest>())
                 .Returns(_priceResponseOk);
+
             _uut.CalculatePriceCommand.Execute();
-            Assert.That(_uut.Price == _priceResponseOk.Body.Price);
 
+            Assert.That(_uut.RideInfo.ContainsKey("Ride"));
+            Assert.That(_uut.RideInfo.ContainsKey("Price"));
         }
 
         [Test]
-        public void CreateRideCommand_ApiReturnsNull_DialogServiceShowsMessage()
+        public void CreatRideCommand_Executed_ViewNavigatedToMapsPage()
         {
-            _fakeBackendApiService.SubmitCreateRideRequest(_uut.Request).ReturnsNull();
             _uut.CreateRideCommand.Execute();
-            _fakePageDialogService.Received().DisplayAlertAsync("Forbindelse", Arg.Any<string>(), Arg.Any<string>());
-        }
 
-        [Test]
-        public void CreateRideCommand_ApiReturnsBadRequest_DialogServiceShowsMessage()
-        {
-            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>())
-                .Returns(_rideResponseBadRequest);
-            _uut.CreateRideCommand.Execute();
-            _fakePageDialogService.Received().DisplayAlertAsync("Fejl", Arg.Any<string>(), Arg.Any<string>());
-        }
-
-        [Test]
-        public void CreateRideCommand_ApiReturnsOKResponse_DialogIsShown()
-        {
-            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>()).Returns(_rideResponseOk);
-            _uut.CreateRideCommand.Execute();
-            _fakePageDialogService.Received().DisplayAlertAsync("Success", Arg.Any<string>(), Arg.Any<string>());
-        }
-
-        [Test]
-        public void CreateRideCommand_ApiReturnsOKResponse_ViewNavigatesBack()
-        {
-            _fakeBackendApiService.SubmitCreateRideRequest(Arg.Any<ICreateRideRequest>()).Returns(_rideResponseOk);
-            _uut.CreateRideCommand.Execute();
-            _fakeNavigationService.Received().GoBackAsync();
+            _fakeNavigationService.Received().NavigateAsync(Arg.Any<string>(),_uut.RideInfo);
         }
        
         #endregion
