@@ -43,14 +43,11 @@ namespace i4prj.SmartCab.ViewModels
         public MapsViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService, IBackendApiService apiService) : base(navigationService, dialogService, sessionService)
         {
             _backendApiService = apiService;
-            _mapsService = new GoogleMapsService();
+            _mapsService = new GoogleMapsService(new GeocodingService());
             _locationPins = new ObservableCollection<Pin>();
             _positionOfMap = new Position();
         }
 
-        /// <summary>
-        /// Initializes the instance of the Google Maps. Sets position of pins, position of map, and the radius of the mapview.
-        /// </summary>
         private async void SetUpMap()
         {
             string fromAddress = Request.CreateStringAddress("origin");
@@ -114,7 +111,6 @@ namespace i4prj.SmartCab.ViewModels
         /// <summary>
         /// Submits the CreateRideRequest
         /// </summary>
-        
         public DelegateCommand ConfirmCommand => _confirmCommand ?? (_confirmCommand = new DelegateCommand(ConfirmCommandExecute));
 
         private async void ConfirmCommandExecute()

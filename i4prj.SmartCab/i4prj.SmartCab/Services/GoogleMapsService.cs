@@ -17,12 +17,20 @@ namespace i4prj.SmartCab.Services
         /// </summary>
         /// <param name="address">The address.</param>
         /// <returns></returns>
+
+        private IXamarinEssentials _geocoding;
+
+        public GoogleMapsService(IXamarinEssentials geocoding)
+        {
+            _geocoding = geocoding;
+        }
+
         public async Task<Location> GetPosition(string address)
         {
             try
             {
-             
-                var locations = await Geocoding.GetLocationsAsync(address);
+
+                var locations = await _geocoding.GetGeocodingResult(address);
 
                 var location = locations?.FirstOrDefault();
              
@@ -36,6 +44,8 @@ namespace i4prj.SmartCab.Services
 
             return null;
         }
+
+        
 
         /// <summary>
         /// Gets the position in the middle of two locations
@@ -59,7 +69,8 @@ namespace i4prj.SmartCab.Services
         {
             Position middlePosition = GetMiddlePosition(from, to);
 
-            return Xamarin.Essentials.Location.CalculateDistance(new Location(middlePosition.Latitude, middlePosition.Longitude), from, DistanceUnits.Kilometers) + margin;
+            return _geocoding.CalculateDistanceResult(new Location(middlePosition.Latitude, middlePosition.Longitude), to,
+                margin);
         }
     }
 }
