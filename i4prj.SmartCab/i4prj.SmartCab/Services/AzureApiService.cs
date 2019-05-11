@@ -28,7 +28,7 @@ namespace i4prj.SmartCab.Services
         private const string _customerLoginEndPoint = _baseUrl + "Customer/Login";
         private const string _customerRidesEndPoint = _baseUrl + "Customer/Rides";
         private const string _createRideEndPoint = _baseUrl + "Rides/Create";
-        private const string _calculatePriceEndPoint = _baseUrl + "Price";
+        private const string _calculatePriceEndPoint = _baseUrl + "Rides/Price";
         private const string _editAccountEndPoint = _baseUrl + "Customer/Edit";
 
         public AzureApiService(HttpClient httpHandler, ISessionService sessionService)

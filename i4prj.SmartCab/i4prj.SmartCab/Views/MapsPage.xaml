@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:map="clr-namespace:i4prj.SmartCab.CustomControls"
              x:Class="i4prj.SmartCab.Views.MapsPage"
-             Title="Opret tur">
+             Title="Bekræft tur">
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand" Padding="30" Margin="10">
             <Label Text="Din tur: " FontSize="25" FontAttributes="Bold"></Label>

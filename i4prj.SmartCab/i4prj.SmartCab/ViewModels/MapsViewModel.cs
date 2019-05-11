@@ -29,7 +29,7 @@ namespace i4prj.SmartCab.ViewModels
     {
 
         private readonly IBackendApiService _backendApiService;
-        private readonly double _radiusMargin = 1;
+        private readonly double _radiusMargin = 1.5;
         public IMapsService _mapsService;
 
         /// <summary>
