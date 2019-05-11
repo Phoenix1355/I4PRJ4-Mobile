@@ -71,7 +71,7 @@
                 <DatePicker x:Name="DateOfDeparturePicker" MinimumDate="{Binding CurrentDate}" Margin="30,0,0,0" FontSize="15" WidthRequest="80" Date="{Binding DepartureDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker x:Name="TimeOfDeparturePicker" FontSize="15" Time="{Binding Request.DepartureTime}">
                     <TimePicker.Behaviors>
-                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                        <b:EventToCommandBehavior EventName="Unfocused" Command="{Binding CheckDepartureTimeCommand}"></b:EventToCommandBehavior>
                     </TimePicker.Behaviors>
                 </TimePicker>
             </StackLayout>
@@ -105,7 +105,7 @@
                 <DatePicker MinimumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=MinimumDate}" MaximumDate="{Binding Source={x:Reference DateOfDeparturePicker},Path=Date}" FontSize="15" WidthRequest="80" Date="{Binding ConfirmationDeadlineDate}" BindingContext="{Binding Request}"></DatePicker>
                 <TimePicker FontSize="15" Time="{Binding Request.ConfirmationDeadlineTime}">
                     <TimePicker.Behaviors>
-                        <b:EventToCommandBehavior EventName="PropertyChanged" Command="{Binding CheckTimeCommand}"></b:EventToCommandBehavior>
+                        <b:EventToCommandBehavior EventName="Unfocused" Command="{Binding CheckConfirmationDeadlineTimeCommand}"></b:EventToCommandBehavior>
                     </TimePicker.Behaviors>
                 </TimePicker>
             </StackLayout>

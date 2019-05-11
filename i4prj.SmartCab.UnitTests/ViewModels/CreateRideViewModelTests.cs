@@ -48,6 +48,8 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _uut.Request.OriginStreetName = "Bispehavevej";
             _uut.Request.OriginStreetNumber = "5";
 
+            _uut._timeService = Substitute.For<ITimeService>();
+
             _priceResponseOk = new PriceResponse(new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
@@ -143,7 +145,143 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
 
             _fakeNavigationService.Received().NavigateAsync(Arg.Any<string>(),_uut.RideInfo);
         }
-       
+
+        [Test]
+        public void CheckDepartureTimeCommand_DepartureDateNotEqualToCurrentDate_NoErrorsShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+            _uut.Request.DepartureDate = new DateTime(2019, 1, 2);
+            _uut.Request.DepartureTime = new TimeSpan(4,30,0);
+            _uut.CheckDepartureTimeCommand.Execute();
+            _fakePageDialogService.DidNotReceive()
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckDepartureTimeCommand_DepartureTimeIsValid_NoErrorsShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 1);
+            _uut.Request.ConfirmationDeadlineTime= new TimeSpan(7,30,0);
+            _uut.Request.DepartureDate = new DateTime(2019, 1, 2);
+            _uut.Request.DepartureTime = new TimeSpan(4, 30, 0);
+            _uut.CheckDepartureTimeCommand.Execute();
+            _fakePageDialogService.DidNotReceive()
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckDepartureTimeCommand_DepartureTimeBeforeCurrentTime_OneErrorShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.DepartureDate = new DateTime(2019, 1, 1);
+            _uut.Request.DepartureTime = new TimeSpan(4, 30, 0);
+
+            _uut.CheckDepartureTimeCommand.Execute();
+            _fakePageDialogService.Received(1)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckDepartureTimeCommand_DepartureTimeBeforeCurrentTimeAndBeforeConfirmation_TwoErrorsShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+            _uut.Request.ConfirmationDeadlineDate=new DateTime(2019,1,1);
+            _uut.Request.ConfirmationDeadlineTime=new TimeSpan(6,0,0);
+
+            _uut.Request.DepartureDate = new DateTime(2019, 1, 1);
+            _uut.Request.DepartureTime = new TimeSpan(4, 30, 0);
+
+            _uut.CheckDepartureTimeCommand.Execute();
+            _fakePageDialogService.Received(2)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckDepartureTimeCommand_DepartureTimeEarlierThanConfirmationTime_OneErrorShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 1);
+            _uut.Request.ConfirmationDeadlineTime = new TimeSpan(6, 0, 0);
+
+            _uut.Request.DepartureDate = new DateTime(2019, 1, 1);
+            _uut.Request.DepartureTime = new TimeSpan(5, 45, 0);
+
+            _uut.CheckDepartureTimeCommand.Execute();
+            _fakePageDialogService.Received(1)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckConfirmationDeadlineTimeCommand_ConfirmationDateNotEqualToCurrentDate_NoErrorsShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 2);
+            _uut.Request.ConfirmationDeadlineTime = new TimeSpan(4, 30, 0);
+
+            _uut.CheckConfirmationDeadlineTimeCommand.Execute();
+            _fakePageDialogService.DidNotReceive()
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckConfirmationDeadlineTimeCommand_ConfirmationTimeEarlierThanCurrentTimeAndLaterThanDeparture_TwoErrorsShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.DepartureDate = new DateTime(2019,1,1);
+            _uut.Request.DepartureTime = new TimeSpan(3,45,0);
+
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 1);
+            _uut.Request.ConfirmationDeadlineTime = new TimeSpan(4,45 , 0);
+
+            _uut.CheckConfirmationDeadlineTimeCommand.Execute();
+            _fakePageDialogService.Received(2)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckConfirmationDeadlineTimeCommand_ConfirmationTimeEarlierThanCurrentTime_OneErrorShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 1);
+            _uut.Request.ConfirmationDeadlineTime = new TimeSpan(4, 45, 0);
+
+            _uut.CheckConfirmationDeadlineTimeCommand.Execute();
+            _fakePageDialogService.Received(1)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        public void CheckConfirmationDeadlineTimeCommand_ConfirmationTimeLaterThanDeparture_OneErrorShown()
+        {
+            _uut._timeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _uut._timeService.GetCurrentTime().Returns(new TimeSpan(0, 5, 30, 0));
+
+            _uut.Request.DepartureDate=new DateTime(2019,1,1);
+            _uut.Request.DepartureTime=new TimeSpan(7,0,0);
+
+            _uut.Request.ConfirmationDeadlineDate = new DateTime(2019, 1, 1);
+            _uut.Request.ConfirmationDeadlineTime = new TimeSpan(7, 45, 0);
+
+            _uut.CheckConfirmationDeadlineTimeCommand.Execute();
+            _fakePageDialogService.Received(1)
+                .DisplayAlertAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+
         #endregion
 
     }

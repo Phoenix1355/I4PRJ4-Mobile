@@ -19,6 +19,7 @@ namespace i4prj.SmartCab.ViewModels
     public class CreateRideViewModel : RestrictedAccessViewModelBase
     {
         private IBackendApiService _backendApiService;
+        public ITimeService _timeService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideViewModel"/> class.
@@ -33,18 +34,7 @@ namespace i4prj.SmartCab.ViewModels
             _backendApiService = backendApiService;
             Price = "Opret tur";
             RideInfo=new NavigationParameters();
-
-            //TEST
-            /*
-            Request.OriginCityName = "Aarhus V";
-            Request.OriginPostalCode = "8210";
-            Request.OriginStreetName = "Bispehavevej";
-            Request.OriginStreetNumber = "3";
-            Request.DestinationCityName = "Aarhus C";
-            Request.DestinationPostalCode = "8000";
-            Request.DestinationStreetName = "Banegårdspladsen";
-            Request.DestinationStreetNumber = "1";
-            */
+            _timeService = new TimeService();
         }
 
         #region Properties
@@ -81,16 +71,53 @@ namespace i4prj.SmartCab.ViewModels
 
         #region Commands
 
-        private DelegateCommand _checkTimeCommand;
+        private DelegateCommand _checkDepartureTimeCommand;
         /// <summary>
-        /// Checks the time in the request, and shows a dialog, if it is not.
+        /// Checks the departuretime in the request, and shows a dialog, if it is not valid
         /// </summary>
-        public DelegateCommand CheckTimeCommand => _checkTimeCommand ??
-                                                        (_checkTimeCommand =
-                                                            new DelegateCommand(CheckTimeCommandExecuteAsync));
+        public DelegateCommand CheckDepartureTimeCommand => _checkDepartureTimeCommand ??
+                                                        (_checkDepartureTimeCommand =
+                                                            new DelegateCommand(CheckDepartureTimeCommandExecuteAsync));
 
-        private async void CheckTimeCommandExecuteAsync()
+        private async void CheckDepartureTimeCommandExecuteAsync()
         {
+            if(Request.DepartureDate==_timeService.GetCurrentDate())
+            {
+                if (Request.DepartureTime < _timeService.GetCurrentTime())
+                {
+                    Request.DepartureTime = _timeService.GetCurrentTime();
+                    await DialogService.DisplayAlertAsync("Fejl", "Du kan ikke vælge tidspunkt tidligere end det nuværende klokkeslet", "Ok");
+                }
+            }
+            if (Request.DepartureDate.Date == Request.ConfirmationDeadlineDate.Date)
+            {
+                if (Request.ConfirmationDeadlineTime > Request.DepartureTime)
+                {
+                    Request.DepartureTime = Request.ConfirmationDeadlineTime;
+                    await DialogService.DisplayAlertAsync("Fejl", "Svartiden kan ikke være senere end afgangstiden", "Ok");
+                }
+            }
+        }
+
+
+        private DelegateCommand _checkConfirmationDeadlineTimeCommand;
+        /// <summary>
+        /// Checks the confirmationdeadline time in the request, and shows a dialog, if it is not valid
+        /// </summary>
+        public DelegateCommand CheckConfirmationDeadlineTimeCommand => _checkConfirmationDeadlineTimeCommand ??
+                                                            (_checkConfirmationDeadlineTimeCommand =
+                                                                new DelegateCommand(CheckConfirmationDeadlineTimeCommandExecuteAsync));
+
+        private async void CheckConfirmationDeadlineTimeCommandExecuteAsync()
+        {
+            if (Request.ConfirmationDeadlineDate == _timeService.GetCurrentDate())
+            {
+                if (Request.ConfirmationDeadlineTime < _timeService.GetCurrentTime())
+                {
+                    Request.ConfirmationDeadlineTime = _timeService.GetCurrentTime();
+                    await DialogService.DisplayAlertAsync("Fejl", "Du kan ikke vælge tidspunkt tidligere end det nuværende klokkeslet", "Ok");
+                }
+            }
             if (Request.DepartureDate.Date == Request.ConfirmationDeadlineDate.Date)
             {
                 if (Request.ConfirmationDeadlineTime > Request.DepartureTime)
@@ -100,6 +127,7 @@ namespace i4prj.SmartCab.ViewModels
                 }
             }
         }
+
 
         private DelegateCommand _calculatePriceCommand;
         /// <summary>

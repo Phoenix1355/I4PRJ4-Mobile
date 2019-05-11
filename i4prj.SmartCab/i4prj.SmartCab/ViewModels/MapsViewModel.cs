@@ -31,7 +31,6 @@ namespace i4prj.SmartCab.ViewModels
         private readonly IBackendApiService _backendApiService;
         private readonly double _radiusMargin = 1.5;
         public IMapsService _mapsService;
-
         /// <summary>
         /// Initializes an instance of the <see cref="MapsViewModel"/>
         /// </summary>
