@@ -30,7 +30,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         private INavigationParameters _fakeParameters;
         private CreateRideResponse _rideResponseOk;
         private CreateRideResponse _rideResponseBadRequest;
-        private ICreateRideRequest _rideRequestParameter;
+
 
         [SetUp]
         public void SetUp()

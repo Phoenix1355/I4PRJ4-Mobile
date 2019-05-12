@@ -8,11 +8,13 @@ using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.ViewModels;
 using i4prj.SmartCab.Views;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
+using Arg = DryIoc.Arg;
 
 namespace i4prj.SmartCab.UnitTests.Requests
 {
@@ -20,6 +22,11 @@ namespace i4prj.SmartCab.UnitTests.Requests
     {
         private CreateRideRequest _uut;
         private ITimeService _fakeTimeService;
+        private bool _overflow;
+
+        private readonly TimeSpan _departureTimeMargin = new TimeSpan(1, 0, 0);
+        private readonly TimeSpan _confirmationTimeMargin = new TimeSpan(0, 30, 0);
+
 
         [SetUp]
         public void SetUp()
@@ -28,7 +35,10 @@ namespace i4prj.SmartCab.UnitTests.Requests
             _fakeTimeService = Substitute.For<ITimeService>();
             _fakeTimeService.GetCurrentDate().Returns(new DateTime(2020, 1, 1));
             _fakeTimeService.GetCurrentTime().Returns(new TimeSpan(0, 12, 0, 0));
-            _uut=new CreateRideRequest(_fakeTimeService);
+
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _departureTimeMargin, ref _overflow).Returns(new TimeSpan(13, 0, 0));
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _confirmationTimeMargin, ref _overflow).Returns(new TimeSpan(12, 30, 0));
+            _uut = new CreateRideRequest(_fakeTimeService);
         }
 
         #region Ctor
@@ -36,6 +46,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
         [Test]
         public void Ctor_PerformsSetup_PropertiesAreSetWithDefaultValues()
         {
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(_uut.AmountOfPassengers,1);
@@ -50,8 +61,9 @@ namespace i4prj.SmartCab.UnitTests.Requests
                 
                 Assert.AreEqual(_uut.DepartureDate,_fakeTimeService.GetCurrentDate());
                 Assert.AreEqual(_uut.ConfirmationDeadlineDate,_fakeTimeService.GetCurrentDate());
-                Assert.AreEqual(_uut.DepartureTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(1, 0, 0)));
-                Assert.AreEqual(_uut.ConfirmationDeadlineTime, _fakeTimeService.GetCurrentTime().Add(new TimeSpan(0, 30, 0)));
+                Assert.AreEqual(_uut.DepartureTime, _fakeTimeService.GetCurrentTime().Add(_departureTimeMargin));
+                Assert.AreEqual(_uut.ConfirmationDeadlineTime,
+                    _fakeTimeService.GetCurrentTime().Add(_confirmationTimeMargin));
                 Assert.AreEqual(_uut.CurrentDate,_fakeTimeService.GetCurrentDate());
             });
         }
@@ -436,7 +448,7 @@ namespace i4prj.SmartCab.UnitTests.Requests
             Assert.That(result.Contains("Aarhus"));
         }
 
-           [Test]
+        [Test]
         public void CreateStringAddress_TypeDestination_StringFromDestinationIsReturned()
         {
             _uut.AmountOfPassengers = 1;
@@ -452,6 +464,24 @@ namespace i4prj.SmartCab.UnitTests.Requests
             string result = _uut.CreateStringAddress("destination");
 
             Assert.That(result.Contains("Hinnerup"));
+        }
+
+        [Test]
+        public void CreateStringAddress_TypeSomethingInvaldid_ReturnsNull()
+        {
+            _uut.AmountOfPassengers = 1;
+            _uut.DestinationCityName = "Hinnerup";
+            _uut.DestinationPostalCode = "8382";
+            _uut.DestinationStreetName = "Bispehavevej";
+            _uut.DestinationStreetNumber = "1";
+            _uut.OriginCityName = "Aarhus V";
+            _uut.OriginPostalCode = "8210";
+            _uut.OriginStreetName = "Bispehavevej";
+            _uut.OriginStreetNumber = "5";
+
+            string result = _uut.CreateStringAddress("InvalidString");
+
+            Assert.That(result==null);
         }
     }
 }

@@ -54,25 +54,22 @@ namespace i4prj.SmartCab.Requests
 
             ConfirmationDeadlineDate = _timeService.GetCurrentDate();
 
-            
-            try
+            bool overflow = false;
+
+            DepartureTime = _timeService.AddTimeSpans(_timeService.GetCurrentTime(), _departureTimeMargin, ref overflow);
+            if (overflow)
             {
-                DepartureTime = _timeService.GetCurrentTime().Add(_departureTimeMargin);
-            }
-            catch (Exception e)
-            {
-                DepartureDate = _timeService.GetCurrentDate().AddDays(1);
-                DepartureTime = _departureTimeMargin;
+                DepartureDate = DepartureDate.AddDays(1);
+                overflow = false;
             }
 
-            try
+
+            ConfirmationDeadlineTime =
+                _timeService.AddTimeSpans(_timeService.GetCurrentTime(), _confirmationTimeMargin, ref overflow);
+
+            if (overflow)
             {
-                ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(_confirmationTimeMargin);
-            }
-            catch (Exception e)
-            {
-                ConfirmationDeadlineDate = _timeService.GetCurrentDate().AddDays(1);
-                ConfirmationDeadlineTime = _confirmationTimeMargin;
+                ConfirmationDeadlineDate = ConfirmationDeadlineDate.AddDays(1);
             }
             
 

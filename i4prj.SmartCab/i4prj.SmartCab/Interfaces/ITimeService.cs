@@ -8,5 +8,9 @@ namespace i4prj.SmartCab.Interfaces
     {
         DateTime GetCurrentDate();
         TimeSpan GetCurrentTime();
+
+        TimeSpan AddTimeSpans(TimeSpan t1, TimeSpan t2, ref bool overflow);
+
+
     }
 }
