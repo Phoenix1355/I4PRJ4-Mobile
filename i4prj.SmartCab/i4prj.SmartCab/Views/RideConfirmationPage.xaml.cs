@@ -13,9 +13,9 @@ using Xamarin.Forms.Xaml;
 namespace i4prj.SmartCab.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MapsPage : ContentPage
+    public partial class RideConfirmationPage : ContentPage
     {
-        public MapsPage()
+        public RideConfirmationPage()
         {
             InitializeComponent();
         }

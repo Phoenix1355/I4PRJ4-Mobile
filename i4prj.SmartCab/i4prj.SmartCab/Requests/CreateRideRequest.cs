@@ -21,8 +21,8 @@ namespace i4prj.SmartCab.Requests
     {
         private ITimeService _timeService;
 
-        private readonly TimeSpan _departureTimeMargin = new TimeSpan(0, 1, 0, 0);
-        private readonly TimeSpan _confirmationTimeMargin = new TimeSpan(0, 0, 30, 0);
+        private readonly TimeSpan _departureTimeMargin = new TimeSpan(1, 0, 0);
+        private readonly TimeSpan _confirmationTimeMargin = new TimeSpan(0, 30, 0);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateRideRequest"/> class.
@@ -54,9 +54,27 @@ namespace i4prj.SmartCab.Requests
 
             ConfirmationDeadlineDate = _timeService.GetCurrentDate();
 
-            DepartureTime = _timeService.GetCurrentTime().Add(_departureTimeMargin);
+            
+            try
+            {
+                DepartureTime = _timeService.GetCurrentTime().Add(_departureTimeMargin);
+            }
+            catch (Exception e)
+            {
+                DepartureDate = _timeService.GetCurrentDate().AddDays(1);
+                DepartureTime = _departureTimeMargin;
+            }
 
-            ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(_confirmationTimeMargin);
+            try
+            {
+                ConfirmationDeadlineTime = _timeService.GetCurrentTime().Add(_confirmationTimeMargin);
+            }
+            catch (Exception e)
+            {
+                ConfirmationDeadlineDate = _timeService.GetCurrentDate().AddDays(1);
+                ConfirmationDeadlineTime = _confirmationTimeMargin;
+            }
+            
 
             CurrentDate = _timeService.GetCurrentDate();
         }

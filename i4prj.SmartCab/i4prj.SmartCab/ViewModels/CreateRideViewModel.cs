@@ -81,7 +81,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void CheckDepartureTimeCommandExecuteAsync()
         {
-            if(Request.DepartureDate==_timeService.GetCurrentDate())
+            if(Request.DepartureDate.Date==_timeService.GetCurrentDate().Date)
             {
                 if (Request.DepartureTime < _timeService.GetCurrentTime())
                 {
@@ -110,7 +110,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void CheckConfirmationDeadlineTimeCommandExecuteAsync()
         {
-            if (Request.ConfirmationDeadlineDate == _timeService.GetCurrentDate())
+            if (Request.ConfirmationDeadlineDate.Date == _timeService.GetCurrentDate().Date)
             {
                 if (Request.ConfirmationDeadlineTime < _timeService.GetCurrentTime())
                 {
@@ -186,7 +186,7 @@ namespace i4prj.SmartCab.ViewModels
 
         private async void CreateRideCommandExecuteAsync()
         {
-            await NavigationService.NavigateAsync(nameof(MapsPage), RideInfo);
+            await NavigationService.NavigateAsync(nameof(RideConfirmationPage), RideInfo);
            
         }
 

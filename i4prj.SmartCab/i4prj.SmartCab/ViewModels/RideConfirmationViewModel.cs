@@ -25,21 +25,21 @@ using Map = Xamarin.Essentials.Map;
 
 namespace i4prj.SmartCab.ViewModels
 {
-    public class MapsViewModel : ViewModelBase
+    public class RideConfirmationViewModel : ViewModelBase
     {
 
         private readonly IBackendApiService _backendApiService;
         private readonly double _radiusMargin = 1.5;
         public IMapsService _mapsService;
         /// <summary>
-        /// Initializes an instance of the <see cref="MapsViewModel"/>
+        /// Initializes an instance of the <see cref="RideConfirmationViewModel"/>
         /// </summary>
         /// <param name="navigationService"></param>
         /// <param name="dialogService"></param>
         /// <param name="sessionService"></param>
         /// <param name="apiService"></param>
 
-        public MapsViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService, IBackendApiService apiService) : base(navigationService, dialogService, sessionService)
+        public RideConfirmationViewModel(INavigationService navigationService, IPageDialogService dialogService, ISessionService sessionService, IBackendApiService apiService) : base(navigationService, dialogService, sessionService)
         {
             _backendApiService = apiService;
             _mapsService = new GoogleMapsService(new GeocodingService());

@@ -30,6 +30,9 @@
     <Compile Update="Views\CustomMasterDetailPage.xaml.cs">
       <DependentUpon>MasterDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\RideConfirmationPage.xaml.cs">
+      <DependentUpon>RideConfirmationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MasterDetailPage.xaml.cs">
       <DependentUpon>CustomerMasterDetailPage.xaml</DependentUpon>
     </Compile>

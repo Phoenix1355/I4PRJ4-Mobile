@@ -38,7 +38,6 @@ namespace i4prj.SmartCab
             InitializeComponent();
 
             var sessionService = new LocalSessionService();
-            //sessionService.Clear();
             
             Debug.WriteLine($"App::OnInitialized Token: {sessionService.Token}");
 
@@ -78,7 +77,7 @@ namespace i4prj.SmartCab
             containerRegistry.RegisterForNavigation<RidesPage, RidesViewModel>();
             containerRegistry.RegisterForNavigation<CreateRidePage,CreateRideViewModel>();
             containerRegistry.RegisterForNavigation<EditAccountPage,EditAccountViewModel>();
-            containerRegistry.RegisterForNavigation<MapsPage,MapsViewModel>();
+            containerRegistry.RegisterForNavigation<RideConfirmationPage,RideConfirmationViewModel>();
 
             containerRegistry.RegisterForNavigation<CustomerMasterDetailPage, CustomerMasterDetailPageViewModel>();
 

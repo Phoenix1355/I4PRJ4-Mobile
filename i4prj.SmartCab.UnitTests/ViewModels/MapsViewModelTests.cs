@@ -21,7 +21,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
     public class MapsViewModelTests
     {
 
-        private MapsViewModel _uut;
+        private RideConfirmationViewModel _uut;
         private IBackendApiService _fakeBackendApiService;
         private INavigationService _fakeNavigationService;
         private IPageDialogService _fakePageDialogService;
@@ -42,7 +42,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
             _fakeMapsService = Substitute.For<IMapsService>();
             _fakeParameters = Substitute.For<INavigationParameters>();
 
-            _uut= new MapsViewModel(_fakeNavigationService,_fakePageDialogService,_fakeSessionService,_fakeBackendApiService);
+            _uut= new RideConfirmationViewModel(_fakeNavigationService,_fakePageDialogService,_fakeSessionService,_fakeBackendApiService);
             _uut._mapsService = _fakeMapsService;
 
             _rideResponseOk = new CreateRideResponse(new HttpResponseMessage()

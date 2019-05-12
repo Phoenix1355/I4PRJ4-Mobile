@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:map="clr-namespace:i4prj.SmartCab.CustomControls"
-             x:Class="i4prj.SmartCab.Views.MapsPage"
+             x:Class="i4prj.SmartCab.Views.RideConfirmationPage"
              Title="Bekræft tur">
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand" Padding="30" Margin="10">
