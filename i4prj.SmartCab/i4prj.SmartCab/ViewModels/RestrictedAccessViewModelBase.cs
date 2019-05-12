@@ -47,7 +47,7 @@ namespace i4prj.SmartCab.ViewModels
 
                 DateTime loginExpirationDate = dateTimeOffset.LocalDateTime;
 
-                /*
+                
                 if (loginExpirationDate < DateTime.Now)
                 {
                     SessionService.Clear();
@@ -59,7 +59,7 @@ namespace i4prj.SmartCab.ViewModels
 
                     await NavigationService.NavigateAsync("/" + nameof(NavigationPage) + "/" + nameof(LoginPage));
                 }
-                */
+                
             }
         }
     }

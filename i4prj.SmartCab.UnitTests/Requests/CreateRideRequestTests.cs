@@ -7,6 +7,7 @@ using i4prj.SmartCab.Interfaces;
 using i4prj.SmartCab.Requests;
 using i4prj.SmartCab.ViewModels;
 using i4prj.SmartCab.Views;
+using ImTools;
 using NSubstitute;
 using NSubstitute.Core.Arguments;
 using NUnit.Framework;
@@ -66,6 +67,50 @@ namespace i4prj.SmartCab.UnitTests.Requests
                     _fakeTimeService.GetCurrentTime().Add(_confirmationTimeMargin));
                 Assert.AreEqual(_uut.CurrentDate,_fakeTimeService.GetCurrentDate());
             });
+        }
+        
+        [Test]
+        public void Ctor_DepartureOverflowsConfirmationDoesNot_DepartureDateTommorrow()
+        {
+            bool overflow = false;
+            _fakeTimeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _fakeTimeService.GetCurrentTime().Returns(new TimeSpan(23, 15, 0));
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _departureTimeMargin, ref overflow)
+                .Returns(new TimeSpan(0, 15, 0)).AndDoes((info => { overflow = true; }));
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _confirmationTimeMargin, ref overflow)
+                .Returns(new TimeSpan(0, 15, 0)).AndDoes((info => { overflow = false; }));
+
+            _uut = new CreateRideRequest(_fakeTimeService);
+
+            Assert.Multiple((() =>
+            {
+                _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate();
+                _uut.DepartureDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+
+            }));
+
+        }
+
+        [Test]
+        public void Ctor_BothDatesOverflow_BothDatesTommorow()
+        {
+            bool overflow = false;
+            _fakeTimeService.GetCurrentDate().Returns(new DateTime(2019, 1, 1));
+            _fakeTimeService.GetCurrentTime().Returns(new TimeSpan(23, 45, 0));
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _departureTimeMargin, ref overflow)
+                .Returns(new TimeSpan(0, 15, 0)).AndDoes((info => { overflow = true; }));
+            _fakeTimeService.AddTimeSpans(_fakeTimeService.GetCurrentTime(), _confirmationTimeMargin, ref overflow)
+                .Returns(new TimeSpan(0, 15, 0)).AndDoes((info => { overflow = true; }));
+
+            _uut = new CreateRideRequest(_fakeTimeService);
+
+            Assert.Multiple((() =>
+            {
+                _uut.ConfirmationDeadlineDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+                _uut.DepartureDate = _fakeTimeService.GetCurrentDate().AddDays(1);
+
+            }));
+
         }
 
         #endregion
