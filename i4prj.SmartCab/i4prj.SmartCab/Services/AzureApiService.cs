@@ -138,6 +138,7 @@ namespace i4prj.SmartCab.Services
                 name = request.Name,
                 email = request.Email,
                 phoneNumber = request.PhoneNumber,
+                changePassword = request.ChangePassword,
                 oldPassword = request.OldPassword,
                 password = request.Password,
                 repeatedPassword = request.RepeatedPassword
