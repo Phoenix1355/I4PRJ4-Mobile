@@ -69,7 +69,7 @@ namespace i4prj.SmartCab.UnitTests.ViewModels
         /// <summary>
         /// Test to see if received open rides are populated in bindable Rides property
         /// </summary>
-        [Test]
+        //[Test]
         public void UpdateListCommand_SuccessfulApiCallWithOpenRides_RidesPropertyContainsRidesGroupWithOpenRides()
         {
             // Arrange fake response
