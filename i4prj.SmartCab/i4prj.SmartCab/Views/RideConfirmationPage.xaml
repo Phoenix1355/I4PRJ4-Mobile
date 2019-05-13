@@ -4,7 +4,7 @@
              xmlns:map="clr-namespace:i4prj.SmartCab.CustomControls"
              x:Class="i4prj.SmartCab.Views.RideConfirmationPage"
              Title="Bekræft tur">
-    <ScrollView Orientation="Vertical">
+    <ScrollView Orientation="Vertical" InputTransparent="true">
         <StackLayout VerticalOptions="StartAndExpand">
 
             <map:BindableMap WidthRequest="100" HeightRequest="250"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}"></map:BindableMap>
