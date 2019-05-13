@@ -1,25 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:map="clr-namespace:i4prj.SmartCab.CustomControls"
              x:Class="i4prj.SmartCab.Views.RideConfirmationPage"
              Title="Bekræft tur">
-    <ContentPage.Content>
-        <StackLayout VerticalOptions="StartAndExpand" Padding="30" Margin="10">
-            <Label Text="Din tur: " FontSize="25" FontAttributes="Bold"></Label>
-            <map:BindableMap WidthRequest="100" HeightRequest="300"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}" >
-            </map:BindableMap>
+    <ScrollView Orientation="Vertical">
+        <StackLayout VerticalOptions="StartAndExpand">
 
-            <StackLayout Orientation="Vertical">
-                <Label FontAttributes="Bold" Text="{Binding Price}"></Label>
-            </StackLayout>
+            <map:BindableMap WidthRequest="100" HeightRequest="250"  MapPosition="{Binding PositionOfMap}" MapPins="{Binding LocationPins}" MapType="Street" Radius="{Binding MapRadius}"></map:BindableMap>
 
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Vertical" Margin="10">
+                <Label FontAttributes="Bold" FontSize="Large" Text="{Binding Price}"></Label>
+                <Button Text="Bekræft" Command="{Binding ConfirmCommand}" IsVisible="{Binding IsReady}"></Button>
                 <ActivityIndicator IsRunning="true" IsVisible="{Binding IsBusy}" />
-                <Button Text="Bekræft" Command="{Binding ConfirmCommand}" BackgroundColor="LimeGreen" IsVisible="{Binding IsReady}"></Button>
-                <Button Text="Annullér" Command="{Binding CancelCommand}" BackgroundColor="Red" IsVisible="{Binding IsReady}"></Button>
             </StackLayout>
 
         </StackLayout>
-    </ContentPage.Content>
+    </ScrollView>
 </ContentPage>
